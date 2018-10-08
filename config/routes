@@ -12,3 +12,4 @@
 /comments CommentR POST
 
 /profile ProfileR GET
+/zaps/new RequestZapR GET POST
