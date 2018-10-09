@@ -32,7 +32,7 @@ getHomeR = do
     defaultLayout $ do
         let (commentFormId, commentTextareaId, commentListId) = commentIds
         aDomId <- newIdent
-        setTitle "Welcome To Yesod!"
+        setTitle "Get Zapped!"
         $(widgetFile "homepage")
 
 postHomeR :: Handler Html
@@ -42,12 +42,12 @@ postHomeR = do
         submission = case result of
             FormSuccess res -> Just res
             _ -> Nothing
-    allComments <- runDB $ getAllComments
+    allComments <- runDB getAllComments
 
     defaultLayout $ do
         let (commentFormId, commentTextareaId, commentListId) = commentIds
         aDomId <- newIdent
-        setTitle "Welcome To Yesod!"
+        setTitle "Get Zapped!"
         $(widgetFile "homepage")
 
 sampleForm :: Form FileForm

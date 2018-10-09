@@ -14,9 +14,9 @@
 
 .masthead {
     margin-top: -21px;
-    color: white;
+    color: green;
     text-align: center;
-    min-height: 500px;
+    min-height: 300px;
 }
 
 .masthead .header {
