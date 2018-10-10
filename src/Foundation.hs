@@ -166,7 +166,7 @@ instance Yesod App where
     isAuthorized FaviconR _ = return Authorized
     isAuthorized RobotsR _ = return Authorized
     isAuthorized (StaticR _) _ = return Authorized
-    isAuthorized RequestZapR _ = return Authorized
+    isAuthorized BookZapR _ = return Authorized
 
     -- the profile route requires that the user is authenticated, so we
     -- delegate to that function

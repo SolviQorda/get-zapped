@@ -16,3 +16,11 @@ Comment json -- Adding "json" causes ToJSON and FromJSON instances to be derived
     userId UserId Maybe
     deriving Eq
     deriving Show
+ZapBooking
+    userName Text
+    userEmail Text
+    bookingDate Day 
+    bookingTimeStart TimeOfDay
+    booktingTimeEnd TimeOfDay
+    deriving Eq
+    deriving Show

@@ -1,0 +1,5 @@
+<h1> Book a Zap
+
+<form method=post action=@{BookZapR} enctype=#{enctype}>
+    ^{widget}
+    <button class="btn btn-default"> Book!
