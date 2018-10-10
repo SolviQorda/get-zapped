@@ -21,7 +21,7 @@
                       Book a Zap!
         <div .row>
                     <br>
-                    <a href="/login" .btn.btn-info.btn-lg>
+                    <a href="/auth/login" .btn.btn-info.btn-lg>
                         Login
                   <div .col-lg-12>
                     <h2> Testimonials

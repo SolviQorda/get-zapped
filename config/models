@@ -19,8 +19,8 @@ Comment json -- Adding "json" causes ToJSON and FromJSON instances to be derived
 ZapBooking
     userName Text
     userEmail Text
-    bookingDate Day 
+    bookingDate Day
     bookingTimeStart TimeOfDay
-    booktingTimeEnd TimeOfDay
+    bookingTimeEnd TimeOfDay
     deriving Eq
     deriving Show

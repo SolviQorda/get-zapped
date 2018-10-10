@@ -1,0 +1,7 @@
+<h1>Thank you #{zapBookingUserName booking} for your booking!
+
+  <p>You made a booking for #{show $ zapBookingBookingDate booking} from
+  <p>#{show $ zapBookingBookingTimeStart booking}
+  <p>to
+  <p>#{show $ zapBookingBookingTimeEnd booking}.
+  <p>Your therapist will confirm their receipt of your booking soon! 

@@ -3,8 +3,6 @@
 
 module Handler.BookZap where
 
-import Data.Time.Calendar
-import Data.Time.LocalTime
 import Import
 import Yesod.Form
 import Yesod.Form.Bootstrap3
@@ -35,7 +33,9 @@ postBookZapR :: Handler Html
 postBookZapR = do
   ((res, widget), enctype) <- runFormPost $ renderBootstrap3 BootstrapBasicForm zapRequestForm
   case res of
-    FormSuccess _ -> error "todo"
+    FormSuccess booking -> do
+      zapBookingId <- runDB $ insert booking
+      redirect $ BookingReceivedR zapBookingId
     _ -> defaultLayout $(widgetFile "zaps/new-zap")
       -- zapBookingId <- runDB $ insert booking
       --todo - confirmation page
