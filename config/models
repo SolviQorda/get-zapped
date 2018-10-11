@@ -24,3 +24,11 @@ ZapBooking
     bookingTimeEnd TimeOfDay
     deriving Eq
     deriving Show
+TherapistAppointment
+    therapistName Text
+    date Day
+    timeStart TimeOfDay
+    timeEnd TimeOfDay
+    bookedBy Text Maybe
+    deriving Eq
+    deriving Show

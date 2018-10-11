@@ -1,0 +1,8 @@
+<h1>Thank you #{therapistAppointmentTherapistName appointment} for adding your appointment!
+
+  <p>You made a appointment for #{show $ therapistAppointmentDate appointment} from
+  <p>#{show $ therapistAppointmentTimeStart appointment}
+  <p>to
+  <p>#{show $ therapistAppointmentTimeEnd appointment}.
+  <p>You'll receive an email notification when a user books your appointment!
+  <p>
