@@ -28,4 +28,6 @@ postAddAppointmentR = do
     FormSuccess appointment -> do
       therapistAppointmentId <- runDB $ insert appointment
       redirect $ AppointmentAddedR therapistAppointmentId
-    _ -> defaultLayout $(widgetFile "zaps/therapist/add-appointment")
+    _ ->  do
+      defaultLayout $ do
+        $(widgetFile "zaps/therapist/add-appointment")

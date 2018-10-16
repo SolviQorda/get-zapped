@@ -1,33 +1,40 @@
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE TypeFamilies, TemplateHaskell, MultiParamTypeClasses, GADTs, QuasiQuotes, OverloadedStrings, FlexibleContexts #-}
 
 module Handler.BookZap where
 
 import Import
 import Yesod.Form
 import Yesod.Form.Bootstrap3
-
--- data ZapBooking = ZapBooking
---     { userName           :: Text
---     , userEmail          :: Text
---     , bookingDate        :: Day
---     , bookingTimeStart   :: TimeOfDay
---     , bookingTimeEnd    :: TimeOfDay
---     } deriving (Eq, Show)
+import qualified Data.Text as T
 
 zapRequestForm :: AForm Handler ZapBooking
 zapRequestForm = ZapBooking
-              <$> areq textField "User Name"  Nothing
-              <*> areq textField "User Email" Nothing
-              <*> areq dayField  "Date"       Nothing
-              <*> areq timeField "Start Time" Nothing
-              <*> areq timeField "End Time"   Nothing
+              <$> areq textField "Your Name"  Nothing
+              <*> areq textField "Your Email" Nothing
+              <*> aopt (selectField appointments) "Choose appointment" Nothing
+              <*> aopt textField "Your Pronouns (optional)" Nothing
 
 getBookZapR :: Handler Html
 getBookZapR = do
-  (widget, enctype) <- generateFormPost $ renderBootstrap3 BootstrapBasicForm zapRequestForm
-  defaultLayout $ do
-    $(widgetFile "zaps/new-zap")
+    (widget, enctype) <- generateFormPost $ renderBootstrap3 BootstrapBasicForm zapRequestForm
+    defaultLayout $ do
+      $(widgetFile "zaps/new-zap")
+
+appointments :: HandlerFor App (OptionList (Key TherapistAppointment))
+appointments = do
+  rows <- runDB $ selectList [] [Asc TherapistAppointmentDate]
+  optionsPairs $ Prelude.map (\r -> ((parseAppt $ entityVal $ r), entityKey $ r )) rows
+
+parseAppt :: TherapistAppointment -> Text
+parseAppt app = T.concat
+      [ T.pack $ show $ therapistAppointmentDate app
+      , T.pack " from "
+      , T.pack $ show $ therapistAppointmentTimeStart app
+      , T.pack " to "
+      , T.pack $ show $ therapistAppointmentTimeEnd app
+      , T.pack " with "
+      , T.pack $ show $ therapistAppointmentTherapistName app
+      ]
 
 postBookZapR :: Handler Html
 postBookZapR = do
@@ -37,5 +44,3 @@ postBookZapR = do
       zapBookingId <- runDB $ insert booking
       redirect $ BookingReceivedR zapBookingId
     _ -> defaultLayout $(widgetFile "zaps/new-zap")
-      -- zapBookingId <- runDB $ insert booking
-      --todo - confirmation page
