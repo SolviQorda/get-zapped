@@ -10,8 +10,8 @@ We are currently in the initial stages of developing a minimum viable product. W
 
 To find out more about the electrolysis therapists you can:
 * [Read this interview with Siobhan in Vice](https://broadly.vice.com/en_us/article/ev7a7m/permanent-hair-removal-for-trans-women)
-* [Tortoise Beats Hair] (https://www.tortoisebeatshair.com/)
-* [Electrolysis by Siobhan] (https://www.electrolysisbysiobhan.co.uk)
+* [Tortoise Beats Hair](https://www.tortoisebeatshair.com/)
+* [Electrolysis by Siobhan](https://www.electrolysisbysiobhan.co.uk)
 
 
 ## Database Setup
