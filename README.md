@@ -13,6 +13,8 @@ To find out more about the electrolysis therapists:
 * [Tortoise Beats Hair](https://www.tortoisebeatshair.com/)
 * [Electrolysis by Siobhan](https://www.electrolysisbysiobhan.co.uk)
 
+## Why "Zaps"?
+We all got so tired of saying electrolysis that many of us have adoped 'zap' as a shorthand. Plus it sounds cooler.
 
 ## Database Setup
 
