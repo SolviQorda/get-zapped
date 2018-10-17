@@ -8,7 +8,7 @@ Our vision is to develop a [platform co-operative](https://platform.coop/about) 
 
 We are currently in the initial stages of developing a minimum viable product. We hope that once we have that we can reach out for funding support, and to therapists outside of Manchester.
 
-To find out more about the electrolysis therapists you can:
+To find out more about the electrolysis therapists:
 * [Read this interview with Siobhan in Vice](https://broadly.vice.com/en_us/article/ev7a7m/permanent-hair-removal-for-trans-women)
 * [Tortoise Beats Hair](https://www.tortoisebeatshair.com/)
 * [Electrolysis by Siobhan](https://www.electrolysisbysiobhan.co.uk)
