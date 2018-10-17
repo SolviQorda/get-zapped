@@ -14,7 +14,7 @@ To find out more about the electrolysis therapists:
 * [Electrolysis by Siobhan](https://www.electrolysisbysiobhan.co.uk)
 
 ## Why "Zaps"?
-We all got so tired of saying electrolysis that many of us have adoped 'zap' as a shorthand. Plus it sounds cooler.
+We all got so tired of saying electrolysis that we adopted 'zap' as a shorthand. Plus it sounds cooler.
 
 ## Database Setup
 
