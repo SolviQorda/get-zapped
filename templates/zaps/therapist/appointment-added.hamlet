@@ -1,0 +1,9 @@
+<h1>Thank you #{therapistAppointmentTherapistName therapistAppointment} for adding your appointment!
+<div .container>
+    <div .row>
+        <p>You made a appointment for #{show $ therapistAppointmentDate therapistAppointment} from
+        <p>#{show $ therapistAppointmentTimeStart therapistAppointment}
+        <p>to
+        <p>#{show $ therapistAppointmentTimeEnd therapistAppointment}.
+        <p>You'll receive an email notification when a user books your appointment!
+        <p>

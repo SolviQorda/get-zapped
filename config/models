@@ -19,8 +19,15 @@ Comment json -- Adding "json" causes ToJSON and FromJSON instances to be derived
 ZapBooking
     userName Text
     userEmail Text
-    bookingDate Day
-    bookingTimeStart TimeOfDay
-    bookingTimeEnd TimeOfDay
+    appointment TherapistAppointmentId
+    userPronouns Text Maybe
+    deriving Eq
+    deriving Show
+TherapistAppointment
+    therapistName Text
+    date Day
+    timeStart TimeOfDay
+    timeEnd TimeOfDay
+    bookedBy Text Maybe
     deriving Eq
     deriving Show

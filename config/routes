@@ -14,3 +14,6 @@
 /profile ProfileR GET
 /zaps/new BookZapR GET POST
 /zaps/!#ZapBookingId BookingReceivedR GET
+/about AboutR GET
+/zaps/therapist/add-appointment AddAppointmentR GET POST
+/zaps/therapist/!#TherapistAppointmentId AppointmentAddedR GET
