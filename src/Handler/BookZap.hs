@@ -9,9 +9,9 @@ import qualified Data.Text as T
 
 zapRequestForm :: AForm Handler ZapBooking
 zapRequestForm = ZapBooking
-              <$> areq textField "Your Name"  Nothing
+              <$> areq textField "Your Name" Nothing
               <*> areq textField "Your Email" Nothing
-              <*> aopt (selectField appointments) "Choose appointment" Nothing
+              <*> areq (selectField appointments) "Choose appointment" Nothing
               <*> aopt textField "Your Pronouns (optional)" Nothing
 
 getBookZapR :: Handler Html
@@ -20,10 +20,10 @@ getBookZapR = do
     defaultLayout $ do
       $(widgetFile "zaps/new-zap")
 
-appointments :: HandlerFor App (OptionList (Key TherapistAppointment))
+-- appointments :: HandlerFor App (OptionList TherapistAppointment)
 appointments = do
   rows <- runDB $ selectList [] [Asc TherapistAppointmentDate]
-  optionsPairs $ Prelude.map (\r -> ((parseAppt $ entityVal $ r), entityKey $ r )) rows
+  optionsPairs $ Prelude.map (\r -> ((parseAppt $ entityVal $ r), entityKey r )) rows
 
 parseAppt :: TherapistAppointment -> Text
 parseAppt app = T.concat
@@ -40,7 +40,7 @@ postBookZapR :: Handler Html
 postBookZapR = do
   ((res, widget), enctype) <- runFormPost $ renderBootstrap3 BootstrapBasicForm zapRequestForm
   case res of
-    FormSuccess booking -> do
-      zapBookingId <- runDB $ insert booking
+    FormSuccess zapBooking -> do
+      zapBookingId <- runDB $ insert zapBooking
       redirect $ BookingReceivedR zapBookingId
     _ -> defaultLayout $(widgetFile "zaps/new-zap")

@@ -19,7 +19,7 @@ Comment json -- Adding "json" causes ToJSON and FromJSON instances to be derived
 ZapBooking
     userName Text
     userEmail Text
-    appointment (Key TherapistAppointment)
+    appointment TherapistAppointmentId
     userPronouns Text Maybe
     deriving Eq
     deriving Show

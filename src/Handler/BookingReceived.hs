@@ -4,9 +4,10 @@
 module Handler.BookingReceived where
 
 import Import
+import Database.Persist.Sql
 
 getBookingReceivedR :: ZapBookingId -> Handler Html
 getBookingReceivedR zapBookingId = do
-  booking <- runDB $ get404 zapBookingId
+  zapBooking <- runDB $ get404 zapBookingId
   defaultLayout $ do
     $(widgetFile "zaps/booking-received")

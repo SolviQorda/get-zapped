@@ -1,7 +1,8 @@
-<h1>Thank you #{zapBookingUserName booking} for your booking!
+<h1>Thank you #{zapBookingUserName zapBooking} for your booking!
 
-  <p>You made a booking for #{show $ zapBookingUserName booking} from
-  <p>#{show $ zapBookingUserName booking}
-  <p>to
-  <p>#{show $ zapBookingUserName booking}.
-  <p>Your therapist will confirm their receipt of your booking soon!
+
+<div .container>
+    <div .row>
+        <h2>Your booking number is - #{fromSqlKey $ zapBookingId}
+
+        <p>Your therapist will confirm their receipt of your booking soon!

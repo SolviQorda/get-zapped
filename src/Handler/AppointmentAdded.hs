@@ -7,6 +7,6 @@ import Import
 
 getAppointmentAddedR :: TherapistAppointmentId -> Handler Html
 getAppointmentAddedR therapistAppointmentId = do
-  appointment <- runDB $ get404 therapistAppointmentId
+  therapistAppointment <- runDB $ get404 therapistAppointmentId
   defaultLayout $ do
     $(widgetFile "zaps/therapist/appointment-added")

@@ -25,9 +25,7 @@ postAddAppointmentR :: Handler Html
 postAddAppointmentR = do
   ((res, widget), enctype) <- runFormPost $ renderBootstrap3 BootstrapBasicForm addAppointmentForm
   case res of
-    FormSuccess appointment -> do
-      therapistAppointmentId <- runDB $ insert appointment
+    FormSuccess therapistAppointment -> do
+      therapistAppointmentId <- runDB $ insert therapistAppointment
       redirect $ AppointmentAddedR therapistAppointmentId
-    _ ->  do
-      defaultLayout $ do
-        $(widgetFile "zaps/therapist/add-appointment")
+    _                                -> defaultLayout $(widgetFile "zaps/therapist/add-appointment")
