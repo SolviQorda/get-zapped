@@ -20,9 +20,9 @@ getBookZapR = do
     defaultLayout $ do
       $(widgetFile "zaps/new-zap")
 
--- appointments :: HandlerFor App (OptionList TherapistAppointment)
+appointments :: HandlerFor App (OptionList (Key TherapistAppointment))
 appointments = do
-  rows <- runDB $ selectList [] [Asc TherapistAppointmentDate]
+  rows <- runDB $ selectList [TherapistAppointmentBookedBy ==. Nothing] [Asc TherapistAppointmentDate]
   optionsPairs $ Prelude.map (\r -> ((parseAppt $ entityVal $ r), entityKey r )) rows
 
 parseAppt :: TherapistAppointment -> Text
@@ -42,5 +42,10 @@ postBookZapR = do
   case res of
     FormSuccess zapBooking -> do
       zapBookingId <- runDB $ insert zapBooking
+      maybeAppointment <- runDB $ get (zapBookingAppointment zapBooking)
+      case maybeAppointment of
+        Nothing -> error "no appointment with that id"
+        Just _ -> runDB $ update (zapBookingAppointment zapBooking)
+            [TherapistAppointmentBookedBy =. (Just $ zapBookingUserName zapBooking)]
       redirect $ BookingReceivedR zapBookingId
     _ -> defaultLayout $(widgetFile "zaps/new-zap")
