@@ -1,0 +1,4 @@
+<h1>Choose a therapist!
+<form method=post action=@{ChooseTherapistR} enctype=#{enctype}>
+    ^{widget}
+<button class="btn btn-default"> Next
