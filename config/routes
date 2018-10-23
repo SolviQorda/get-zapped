@@ -17,3 +17,4 @@
 /about AboutR GET
 /zaps/therapist/add-appointment AddAppointmentR GET POST
 /zaps/therapist/!#TherapistAppointmentId AppointmentAddedR GET
+/zaps/therapist/dashboard/view-appointments TherapistDashboardR GET POST

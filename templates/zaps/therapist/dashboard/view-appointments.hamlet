@@ -1,0 +1,33 @@
+<h1>All Appointments
+<form method=post action=@{TherapistDashboardR} enctype=#{enctype}>
+    ^{widget}
+<button class="btn btn-default"> Filter
+
+<div .container>
+  <div .row>
+    <table .table>
+      <tr>
+        <th>
+          Name
+        <th>
+          Pronouns
+        <th>
+          Appt time
+        <th>
+          Date
+        <th>
+          Therapist
+      $forall Entity id appt <- appts
+        <tr>
+          <td>
+            #{fromMaybe "unbooked" $ therapistAppointmentBookedBy appt}
+          <td>
+            todo/todos
+          <td>
+            #{show $ therapistAppointmentTimeStart appt}
+          <td>
+            #{show $ therapistAppointmentDate appt}
+          <td>
+            #{ therapistAppointmentTherapistName appt}
+          <td>
+            <button class="btn btn-default"> Contact

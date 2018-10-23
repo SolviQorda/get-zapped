@@ -171,6 +171,7 @@ instance Yesod App where
     isAuthorized AboutR _ = return Authorized
     isAuthorized AddAppointmentR _ = return Authorized
     isAuthorized (AppointmentAddedR _) _ = return Authorized
+    isAuthorized TherapistDashboardR  _ = return Authorized
 
 
     -- the profile route requires that the user is authenticated, so we
