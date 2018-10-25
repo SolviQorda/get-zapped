@@ -35,3 +35,7 @@ FilterChoice
     therapist TherapistAppointmentId
     deriving Eq
     deriving Show
+TherapistChoice
+    therapist Text
+    deriving Eq
+    deriving Show

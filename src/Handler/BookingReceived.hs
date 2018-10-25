@@ -1,5 +1,5 @@
-{-# LANGUAGE OverloadedStrings#-}
-{-# LANGUAGE TemplateHaskell#-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TemplateHaskell   #-}
 
 module Handler.BookingReceived where
 
@@ -10,4 +10,4 @@ getBookingReceivedR :: ZapBookingId -> Handler Html
 getBookingReceivedR zapBookingId = do
   zapBooking <- runDB $ get404 zapBookingId
   defaultLayout $ do
-    $(widgetFile "zaps/booking-received")
+    $(widgetFile "zaps/new/book/result/booking-received")
