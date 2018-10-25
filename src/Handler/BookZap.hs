@@ -7,22 +7,23 @@ import Yesod.Form
 import Yesod.Form.Bootstrap3
 import qualified Data.Text as T
 
-zapRequestForm :: AForm Handler ZapBooking
-zapRequestForm = ZapBooking
+
+zapRequestForm :: Text -> AForm Handler ZapBooking
+zapRequestForm therapist = ZapBooking
               <$> areq textField "Your Name" Nothing
               <*> areq textField "Your Email" Nothing
-              <*> areq (selectField appointments) "Choose appointment" Nothing
+              <*> areq (selectField $ appointments therapist) "Choose appointment" Nothing
               <*> aopt textField "Your Pronouns (optional)" Nothing
 
-getBookZapR :: Handler Html
-getBookZapR = do
-    (widget, enctype) <- generateFormPost $ renderBootstrap3 BootstrapBasicForm zapRequestForm
+getBookZapR :: Text -> Handler Html
+getBookZapR therapist = do
+    (widget, enctype) <- generateFormPost $ renderBootstrap3 BootstrapBasicForm $ zapRequestForm therapist
     defaultLayout $ do
-      $(widgetFile "zaps/new-zap")
+      $(widgetFile "zaps/new/book/new-zap")
 
-appointments :: HandlerFor App (OptionList (Key TherapistAppointment))
-appointments = do
-  rows <- runDB $ selectList [TherapistAppointmentBookedBy ==. Nothing] [Asc TherapistAppointmentDate]
+appointments :: Text -> HandlerFor App (OptionList (Key TherapistAppointment))
+appointments therapist = do
+  rows <- runDB $ selectList [TherapistAppointmentBookedBy ==. Nothing, TherapistAppointmentTherapistName ==. therapist] [Asc TherapistAppointmentDate]
   optionsPairs $ Prelude.map (\r -> ((parseAppt $ entityVal $ r), entityKey r )) rows
 
 parseAppt :: TherapistAppointment -> Text
@@ -32,13 +33,13 @@ parseAppt app = T.concat
       , T.pack $ show $ therapistAppointmentTimeStart app
       , T.pack " to "
       , T.pack $ show $ therapistAppointmentTimeEnd app
-      , T.pack " with "
-      , T.pack $ show $ therapistAppointmentTherapistName app
+      -- , T.pack " with "
+      -- , T.pack $ show $ therapistAppointmentTherapistName app
       ]
 
-postBookZapR :: Handler Html
-postBookZapR = do
-  ((res, widget), enctype) <- runFormPost $ renderBootstrap3 BootstrapBasicForm zapRequestForm
+postBookZapR :: Text -> Handler Html
+postBookZapR therapist = do
+  ((res, widget), enctype) <- runFormPost $ renderBootstrap3 BootstrapBasicForm $ zapRequestForm therapist
   case res of
     FormSuccess zapBooking -> do
       zapBookingId <- runDB $ insert zapBooking
@@ -48,4 +49,4 @@ postBookZapR = do
         Just _ -> runDB $ update (zapBookingAppointment zapBooking)
             [TherapistAppointmentBookedBy =. (Just $ zapBookingUserName zapBooking)]
       redirect $ BookingReceivedR zapBookingId
-    _ -> defaultLayout $(widgetFile "zaps/new-zap")
+    _ -> defaultLayout $(widgetFile "zaps/new/book/new-zap")

@@ -13,7 +13,7 @@ getChooseTherapistR :: Handler Html
 getChooseTherapistR = do
   (widget, enctype) <- generateFormPost $ renderBootstrap3 BootstrapBasicForm therapistForm
   defaultLayout $ do
-    $(widgetFile "zaps/choose-therapist")
+    $(widgetFile "zaps/new/choose-therapist")
 
 therapistForm :: AForm Handler TherapistChoice
 therapistForm = TherapistChoice
@@ -23,21 +23,26 @@ postChooseTherapistR :: Handler Html
 postChooseTherapistR = do
   ((res, widget), enctype) <- runFormPost $ renderBootstrap3 BootstrapBasicForm therapistForm
   case res of
-    FormSuccess choice -> do
-        defaultLayout $(widgetFile "zaps/choose-therapist")
-      -- redirect Prelude.. BookZapR $ therapist choice
-    _ -> defaultLayout $(widgetFile "zaps/choose-therapist")
+    FormSuccess therapistChoice -> do
+      therapistChoiceId <- runDB $ insert therapistChoice
+      redirect $ BookZapR $ therapistChoiceTherapist therapistChoice
+    _ -> redirect HomeR
+        -- defaultLayout $(widgetFile "zaps/new/choose-therapist")
 
---TODO refactor as a query of available therapists
--- therapists :: [(Text, Text)]
--- therapists = [ ("Siobhan Reilly - Electrolysis by Siobhan","Siobhan")
---              , ("Sam Turner - Tortoise Beats Hair", "Sam")
---              ]
+        -- postAdminAddTherapistR :: Handler Html
+        -- postAdminAddTherapistR = do
+        --   ((res, widget), enctype) <- runFormPost $ renderBootstrap3 BootstrapBasicForm addTherapistForm
+        --   case res of
+        --     FormSuccess therapistChoice -> do
+        --       therapistChoiceId <- runDB $ insert therapistChoice
+        --       redirect HomeR
+        --     _ -> defaultLayout $ do
+        --       $(widgetFile "admin/add-therapist")
 
-therapists :: HandlerFor App (OptionList (Key TherapistChoice))
+
 therapists = do
  rows <- runDB getTherapists
- optionsPairs $ Prelude.map (\r->((therapistChoiceTherapist $ entityVal r), entityKey r)) rows
+ optionsPairs $ Prelude.map (\r->((therapistChoiceTherapist $ entityVal r), therapistChoiceTherapist $ entityVal r)) rows
 
 getTherapists :: (MonadIO m, MonadLogger m)
               => E.SqlReadT m [Entity TherapistChoice]

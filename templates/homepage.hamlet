@@ -17,7 +17,7 @@
                     <p>
                         Get Zapped! is a platform for trans people to get appointments with electrolysis therapists.
         <div .row>
-                    <a href="/zaps/choose-therapist" .btn.btn-info.btn-lg>
+                    <a href="/zaps/new/choose-therapist" .btn.btn-info.btn-lg>
                       Book a Zap!
         <div .row>
                     <br>
