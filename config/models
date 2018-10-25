@@ -31,3 +31,11 @@ TherapistAppointment
     bookedBy Text Maybe
     deriving Eq
     deriving Show
+FilterChoice
+    therapist TherapistAppointmentId
+    deriving Eq
+    deriving Show
+TherapistChoice
+    therapist Text
+    deriving Eq
+    deriving Show

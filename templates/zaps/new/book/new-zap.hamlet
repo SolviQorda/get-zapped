@@ -3,6 +3,6 @@
 <div .container>
     <div .row>
         <h2>
-        <form method=post action=@{BookZapR} enctype=#{enctype}>
+        <form method=post action=@{BookZapR therapist} enctype=#{enctype}>
             ^{widget}
             <button class="btn btn-default"> Book!

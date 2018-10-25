@@ -12,8 +12,11 @@
 /comments CommentR POST
 
 /profile ProfileR GET
-/zaps/new BookZapR GET POST
-/zaps/!#ZapBookingId BookingReceivedR GET
+/zaps/new/choose-therapist ChooseTherapistR GET POST
+/zaps/new/choose-therapist/book/therapist/#Text BookZapR GET POST
+/zaps/new/choose-therapist/book/result/!#ZapBookingId BookingReceivedR GET
 /about AboutR GET
 /zaps/therapist/add-appointment AddAppointmentR GET POST
 /zaps/therapist/!#TherapistAppointmentId AppointmentAddedR GET
+/zaps/therapist/dashboard/view-appointments TherapistDashboardR GET POST
+/admin/add-therapist AdminAddTherapistR GET POST
