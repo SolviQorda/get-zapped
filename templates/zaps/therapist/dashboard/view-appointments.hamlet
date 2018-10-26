@@ -1,7 +1,7 @@
 <h1>All Appointments
 <form method=post action=@{TherapistDashboardR} enctype=#{enctype}>
     ^{widget}
-<button class="btn btn-default"> Filter
+    <button class="btn btn-default"> Filter
 
 <div .container>
   <div .row>
@@ -24,10 +24,10 @@
           <td>
             todo/todos
           <td>
-            #{show $ therapistAppointmentTimeStart appt}
+            #{show $ therapistAppointmentTimeStart appt} to #{show $ therapistAppointmentTimeEnd appt}
           <td>
             #{show $ therapistAppointmentDate appt}
           <td>
             #{ therapistAppointmentTherapistName appt}
           <td>
-            <button class="btn btn-default"> Contact
+            <button class="btn btn-default" a href="mailto:#{therapistAppointmentBookedBy"}> Contact

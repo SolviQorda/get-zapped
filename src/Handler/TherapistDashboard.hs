@@ -31,11 +31,11 @@ postTherapistDashboardR = do
   ((res, widget), enctype) <- runFormPost $ renderBootstrap3 BootstrapBasicForm filterByForm
   case res of
     FormSuccess filterChoice -> do
-      query <- runDB $ get404 ( filterChoiceTherapist filterChoice)
-      appts <- runDB $ selectList [TherapistAppointmentTherapistName ==. (therapistAppointmentTherapistName query)] [Desc TherapistAppointmentTimeStart]
-      defaultLayout $ do
-        $(widgetFile "zaps/therapist/dashboard/view-appointments")
-        -- redirect $ QueryTherapistDashboardR maybeName maybeDate
+      redirect $ QueryTherapistDashboardR $ filterChoiceTherapist filterChoice
+      -- query <- runDB $ get404 ( filterChoiceTherapist filterChoice)
+      -- appts <- runDB $ selectList [TherapistAppointmentTherapistName ==. (therapistAppointmentTherapistName query)] [Desc TherapistAppointmentTimeStart]
+      -- defaultLayout $ do
+      --   $(widgetFile "zaps/therapist/dashboard/view-appointments")
   --     maybeDate <- runDB $ get (filterChoiceDate filterChoice)
   --     queryName <- case maybeName of
   --       Nothing -> error "can't handle that"

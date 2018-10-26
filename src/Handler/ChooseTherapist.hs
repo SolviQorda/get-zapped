@@ -27,18 +27,6 @@ postChooseTherapistR = do
       therapistChoiceId <- runDB $ insert therapistChoice
       redirect $ BookZapR $ therapistChoiceTherapist therapistChoice
     _ -> redirect HomeR
-        -- defaultLayout $(widgetFile "zaps/new/choose-therapist")
-
-        -- postAdminAddTherapistR :: Handler Html
-        -- postAdminAddTherapistR = do
-        --   ((res, widget), enctype) <- runFormPost $ renderBootstrap3 BootstrapBasicForm addTherapistForm
-        --   case res of
-        --     FormSuccess therapistChoice -> do
-        --       therapistChoiceId <- runDB $ insert therapistChoice
-        --       redirect HomeR
-        --     _ -> defaultLayout $ do
-        --       $(widgetFile "admin/add-therapist")
-
 
 therapists = do
  rows <- runDB getTherapists
