@@ -21,6 +21,6 @@
 /zaps/therapist/add-appointment AddAppointmentR GET POST
 /zaps/therapist/!#TherapistAppointmentId AppointmentAddedR GET
 /zaps/therapist/dashboard/view-appointments TherapistDashboardR GET POST
-/zaps/therapist/dashboard/filter/!#TherapistAppointmentId QueryTherapistDashboardR GET POST
+/zaps/therapist/dashboard/filter/+FilterChoice QueryTherapistDashboardR GET POST
 
 /admin/add-therapist AdminAddTherapistR GET POST
