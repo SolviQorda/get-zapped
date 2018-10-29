@@ -172,6 +172,7 @@ instance Yesod App where
     isAuthorized AddAppointmentR _ = return Authorized
     isAuthorized (AppointmentAddedR _) _ = return Authorized
     isAuthorized TherapistDashboardR  _ = return Authorized
+    isAuthorized (QueryTherapistDashboardR _) _ = return Authorized
     isAuthorized ChooseTherapistR _ = return Authorized
     isAuthorized AdminAddTherapistR _ = return Authorized
 

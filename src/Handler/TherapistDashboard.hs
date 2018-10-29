@@ -26,35 +26,29 @@ getTherapistDashboardR = do
   defaultLayout $ do
     $(widgetFile "zaps/therapist/dashboard/view-appointments")
 
-postTherapistDashboardR :: Handler Html
+postTherapistDashboardR ::  Handler Html
 postTherapistDashboardR = do
+  appts <- runDB $ selectList [] [Desc TherapistAppointmentDate]
   ((res, widget), enctype) <- runFormPost $ renderBootstrap3 BootstrapBasicForm filterByForm
   case res of
     FormSuccess filterChoice -> do
-      query <- runDB $ get404 ( filterChoiceTherapist filterChoice)
-      appts <- runDB $ selectList [TherapistAppointmentTherapistName ==. (therapistAppointmentTherapistName query)] [Desc TherapistAppointmentTimeStart]
-      defaultLayout $ do
-        $(widgetFile "zaps/therapist/dashboard/view-appointments")
-        -- redirect $ QueryTherapistDashboardR maybeName maybeDate
-  --     maybeDate <- runDB $ get (filterChoiceDate filterChoice)
-  --     queryName <- case maybeName of
-  --       Nothing -> error "can't handle that"
-  --       Just name -> name
-  --     queryDate <- case maybeDate of
-  --       Nothing -> error "no date"
-  --       Just date -> date
+      redirect $ QueryTherapistDashboardR $ (filterChoice xs)
+    _ ->   defaultLayout $(widgetFile "zaps/therapist/dashboard/view-appointments")
 
+xs :: [Text]
+xs = []
 
-filterByForm :: AForm Handler FilterChoice
+filterByForm :: AForm Handler ([Text] -> FilterChoice)
 filterByForm = FilterChoice
-   <$> areq (selectField therapists) "Filter by therapist" Nothing
-   -- <*> aopt (selectField dates) "Filter by available date" Nothing
+   <$> aopt (selectField therapists) "Filter by therapist" Nothing
+   <*> aopt (selectField dates) "Filter by available date" Nothing
 
-therapists :: HandlerFor App (OptionList (Key TherapistAppointment))
+therapists :: HandlerFor App (OptionList Text)
 therapists = do
   rows <- runDB getTherapists
-  optionsPairs $ Prelude.map (\r->((therapistAppointmentTherapistName $ entityVal r), entityKey r)) rows
+  optionsPairs $ Prelude.map (\r->((therapistAppointmentTherapistName $ entityVal r), therapistAppointmentTherapistName $ entityVal r)) rows
 
+--get appts with distinct therapist names from the db.
 getTherapists :: (MonadIO m, MonadLogger m)
               => E.SqlReadT m [Entity TherapistAppointment]
 getTherapists =
@@ -63,10 +57,10 @@ getTherapists =
   E.distinctOn [E.don (t E.^. TherapistAppointmentTherapistName)] $ do
   return t
 
-dates :: HandlerFor App (OptionList (Key TherapistAppointment))
+dates :: HandlerFor App (OptionList Text)
 dates = do
   rows <- runDB getDates
-  optionsPairs $ Prelude.map (\r->((fDate $ entityVal r), entityKey r)) rows
+  optionsPairs $ Prelude.map (\r->((fDate $ entityVal r), fDate $ entityVal r)) rows
 
 --TODO - put this back into dates
 fDate :: TherapistAppointment -> Text
