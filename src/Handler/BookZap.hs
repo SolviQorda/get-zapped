@@ -10,10 +10,10 @@ import qualified Data.Text as T
 
 zapRequestForm :: Text -> AForm Handler ZapBooking
 zapRequestForm therapist = ZapBooking
-              <$> areq textField "Your Name" Nothing
-              <*> areq textField "Your Email" Nothing
-              <*> areq (selectField $ appointments therapist) "Choose appointment" Nothing
-              <*> aopt textField "Your Pronouns (optional)" Nothing
+              <$> areq textField "Your Name " Nothing
+              <*> areq textField "Your Email " Nothing
+              <*> areq (selectField $ appointments therapist) "Choose appointment " Nothing
+              <*> aopt textField "Your Pronouns (optional) " Nothing
 
 getBookZapR :: Text -> Handler Html
 getBookZapR therapist = do
