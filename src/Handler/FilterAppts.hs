@@ -18,7 +18,7 @@ import Yesod.Form.Bootstrap3
 import qualified Database.Esqueleto as E
 import Data.Time.Calendar
 
-getQueryTherapistDashboardR :: FilterChoice -> Handler Html
+getFilterApptsR :: FilterChoice -> Handler Html
 getQueryTherapistDashboardR filterChoice = do
   (widget, enctype) <- generateFormPost $ renderBootstrap3 BootstrapBasicForm filterByForm
   appts <- handleQueries filterChoice
@@ -44,13 +44,13 @@ getDate :: (Maybe Text) -> Day
 getDate t = fromMaybe (toEnum 47993) $ parseTimeM True defaultTimeLocale "%Y-%-m-%-d" day
   where day = unpack $ fromMaybe (pack "error") t
 
-postQueryTherapistDashboardR :: FilterChoice -> Handler Html
+postFilterApptsR :: FilterChoice -> Handler Html
 postQueryTherapistDashboardR filterChoice = do
   appts <- handleQueries filterChoice
   ((res, widget), enctype) <- runFormPost $ renderBootstrap3 BootstrapBasicForm filterByForm
   case res of
     FormSuccess filterChoice -> do
-      redirect $ QueryTherapistDashboardR (filterChoice xs)
+      redirect $ FilterApptsR (filterChoice xs)
     _ -> defaultLayout $ do
       $(widgetFile "zaps/therapist/dashboard/filter/filter-therapist")
 

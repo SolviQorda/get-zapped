@@ -35,3 +35,9 @@ TherapistChoice
     therapist Text
     deriving Eq
     deriving Show
+TherapistPrefs
+    therapist Text
+    paymentOps [Text]
+    tiers [(Text, Int)] Maybe
+    deriving Eq
+    deriving Show

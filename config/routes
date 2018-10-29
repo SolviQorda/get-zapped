@@ -22,5 +22,8 @@
 /zaps/therapist/!#TherapistAppointmentId AppointmentAddedR GET
 /zaps/therapist/dashboard/view-appointments TherapistDashboardR GET POST
 /zaps/therapist/dashboard/filter/+FilterChoice QueryTherapistDashboardR GET POST
+/zaps/therapist/dashboard/payment/payment-options SetPaymentOptionsR GET POST
 
 /admin/add-therapist AdminAddTherapistR GET POST
+/zaps/therapists/dummy-login DummyTherapistLoginR GET POST
+/zaps/therapist/!#TherapistChoiceId MainDashboardR GET POST

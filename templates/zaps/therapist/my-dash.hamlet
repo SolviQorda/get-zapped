@@ -1,0 +1,4 @@
+<h1>Therapist Dashboard
+    <a href="{newUrl}" .btn.btn-info.btn-lg>New Appointment
+    <a href="{viewUrl}" .btn.btn-info.btn-lg>View Appointments
+    <a href="{paymentUrl}" .btn.btn-info.btn-lg>Payment Options
