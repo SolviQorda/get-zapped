@@ -21,9 +21,12 @@ We all got so tired of saying electrolysis that we adopted 'zap' as a shorthand.
 After installing Postgres, run:
 
 ```
-createuser get-zapped --password get-zapped --superuser
-createdb get-zapped
-createdb get-zapped_test
+CREATE USER getzapped WITH PASSWORD 'get-zapped';
+CREATE DATABASE getzapped;
+CREATE DATABASE getzapped_test;
+GRANT ALL PRIVILEGES ON DATABASE getzapped TO getzapped;
+GRANT ALL PRIVILEGES ON DATABASE getzapped_test TO getzapped;
+
 ```
 
 ## Haskell Setup
@@ -69,3 +72,7 @@ stack test --flag get-zapped:library-only --flag get-zapped:dev
 * There are several chatrooms you can ask for help:
 	* For IRC, try Freenode#yesod and Freenode#haskell
 	* [Functional Programming Slack](https://fpchat-invite.herokuapp.com/), in the #haskell, #haskell-beginners, or #yesod channels.
+
+## Contributing
+
+We welcome contributions! Take a look at the issues page for an idea of what's needed.
