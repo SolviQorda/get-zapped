@@ -1,9 +1,12 @@
+{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell   #-}
 
 module Handler.DummyTherapistLogin where
 
 import Import
+import qualified Database.Esqueleto as E
+import Yesod.Form.Bootstrap3
 
 getDummyTherapistLoginR :: Handler Html
 getDummyTherapistLoginR = do

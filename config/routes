@@ -18,12 +18,12 @@
 /zaps/new/choose-therapist/book/therapist/#Text BookZapR GET POST
 /zaps/new/choose-therapist/book/result/!#ZapBookingId BookingReceivedR GET
 
-/zaps/therapist/add-appointment AddAppointmentR GET POST
-/zaps/therapist/!#TherapistAppointmentId AppointmentAddedR GET
-/zaps/therapist/dashboard/view-appointments TherapistDashboardR GET POST
-/zaps/therapist/dashboard/filter/+FilterChoice QueryTherapistDashboardR GET POST
-/zaps/therapist/dashboard/payment/payment-options SetPaymentOptionsR GET POST
+/zaps/therapist/login DummyTherapistLoginR GET POST
+/zaps/therapist/!#TherapistChoiceId MainDashboardR GET POST
+/zaps/therapist/!#TherapistChoiceId/dashboard/new/add-appointment AddAppointmentR GET POST
+/zaps/therapist/!#TherapistChoiceId/dashboard/new/!#TherapistAppointmentId AppointmentAddedR GET
+/zaps/therapist/!#TherapistChoiceId/dashboard/view/view-appointments ViewApptsR GET POST
+/zaps/therapist/!#TherapistChoiceId/dashboard/view/filter/+FilterChoice FilterApptsR GET POST
+/zaps/therapist/!#TherapistChoiceId/dashboard/payment/payment-options SetPaymentOptionsR GET POST
 
 /admin/add-therapist AdminAddTherapistR GET POST
-/zaps/therapists/dummy-login DummyTherapistLoginR GET POST
-/zaps/therapist/!#TherapistChoiceId MainDashboardR GET POST

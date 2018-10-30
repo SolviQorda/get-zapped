@@ -1,5 +1,5 @@
 <h1>All Appointments
-<form method=post action=@{TherapistDashboardR} enctype=#{enctype}>
+<form method=post action=@{ViewApptsR therapistChoiceId} enctype=#{enctype}>
     ^{widget}
     <button class="btn btn-default"> Filter
 
@@ -17,7 +17,7 @@
           Date
         <th>
           Therapist
-      $forall Entity id appt <- appts
+      $forall Entity _ appt <- appts
         <tr>
           <td>
             #{fromMaybe "unbooked" $ therapistAppointmentBookedBy appt}

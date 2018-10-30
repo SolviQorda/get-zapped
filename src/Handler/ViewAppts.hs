@@ -10,18 +10,15 @@
 {-# LANGUAGE TemplateHaskell            #-}
 {-# LANGUAGE TypeFamilies               #-}
 
-
-module Handler.TherapistDashboard where
+module Handler.ViewAppts where
 
 import Import
-import Yesod.Form
 import Yesod.Form.Bootstrap3
 import qualified Database.Esqueleto as E
-import Data.Time.Calendar
 
 getViewApptsR :: TherapistChoiceId -> Handler Html
 --TODO:default to chosen therapist with filter
-getTherapistDashboardR _ = do
+getViewApptsR therapistChoiceId = do
   (widget, enctype) <- generateFormPost $ renderBootstrap3 BootstrapBasicForm filterByForm
   appts <- runDB $ selectList [] [Desc TherapistAppointmentDate]
   defaultLayout $ do
@@ -29,12 +26,12 @@ getTherapistDashboardR _ = do
 
 postViewApptsR ::  TherapistChoiceId -> Handler Html
 --TODO:default to chosen therapist with filter
-postTherapistDashboardR _ = do
+postViewApptsR therapistChoiceId = do
   appts <- runDB $ selectList [] [Desc TherapistAppointmentDate]
   ((res, widget), enctype) <- runFormPost $ renderBootstrap3 BootstrapBasicForm filterByForm
   case res of
     FormSuccess filterChoice -> do
-      redirect $ FilterApptsR $ (filterChoice xs)
+      redirect $ FilterApptsR therapistChoiceId (filterChoice xs)
     _ ->   defaultLayout $(widgetFile "zaps/therapist/dashboard/view/view-appointments")
 
 xs :: [Text]

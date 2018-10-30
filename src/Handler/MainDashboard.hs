@@ -7,11 +7,8 @@ import Import
 
 getMainDashboardR :: TherapistChoiceId -> Handler Html
 getMainDashboardR therapistChoiceId = do
-  newUrl     <- MainDashboardR     therapistChoiceId
-  viewUrl    <- ViewApptsR         therapistChoiceId
-  paymentUrl <- SetPaymentOptionsR therapistChoiceId
   defaultLayout $ do
     $(widgetFile "zaps/therapist/my-dash")
 
-postMainDashboardR :: Handler Html
-postMainDashboardR = error "Not yet implemented: postMainDashboardR"
+postMainDashboardR :: TherapistChoiceId -> Handler Html
+postMainDashboardR therapistChoiceId = error "Not yet implemented: postMainDashboardR"

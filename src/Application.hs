@@ -40,22 +40,22 @@ import System.Log.FastLogger                (defaultBufSize, newStdoutLoggerSet,
 
 -- Import all relevant handler modules here.
 -- Don't forget to add new modules to your cabal file!
-import Handler.Common
-import Handler.Home
-import Handler.Comment
-import Handler.Profile
-import Handler.BookZap
-import Handler.BookingReceived
 import Handler.About
 import Handler.AddZapAppointment
-import Handler.AppointmentAdded
-import Handler.TherapistDashboard
-import Handler.ChooseTherapist
 import Handler.AdminAddTherapist
-import Handler.QueryTherapistDashboard
-import Handler.SetPaymentOptions
+import Handler.AppointmentAdded
+import Handler.BookingReceived
+import Handler.BookZap
+import Handler.ChooseTherapist
+import Handler.Comment
+import Handler.Common
 import Handler.DummyTherapistLogin
+import Handler.FilterAppts
+import Handler.Home
 import Handler.MainDashboard
+import Handler.Profile
+import Handler.SetPaymentOptions
+import Handler.ViewAppts
 
 -- This line actually creates our YesodDispatch instance. It is the second half
 -- of the call to mkYesodData which occurs in Foundation.hs. Please see the

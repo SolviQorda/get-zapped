@@ -38,6 +38,11 @@ TherapistChoice
 TherapistPrefs
     therapist Text
     paymentOps [Text]
-    tiers [(Text, Int)] Maybe
+    tiers [Tier]
+    deriving Eq
+    deriving Show
+Tier
+    pricePerHour Int
+    description Text
     deriving Eq
     deriving Show

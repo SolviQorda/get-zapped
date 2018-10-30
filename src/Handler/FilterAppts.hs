@@ -10,7 +10,7 @@
 {-# LANGUAGE TemplateHaskell            #-}
 {-# LANGUAGE TypeFamilies               #-}
 
-module Handler.QueryTherapistDashboard where
+module Handler.FilterAppts where
 
 import Import
 import Yesod.Form
@@ -18,19 +18,20 @@ import Yesod.Form.Bootstrap3
 import qualified Database.Esqueleto as E
 import Data.Time.Calendar
 
-getFilterApptsR :: FilterChoice -> Handler Html
-getQueryTherapistDashboardR filterChoice = do
+getFilterApptsR :: TherapistChoiceId -> FilterChoice -> Handler Html
+getFilterApptsR therapistChoiceId filterChoice = do
   (widget, enctype) <- generateFormPost $ renderBootstrap3 BootstrapBasicForm filterByForm
-  appts <- handleQueries filterChoice
+  appts <- handleQueries filterChoice therapistChoiceId
   defaultLayout $ do
-    $(widgetFile "zaps/therapist/dashboard/filter/filter-therapist")
+    $(widgetFile "zaps/therapist/dashboard/view/filter/filter-therapist")
 
 handleQueries :: (PersistQueryRead (YesodPersistBackend site)
                  , YesodPersist site
                  , BaseBackend (YesodPersistBackend site) ~ SqlBackend)
                  => FilterChoice
+                 -> TherapistChoiceId
                  -> HandlerFor site [Entity TherapistAppointment]
-handleQueries filterChoice
+handleQueries filterChoice therapistChoiceId
   | queryTherapist == pht && queryDate == phd = runDB $ selectList [] [Desc TherapistAppointmentTimeStart]
   | queryTherapist == pht && queryDate /= phd = runDB $ selectList [TherapistAppointmentDate ==. (getDate $ Just queryDate)] [Desc TherapistAppointmentTimeStart]
   | queryTherapist /= pht && queryDate == phd = runDB $ selectList [TherapistAppointmentTherapistName ==. queryTherapist] [Desc TherapistAppointmentTimeStart]
@@ -44,15 +45,15 @@ getDate :: (Maybe Text) -> Day
 getDate t = fromMaybe (toEnum 47993) $ parseTimeM True defaultTimeLocale "%Y-%-m-%-d" day
   where day = unpack $ fromMaybe (pack "error") t
 
-postFilterApptsR :: FilterChoice -> Handler Html
-postQueryTherapistDashboardR filterChoice = do
-  appts <- handleQueries filterChoice
+postFilterApptsR :: TherapistChoiceId -> FilterChoice -> Handler Html
+postFilterApptsR therapistChoiceId filterChoice = do
+  appts <- handleQueries filterChoice therapistChoiceId
   ((res, widget), enctype) <- runFormPost $ renderBootstrap3 BootstrapBasicForm filterByForm
   case res of
     FormSuccess filterChoice -> do
-      redirect $ FilterApptsR (filterChoice xs)
+      redirect $ FilterApptsR therapistChoiceId (filterChoice xs)
     _ -> defaultLayout $ do
-      $(widgetFile "zaps/therapist/dashboard/filter/filter-therapist")
+      $(widgetFile "zaps/therapist/dashboard/view/filter/filter-therapist")
 
 --empty list necessary for multi part route.
 xs :: [Text]
