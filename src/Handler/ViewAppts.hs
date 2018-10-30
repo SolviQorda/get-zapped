@@ -10,30 +10,29 @@
 {-# LANGUAGE TemplateHaskell            #-}
 {-# LANGUAGE TypeFamilies               #-}
 
-
-module Handler.TherapistDashboard where
+module Handler.ViewAppts where
 
 import Import
-import Yesod.Form
 import Yesod.Form.Bootstrap3
 import qualified Database.Esqueleto as E
-import Data.Time.Calendar
 
-getTherapistDashboardR :: Handler Html
-getTherapistDashboardR = do
+getViewApptsR :: TherapistChoiceId -> Handler Html
+--TODO:default to chosen therapist with filter
+getViewApptsR therapistChoiceId = do
   (widget, enctype) <- generateFormPost $ renderBootstrap3 BootstrapBasicForm filterByForm
   appts <- runDB $ selectList [] [Desc TherapistAppointmentDate]
   defaultLayout $ do
-    $(widgetFile "zaps/therapist/dashboard/view-appointments")
+    $(widgetFile "zaps/therapist/dashboard/view/view-appointments")
 
-postTherapistDashboardR ::  Handler Html
-postTherapistDashboardR = do
+postViewApptsR ::  TherapistChoiceId -> Handler Html
+--TODO:default to chosen therapist with filter
+postViewApptsR therapistChoiceId = do
   appts <- runDB $ selectList [] [Desc TherapistAppointmentDate]
   ((res, widget), enctype) <- runFormPost $ renderBootstrap3 BootstrapBasicForm filterByForm
   case res of
     FormSuccess filterChoice -> do
-      redirect $ QueryTherapistDashboardR $ (filterChoice xs)
-    _ ->   defaultLayout $(widgetFile "zaps/therapist/dashboard/view-appointments")
+      redirect $ FilterApptsR therapistChoiceId (filterChoice xs)
+    _ ->   defaultLayout $(widgetFile "zaps/therapist/dashboard/view/view-appointments")
 
 xs :: [Text]
 xs = []

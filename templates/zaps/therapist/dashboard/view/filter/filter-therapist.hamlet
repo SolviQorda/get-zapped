@@ -1,5 +1,5 @@
-<h1>All Appointments
-<form method=post action=@{TherapistDashboardR} enctype=#{enctype}>
+<h1>Filter by therapist
+<form method=post action=@{FilterApptsR therapistChoiceId filterChoice} enctype=#{enctype}>
     ^{widget}
     <button class="btn btn-default"> Filter
 

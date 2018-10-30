@@ -4,7 +4,6 @@
 module Handler.AdminAddTherapist where
 
 import Import
-import Yesod.Form
 import Yesod.Form.Bootstrap3
 
 getAdminAddTherapistR :: Handler Html
@@ -22,7 +21,7 @@ postAdminAddTherapistR = do
   ((res, widget), enctype) <- runFormPost $ renderBootstrap3 BootstrapBasicForm addTherapistForm
   case res of
     FormSuccess therapistChoice -> do
-      therapistChoiceId <- runDB $ insert therapistChoice
+      _ <- runDB $ insert therapistChoice
       redirect HomeR
     _ -> defaultLayout $ do
       $(widgetFile "admin/add-therapist")

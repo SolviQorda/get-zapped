@@ -15,6 +15,8 @@ import Database.Persist.Sql (ConnectionPool, runSqlPool)
 import Text.Hamlet          (hamletFile)
 import Text.Jasmine         (minifym)
 import Control.Monad.Logger (LogSource)
+import qualified Database.Esqueleto as E
+
 
 -- Used only when in "auth-dummy-login" setting is enabled.
 import Yesod.Auth.Dummy
@@ -22,6 +24,7 @@ import Yesod.Auth.Dummy
 import Yesod.Auth.OpenId    (authOpenId, IdentifierType (Claimed))
 import Yesod.Default.Util   (addStaticContentExternal)
 import Yesod.Core.Types     (Logger)
+import Yesod.Form.Bootstrap3
 import qualified Yesod.Core.Unsafe as Unsafe
 import qualified Data.CaseInsensitive as CI
 import qualified Data.Text.Encoding as TE
@@ -160,22 +163,24 @@ instance Yesod App where
         -> Bool       -- ^ Whether or not this is a "write" request.
         -> Handler AuthResult
     -- Routes not requiring authentication.
+    isAuthorized AboutR _ = return Authorized
+    isAuthorized (AddAppointmentR _) _ = return Authorized
+    isAuthorized AdminAddTherapistR _ = return Authorized
+    isAuthorized (AppointmentAddedR _ _) _ = return Authorized
     isAuthorized (AuthR _) _ = return Authorized
-    isAuthorized CommentR _ = return Authorized
-    isAuthorized HomeR _ = return Authorized
-    isAuthorized FaviconR _ = return Authorized
-    isAuthorized RobotsR _ = return Authorized
-    isAuthorized (StaticR _) _ = return Authorized
     isAuthorized (BookZapR _)  _ = return Authorized
     isAuthorized (BookingReceivedR _) _ = return Authorized
-    isAuthorized AboutR _ = return Authorized
-    isAuthorized AddAppointmentR _ = return Authorized
-    isAuthorized (AppointmentAddedR _) _ = return Authorized
-    isAuthorized TherapistDashboardR  _ = return Authorized
-    isAuthorized (QueryTherapistDashboardR _) _ = return Authorized
     isAuthorized ChooseTherapistR _ = return Authorized
-    isAuthorized AdminAddTherapistR _ = return Authorized
-
+    isAuthorized CommentR _ = return Authorized
+    isAuthorized DummyTherapistLoginR _ = return Authorized
+    isAuthorized FaviconR _ = return Authorized
+    isAuthorized (MainDashboardR _) _ = return Authorized
+    isAuthorized HomeR _ = return Authorized
+    isAuthorized (FilterApptsR _ _) _ = return Authorized
+    isAuthorized RobotsR _ = return Authorized
+    isAuthorized (SetPaymentOptionsR _) _ = return Authorized
+    isAuthorized (StaticR _) _ = return Authorized
+    isAuthorized (ViewApptsR _) _ = return Authorized
 
     -- the profile route requires that the user is authenticated, so we
     -- delegate to that function
