@@ -181,6 +181,7 @@ instance Yesod App where
     isAuthorized (SetPaymentOptionsR _) _ = return Authorized
     isAuthorized (StaticR _) _ = return Authorized
     isAuthorized (ViewApptsR _) _ = return Authorized
+    isAuthorized (GenerateBookingUrlR _) _ = return Authorized
 
     -- the profile route requires that the user is authenticated, so we
     -- delegate to that function
