@@ -6,7 +6,7 @@ module Handler.MainDashboard where
 import Import
 
 getMainDashboardR :: TherapistChoiceId -> Handler Html
-getMainDashboardR therapistChoiceId = do
+getMainDashboardR therapistChoiceId =do
   defaultLayout $ do
     $(widgetFile "zaps/therapist/my-dash")
 
