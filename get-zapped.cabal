@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: ecc72f6664587b0d512fd233aca90062a7f7603a4bf6c3980136a84c1ea1bf45
+-- hash: e4d31f2cf1ecdc07aee3b110459041b603894eccd6e6c7e5c4540497f7c9605f
 
 name:           get-zapped
 version:        0.0.0
@@ -34,12 +34,12 @@ library
       Handler.Common
       Handler.DummyTherapistLogin
       Handler.FilterAppts
+      Handler.GenerateBookingUrl
       Handler.Home
       Handler.MainDashboard
       Handler.Profile
       Handler.SetPaymentOptions
       Handler.ViewAppts
-      Handler.GenerateBookingUrl
       Import
       Import.NoFoundation
       Model
@@ -61,12 +61,14 @@ library
     , containers
     , data-default
     , directory >=1.1 && <1.4
+    , esqueleto
     , fast-logger >=2.2 && <2.5
     , file-embed
     , foreign-store
     , hjsmin >=0.1 && <0.3
     , http-client-tls >=0.3 && <0.4
     , http-conduit >=2.3 && <2.4
+    , markdown
     , monad-control >=0.3 && <1.1
     , monad-logger >=0.3 && <0.4
     , persistent >=2.8 && <2.9
@@ -89,10 +91,6 @@ library
     , yesod-core >=1.6 && <1.7
     , yesod-form >=1.6 && <1.7
     , yesod-static >=1.6 && <1.7
-    , time
-    , markdown
-    , yesod-text-markdown
-    , esqueleto >=2.5 && <2.7
   if (flag(dev)) || (flag(library-only))
     ghc-options: -Wall -fwarn-tabs -O0
     cpp-options: -DDEVELOPMENT
@@ -120,6 +118,7 @@ executable get-zapped
     , containers
     , data-default
     , directory >=1.1 && <1.4
+    , esqueleto
     , fast-logger >=2.2 && <2.5
     , file-embed
     , foreign-store
@@ -127,6 +126,7 @@ executable get-zapped
     , hjsmin >=0.1 && <0.3
     , http-client-tls >=0.3 && <0.4
     , http-conduit >=2.3 && <2.4
+    , markdown
     , monad-control >=0.3 && <1.1
     , monad-logger >=0.3 && <0.4
     , persistent >=2.8 && <2.9
@@ -157,10 +157,23 @@ test-suite get-zapped-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
+      Handler.AboutSpec
+      Handler.AddZapTimeSpec
+      Handler.AdminAddTherapistSpec
+      Handler.BookingReceivedSpec
+      Handler.ChooseTherapistSpec
       Handler.CommentSpec
       Handler.CommonSpec
+      Handler.DummyTherapistLoginSpec
+      Handler.GenerateBookingUrlSpec
       Handler.HomeSpec
+      Handler.MainDashboardSpec
       Handler.ProfileSpec
+      Handler.QueryTherapistDashboardSpec
+      Handler.RequestZapSpec
+      Handler.SetPaymentOptionsSpec
+      Handler.SlotAddedSpec
+      Handler.TherapistDashboardSpec
       TestImport
       Paths_get_zapped
   hs-source-dirs:
@@ -178,6 +191,7 @@ test-suite get-zapped-test
     , containers
     , data-default
     , directory >=1.1 && <1.4
+    , esqueleto
     , fast-logger >=2.2 && <2.5
     , file-embed
     , foreign-store
@@ -186,6 +200,7 @@ test-suite get-zapped-test
     , hspec >=2.0.0
     , http-client-tls >=0.3 && <0.4
     , http-conduit >=2.3 && <2.4
+    , markdown
     , monad-control >=0.3 && <1.1
     , monad-logger >=0.3 && <0.4
     , persistent >=2.8 && <2.9
