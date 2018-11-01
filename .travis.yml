@@ -5,3 +5,7 @@ ghc:
   - '8.0.2'
 env:
   - PACKAGE=get-zapped
+
+before_install:
+  - cd get-zapped
+  - cabal sandbox init
