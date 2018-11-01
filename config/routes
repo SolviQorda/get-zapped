@@ -25,5 +25,6 @@
 /zaps/therapist/!#TherapistChoiceId/dashboard/view/view-appointments ViewApptsR GET POST
 /zaps/therapist/!#TherapistChoiceId/dashboard/view/filter/+FilterChoice FilterApptsR GET POST
 /zaps/therapist/!#TherapistChoiceId/dashboard/payment/payment-options SetPaymentOptionsR GET POST
+/zaps/therapist/!#TherapistChoiceId/dashboard/gen/generate-my-url GenerateBookingUrlR GET
 
 /admin/add-therapist AdminAddTherapistR GET POST

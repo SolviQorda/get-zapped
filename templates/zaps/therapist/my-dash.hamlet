@@ -2,9 +2,15 @@
 <div .container>
   <div .row>
     <a href=@{ViewApptsR therapistChoiceId} .btn.btn-info.btn-lg>View Appointments
+<br>
 <div .container>
   <div .row>
     <a href=@{AddAppointmentR therapistChoiceId} .btn.btn-info.btn-lg>New Appointment
+<br>
 <div .container>
   <div .row>
     <a href=@{SetPaymentOptionsR therapistChoiceId} .btn.btn-info.btn-lg>Payment Options
+<br>
+<div .container>
+  <div .row>
+    <a href=@{GenerateBookingUrlR therapistChoiceId} .btn.btn-info.btn-lg>Generate Booking Url
