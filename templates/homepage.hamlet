@@ -32,6 +32,13 @@
 
                         <li .list-group-item>
                             "It hurts. So much. Why do I have to pay for this again?
+                    <h2> Our therapists
+                    <ul .list-group>
 
+                        <li .list-group-item>
+                            Electrolysis by Siobhan
+
+                        <li .list-group-item>
+                            Tortoise Beats Hair
 
     <hr>
