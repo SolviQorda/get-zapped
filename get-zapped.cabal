@@ -92,7 +92,7 @@ library
     , time
     , markdown
     , yesod-text-markdown
-    , esqueleto
+    , esqueleto >=2.5 && <2.7
   if (flag(dev)) || (flag(library-only))
     ghc-options: -Wall -fwarn-tabs -O0
     cpp-options: -DDEVELOPMENT
