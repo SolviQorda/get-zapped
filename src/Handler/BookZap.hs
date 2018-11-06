@@ -3,10 +3,8 @@
 module Handler.BookZap where
 
 import Import
-import Yesod.Form
 import Yesod.Form.Bootstrap3
 import qualified Data.Text as T
-
 
 zapRequestForm :: Text -> AForm Handler ZapBooking
 zapRequestForm therapist = ZapBooking
@@ -47,6 +45,7 @@ postBookZapR therapist = do
       case maybeAppointment of
         Nothing -> error "no appointment with that id"
         Just _ -> runDB $ update (zapBookingAppointment zapBooking)
-            [TherapistAppointmentBookedBy =. (Just $ zapBookingUserName zapBooking)]
+            [ TherapistAppointmentBookedBy =. (Just $ zapBookingUserName zapBooking)
+            , TherapistAppointmentBookedByEmail =. (Just $ zapBookingUserEmail zapBooking)]
       redirect $ BookingReceivedR zapBookingId
     _ -> defaultLayout $(widgetFile "zaps/new/book/new-zap")

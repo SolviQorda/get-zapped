@@ -1,4 +1,4 @@
-<h1>Filter by therapist
+<h1>Filter Appointments
 <form method=post action=@{FilterApptsR therapistChoiceId filterChoice} enctype=#{enctype}>
     ^{widget}
     <button class="btn btn-default"> Filter
@@ -12,6 +12,8 @@
         <th>
           Pronouns
         <th>
+          Email
+        <th>
           Appt time
         <th>
           Date
@@ -23,6 +25,8 @@
             #{fromMaybe "unbooked" $ therapistAppointmentBookedBy appt}
           <td>
             todo/todos
+          <td>
+            #{fromMaybe "unbooked" $ therapistAppointmentBookedByEmail appt}
           <td>
             #{show $ therapistAppointmentTimeStart appt} to #{show $ therapistAppointmentTimeEnd appt}
           <td>

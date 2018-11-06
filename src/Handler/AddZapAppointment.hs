@@ -14,6 +14,7 @@ addAppointmentForm = TherapistAppointment
                   <*> areq timeField "Start time" Nothing
                   <*> areq timeField "End time" Nothing
                   <*> aopt textField "Booked by" Nothing
+                  <*> aopt textField "Booked by email" Nothing
 
 getAddAppointmentR :: TherapistChoiceId -> Handler Html
 getAddAppointmentR therapistChoiceId = do

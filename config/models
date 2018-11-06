@@ -31,6 +31,7 @@ TherapistAppointment
     timeStart TimeOfDay
     timeEnd TimeOfDay
     bookedBy Text Maybe
+    bookedByEmail Text Maybe
     deriving Eq
     deriving Show
 TherapistChoice

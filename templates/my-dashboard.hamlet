@@ -1,18 +1,11 @@
-<h1>All Appointments
-<form method=post action=@{ViewApptsR therapistChoiceId} enctype=#{enctype}>
-    ^{widget}
-    <button class="btn btn-default"> Filter
+<h1>My Dashboard
+<p>Hiya, #{userEmail user}
+<h1>Upcoming Appointments
 
 <div .container>
   <div .row>
     <table .table>
       <tr>
-        <th>
-          Name
-        <th>
-          Pronouns
-        <th>
-          Email
         <th>
           Appt time
         <th>
@@ -21,12 +14,6 @@
           Therapist
       $forall Entity _ appt <- appts
         <tr>
-          <td>
-            #{fromMaybe "unbooked" $ therapistAppointmentBookedBy appt}
-          <td>
-            todo/todos
-          <td>
-            #{fromMaybe "unbooked" $ therapistAppointmentBookedByEmail appt}
           <td>
             #{show $ therapistAppointmentTimeStart appt} to #{show $ therapistAppointmentTimeEnd appt}
           <td>
