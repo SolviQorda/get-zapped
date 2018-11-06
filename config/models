@@ -26,10 +26,10 @@ ZapBooking
     deriving Eq
     deriving Show
 TherapistAppointment
-    therapistName Text
     date Day
     timeStart TimeOfDay
     timeEnd TimeOfDay
+    therapistName Text
     bookedBy Text Maybe
     bookedByEmail Text Maybe
     deriving Eq
