@@ -41,6 +41,7 @@ library
       Handler.SetPaymentOptions
       Handler.ViewAppts
       Handler.UserDash
+      Handler.AdminDash
       Import
       Import.NoFoundation
       Model

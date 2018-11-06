@@ -30,3 +30,4 @@
 /zaps/therapist/!#TherapistChoiceId/dashboard/gen/generate-my-url GenerateBookingUrlR GET
 
 /admin/add-therapist AdminAddTherapistR GET POST
+/admin/admin-dashboard AdminDashR GET POST
