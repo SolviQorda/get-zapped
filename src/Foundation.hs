@@ -1,22 +1,34 @@
-{-# LANGUAGE NoImplicitPrelude #-}
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE TemplateHaskell #-}
-{-# LANGUAGE MultiParamTypeClasses #-}
-{-# LANGUAGE TypeFamilies #-}
-{-# LANGUAGE ViewPatterns #-}
-{-# LANGUAGE ExplicitForAll #-}
-{-# LANGUAGE RankNTypes #-}
-{-# LANGUAGE InstanceSigs #-}
+{-# LANGUAGE DeriveDataTypeable         #-}
+{-# LANGUAGE FlexibleContexts           #-}
+{-# LANGUAGE GADTs                      #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE InstanceSigs               #-}
+{-# LANGUAGE MultiParamTypeClasses      #-}
+{-# LANGUAGE NoImplicitPrelude          #-}
+{-# LANGUAGE OverloadedStrings          #-}
+{-# LANGUAGE ExplicitForAll             #-}
+{-# LANGUAGE QuasiQuotes                #-}
+{-# LANGUAGE RankNTypes                 #-}
+{-# LANGUAGE TemplateHaskell            #-}
+{-# LANGUAGE TypeFamilies               #-}
+{-# LANGUAGE ViewPatterns               #-}
 
 module Foundation where
 
 import Import.NoFoundation
+import Control.Monad.Logger (LogSource)
 import Database.Persist.Sql (ConnectionPool, runSqlPool)
+import Data.Yaml
+import Network.Mail.Mime
+import Network.Mail.Mime.SES
 import Text.Hamlet          (hamletFile)
 import Text.Jasmine         (minifym)
-import Control.Monad.Logger (LogSource)
+import Yesod.Auth.GoogleEmail2
+import Yesod.Auth.Email
+import           Text.Shakespeare.Text (stext)
 import qualified Database.Esqueleto as E
-
+import qualified Data.Text.Encoding as TE
+import qualified Data.Text.Lazy.Encoding as LTE
 
 -- Used only when in "auth-dummy-login" setting is enabled.
 import Yesod.Auth.Dummy
@@ -25,9 +37,12 @@ import Yesod.Auth.OpenId    (authOpenId, IdentifierType (Claimed))
 import Yesod.Default.Util   (addStaticContentExternal)
 import Yesod.Core.Types     (Logger)
 import Yesod.Form.Bootstrap3
+import Text.Blaze.Html.Renderer.Utf8 (renderHtml)
 import qualified Yesod.Core.Unsafe as Unsafe
 import qualified Data.CaseInsensitive as CI
 import qualified Data.Text.Encoding as TE
+import qualified Data.ByteString.Char8 as C8
+import qualified System.Exit as SE
 
 -- | The foundation datatype for your application. This can be a good place to
 -- keep settings and values requiring initialization before your application
@@ -119,8 +134,8 @@ instance Yesod App where
                     , menuItemAccessCallback = True
                     }
                 , NavbarLeft $ MenuItem
-                    { menuItemLabel = "Profile"
-                    , menuItemRoute = ProfileR
+                    { menuItemLabel = "My Dashboard"
+                    , menuItemRoute = UserDashR
                     , menuItemAccessCallback = isJust muser
                     }
                 , NavbarRight $ MenuItem
@@ -186,6 +201,7 @@ instance Yesod App where
     -- the profile route requires that the user is authenticated, so we
     -- delegate to that function
     isAuthorized ProfileR _ = isAuthenticated
+    isAuthorized UserDashR _ = isAuthenticated
 
     -- This function creates static content files in the static folder
     -- and names them based on a hash of their content. This allows
@@ -234,6 +250,7 @@ instance YesodBreadcrumbs App where
     breadcrumb HomeR = return ("Home", Nothing)
     breadcrumb (AuthR _) = return ("Login", Just HomeR)
     breadcrumb ProfileR = return ("Profile", Just HomeR)
+    breadcrumb UserDashR = return ("My Dashboard", Just HomeR)
     breadcrumb  _ = return ("home", Nothing)
 
 -- How to run database actions.
@@ -268,15 +285,130 @@ instance YesodAuth App where
         case x of
             Just (Entity uid _) -> return $ Authenticated uid
             Nothing -> Authenticated <$> insert User
-                { userIdent = credsIdent creds
+                { userEmail = credsIdent creds
                 , userPassword = Nothing
+                , userVerkey = Nothing
+                , userVerified = True
                 }
 
     -- You can add other plugins like Google Email, email or OAuth here
     authPlugins :: App -> [AuthPlugin App]
-    authPlugins app = [authOpenId Claimed []] ++ extraAuthPlugins
+    authPlugins app =
+        [ authGoogleEmail clientId clientSecret
+        -- , authEmail
+        -- , authOpenId Claimed []
+        ]
+        -- ++ extraAuthPlugins
         -- Enable authDummy login if enabled.
-        where extraAuthPlugins = [authDummy | appAuthDummyLogin $ appSettings app]
+        -- where extraAuthPlugins = [authDummy | appAuthDummyLogin $ appSettings app]
+
+--adapted from this template - https://github.com/yesodweb/yesod/blob/master/demo/auth/email_auth_ses_mailer.hs
+data SesKeys = SesKeys { awsAccessKey :: !Text, awsSecretKey :: !Text }
+
+
+instance FromJSON SesKeys where
+  parseJSON (Object v) =
+    SesKeys <$> v .: "awsAccessKey"
+            <*> v .: "awsSecretKey"
+  parseJSON _ = mzero
+--
+-- instance YesodAuthEmail App where
+--   type AuthEmailId App = UserId
+--
+--   afterPasswordRoute _ = HomeR
+--
+--   -- addUnverified :: Yesod.Auth.Email.Email -> VerKey -> AuthHandler App (AuthEmailId App)
+--   addUnverified email verkey = do
+--     userId <- runDB $ insert $ User email Nothing (Just verkey) False
+--     return userId
+--   --send verification email with SES credentials located in config/secrets.yaml
+--   sendVerifyEmail email _ verurl = do
+--     h <- getYesod
+--     sesCreds <- liftIO $ getSESCredentials
+--
+--     liftIO $ renderSendMailSES (getHttpManager h) sesCreds (emptyMail $ Address Nothing "solvi.goard@gmail.com")
+--       { mailTo = [Address Nothing email]
+--       , mailHeaders =
+--         [ ("Subject", "Verify your email address with Get Zapped")
+--         ]
+--       , mailParts = [[textPart, htmlPart]]
+--       }
+--     where
+--       getSESCredentials :: IO SES
+--       getSESCredentials = do
+--         key <- getSesAccessKey
+--         return SES {
+--           sesTo = [(TE.encodeUtf8 email)] ,
+--           sesFrom = "solvi.goard@gmail.com" ,
+--           sesAccessKey = TE.encodeUtf8 $ awsAccessKey key ,
+--           sesSecretKey = TE.encodeUtf8 $ awsSecretKey key ,
+--           sesSessionToken = Nothing ,
+--           sesRegion = usWest2 }
+--       getSesAccessKey :: IO SesKeys
+--       getSesAccessKey = do
+--         ymlConfig <- C8.readFile "config/secrets.yaml"
+--
+--         case decode ymlConfig of
+--           Nothing -> do C8.putStrLn "Error while parsing secrets.yaml"; SE.exitWith (SE.ExitFailure 1)
+--           Just c -> return c
+--
+--       textPart = Part
+--         { partType = "text/plain; charset=utf-8"
+--         , partEncoding = None
+--         , partFilename = Nothing
+--         , partContent = LTE.encodeUtf8 $
+--               [stext|
+--                   Please confirm your email address with get zapped by clicking the link below.
+--
+--                   #{verurl}
+--
+--                   Ta
+--               |]
+--         , partHeaders = []
+--         }
+--       htmlPart = Part
+--         { partType = "text/html; charset=utf-8"
+--         , partEncoding = None
+--         , partFilename = Nothing
+--         , partContent = renderHtml
+--           [shamlet|
+--             <p>Please confirm your email address with get zapped by clicking the link below.
+--             <p>
+--               <a href=#{verurl}>#{verurl}
+--             <p>Ta!
+--           |]
+--         , partHeaders = []
+--         }
+--   getVerifyKey = runDB . fmap (join . fmap userVerkey) . get
+--   setVerifyKey uid key = runDB $ update uid [UserVerkey =. Just key]
+--   verifyAccount uid = runDB $ do
+--     mu <- get uid
+--     case mu of
+--       Nothing -> return Nothing
+--       Just u -> do
+--         update uid [UserVerified =. True]
+--         return $ Just uid
+--   getPassword = runDB . fmap (join . fmap userPassword) . get
+--   setPassword uid pass = runDB $ update uid [UserPassword =. Just pass]
+--   getEmailCreds email = runDB $ do
+--     mu <- getBy $ UniqueUser email
+--     case mu of
+--       Nothing -> return Nothing
+--       Just (Entity uid u) -> return $ Just EmailCreds
+--         { emailCredsId = uid
+--         , emailCredsAuthId = Just uid
+--         , emailCredsStatus = isJust $ userPassword u
+--         , emailCredsVerkey = userVerkey u
+--         , emailCredsEmail = email
+--         }
+--   getEmail = runDB . fmap (fmap userEmail) . get
+
+--google
+clientId :: Text
+clientId = "748824943429-rupn56e516o2ipbl0tsh1ik782kd4aaj.apps.googleusercontent.com"
+
+clientSecret :: Text
+clientSecret = "dqJnmgis_5__EwA10QIk93FP"
 
 -- | Access function to determine if a user is logged in.
 isAuthenticated :: Handler AuthResult

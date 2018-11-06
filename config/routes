@@ -14,6 +14,8 @@
 /profile ProfileR GET
 /about AboutR GET
 
+/my-dashboard UserDashR GET POST
+
 /zaps/new/choose-therapist ChooseTherapistR GET POST
 /zaps/new/choose-therapist/book/therapist/#Text BookZapR GET POST
 /zaps/new/choose-therapist/book/result/!#ZapBookingId BookingReceivedR GET
