@@ -43,6 +43,7 @@ library
       Handler.UserDash
       Handler.AdminDash
       Handler.SeeAllUsers
+      Handler.AuthenticateTherapist
       Import
       Import.NoFoundation
       Model

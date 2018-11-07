@@ -3,6 +3,7 @@
 
 User
     email Text
+    name Text Maybe
     password Text Maybe
     verkey Text Maybe
     verified Bool
@@ -38,6 +39,10 @@ TherapistAppointment
     deriving Show
 TherapistChoice
     therapist Text
+    deriving Eq
+    deriving Show
+UserChoice
+    email Text
     deriving Eq
     deriving Show
 TherapistPrefs
