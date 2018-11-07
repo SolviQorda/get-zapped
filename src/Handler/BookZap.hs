@@ -46,6 +46,7 @@ postBookZapR therapist = do
         Nothing -> error "no appointment with that id"
         Just _ -> runDB $ update (zapBookingAppointment zapBooking)
             [ TherapistAppointmentBookedBy =. (Just $ zapBookingUserName zapBooking)
-            , TherapistAppointmentBookedByEmail =. (Just $ zapBookingUserEmail zapBooking)]
+            , TherapistAppointmentBookedByEmail =. (Just $ zapBookingUserEmail zapBooking)
+            , TherapistAppointmentBookedByPronouns =. (zapBookingUserPronouns zapBooking)]
       redirect $ BookingReceivedR zapBookingId
     _ -> defaultLayout $(widgetFile "zaps/new/book/new-zap")

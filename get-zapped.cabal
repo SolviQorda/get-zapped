@@ -41,6 +41,9 @@ library
       Handler.SetPaymentOptions
       Handler.ViewAppts
       Handler.UserDash
+      Handler.AdminDash
+      Handler.SeeAllUsers
+      Handler.AuthenticateTherapist
       Import
       Import.NoFoundation
       Model

@@ -1,0 +1,19 @@
+<h1>Authenticate User as Therapist
+<form method=post action=@{AuthenticateTherapistR} enctype=#{enctype}>
+    ^{widget}
+    <button class="btn btn-default"> Authenticate
+
+<div .container>
+  <div .row>
+    <table .table>
+      <tr>
+        <th>
+          Therapist Username
+        <th>
+          Password
+        $forall Entity _ user <- therapists
+          <tr>
+            <td>
+              #{userEmail user}
+            <td>
+              #{fromMaybe "no password" $ userPassword user}

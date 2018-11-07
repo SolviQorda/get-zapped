@@ -202,6 +202,9 @@ instance Yesod App where
     -- delegate to that function
     isAuthorized ProfileR _ = isAuthenticated
     isAuthorized UserDashR _ = isAuthenticated
+    isAuthorized AdminDashR _ = isAuthenticated
+    isAuthorized SeeAllUsersR _ = isAuthenticated
+    isAuthorized AuthenticateTherapistR _ = isAuthenticated
 
     -- This function creates static content files in the static folder
     -- and names them based on a hash of their content. This allows
@@ -286,9 +289,11 @@ instance YesodAuth App where
             Just (Entity uid _) -> return $ Authenticated uid
             Nothing -> Authenticated <$> insert User
                 { userEmail = credsIdent creds
+                , userName = Nothing
                 , userPassword = Nothing
                 , userVerkey = Nothing
                 , userVerified = True
+                , userIsTherapist = False
                 }
 
     -- You can add other plugins like Google Email, email or OAuth here

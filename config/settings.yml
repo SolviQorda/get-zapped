@@ -37,5 +37,5 @@ database:
   database: "_env:YESOD_PGDATABASE:getzapped"
   poolsize: "_env:YESOD_PGPOOLSIZE:10"
 
-copyright: Insert copyright statement here
+copyright: Made with <3 in Manchester UK
 #analytics: UA-YOURCODE

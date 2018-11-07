@@ -1,6 +1,10 @@
+<h1> Admin Dashboard
+<div .container>
+  <div .row>
+    <a href=@{AuthenticateTherapistR} .btn.btn-info.btn-lg>Authenticate Therapist
+    <a href=@{SeeAllUsersR} .btn.btn-info.btn-lg>See all users
+
 <h1>All Appointments
-<form method=post action=@{ViewApptsR therapistChoiceId} enctype=#{enctype}>
-    ^{widget}
     <button class="btn btn-default"> Filter
 
 <div .container>

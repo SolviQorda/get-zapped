@@ -24,7 +24,7 @@
           <td>
             #{fromMaybe "unbooked" $ therapistAppointmentBookedBy appt}
           <td>
-            todo/todos
+            #{fromMaybe "not given" $ therapistAppointmentBookedByPronouns appt}
           <td>
             #{fromMaybe "unbooked" $ therapistAppointmentBookedByEmail appt}
           <td>
