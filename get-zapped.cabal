@@ -42,6 +42,7 @@ library
       Handler.ViewAppts
       Handler.UserDash
       Handler.AdminDash
+      Handler.SeeAllUsers
       Import
       Import.NoFoundation
       Model

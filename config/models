@@ -6,6 +6,7 @@ User
     password Text Maybe
     verkey Text Maybe
     verified Bool
+    isTherapist Bool
     UniqueUser email
     deriving Typeable
 Email
@@ -32,6 +33,7 @@ TherapistAppointment
     therapistName Text
     bookedBy Text Maybe
     bookedByEmail Text Maybe
+    bookedByPronouns Text Maybe
     deriving Eq
     deriving Show
 TherapistChoice

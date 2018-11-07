@@ -2,7 +2,7 @@
 <div .container>
   <div .row>
     <.btn.btn-info.btn-lg>Authenticate Therapist
-    <.btn.btn-info.btn-lg>See all users
+    <a href=@{SeeAllUsersR} .btn.btn-info.btn-lg>See all users
 
 <h1>All Appointments
     <button class="btn btn-default"> Filter
@@ -28,7 +28,7 @@
           <td>
             #{fromMaybe "unbooked" $ therapistAppointmentBookedBy appt}
           <td>
-            todo/todos
+            #{fromMaybe "not given" $ therapistAppointmentBookedByPronouns appt}
           <td>
             #{fromMaybe "unbooked" $ therapistAppointmentBookedByEmail appt}
           <td>

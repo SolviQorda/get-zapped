@@ -31,3 +31,4 @@
 
 /admin/add-therapist AdminAddTherapistR GET POST
 /admin/admin-dashboard AdminDashR GET POST
+/admin/all-users SeeAllUsersR GET POST

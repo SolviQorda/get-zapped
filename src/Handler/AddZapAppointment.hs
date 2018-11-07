@@ -15,6 +15,7 @@ addAppointmentForm therapist = TherapistAppointment
                   <*> pure name
                   <*> pure Nothing
                   <*> pure Nothing
+                  <*> pure Nothing
                     where name = therapistChoiceTherapist therapist
 
 getAddAppointmentR :: TherapistChoiceId -> Handler Html
