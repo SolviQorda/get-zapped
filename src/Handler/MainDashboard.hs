@@ -5,10 +5,10 @@ module Handler.MainDashboard where
 
 import Import
 
-getMainDashboardR :: TherapistChoiceId -> Handler Html
-getMainDashboardR therapistChoiceId = do
+getMainDashboardR :: UserId -> Handler Html
+getMainDashboardR userId = do
   defaultLayout $ do
-    $(widgetFile "zaps/therapist/my-dash")
+    $(widgetFile "/therapist/my-dash")
 
-postMainDashboardR :: TherapistChoiceId -> Handler Html
-postMainDashboardR therapistChoiceId = error "Not yet implemented: postMainDashboardR"
+postMainDashboardR :: UserId -> Handler Html
+postMainDashboardR userId = error "Not yet implemented: postMainDashboardR"

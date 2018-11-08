@@ -1,0 +1,6 @@
+<h1>Change my username
+<h4>Current username : #{fromMaybe "no username set" $ userName user}
+
+<form method=post action=@{ChangeUserNameR userId} enctype=#{enctype}>
+  ^{widget}
+  <button class="btn btn-default">Save

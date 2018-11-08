@@ -1,6 +1,6 @@
 {-# LANGUAGE FlexibleContexts  #-}
-{-#LANGUAGE OverloadedStrings #-}
-{-#LANGUAGE TemplateHaskell   #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TemplateHaskell   #-}
 
 module Handler.AuthenticateTherapist where
 

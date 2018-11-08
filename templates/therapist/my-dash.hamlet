@@ -1,0 +1,20 @@
+<h1>Therapist Dashboard
+<div .container>
+  <div .row>
+    <a href=@{ViewApptsR userId} .btn.btn-info.btn-lg>View Appointments
+<br>
+<div .container>
+  <div .row>
+    <a href=@{AddAppointmentR userId} .btn.btn-info.btn-lg>New Appointment
+<br>
+<div .container>
+  <div .row>
+    <a href=@{SetPaymentOptionsR userId} .btn.btn-info.btn-lg>Payment Options
+<br>
+<div .container>
+  <div .row>
+    <a href=@{GenerateBookingUrlR userId} .btn.btn-info.btn-lg>Generate Booking Url
+<br>
+<div .container>
+  <div .row>
+    <a href=@{ChangeUserNameR userId} .btn.btn-info.btn-lg>Change my Username

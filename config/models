@@ -56,3 +56,7 @@ Tier
     description Text
     deriving Eq
     deriving Show
+UsernameChange
+    new Text
+    deriving Eq
+    deriving Show
