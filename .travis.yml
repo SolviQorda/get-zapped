@@ -1,9 +1,9 @@
 language: haskell
-# ghc:
+ghc:
   # - '7.10.2'
   # - '8.4.3'
   # - '8.2.2'
-  # - '8.0.2'
+  - '8.0'
 env:
   - PACKAGE=get-zapped
 
