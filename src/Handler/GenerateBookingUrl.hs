@@ -6,8 +6,8 @@ module Handler.GenerateBookingUrl where
 import Import
 import Yesod.Form.Bootstrap3
 
-getGenerateBookingUrlR :: TherapistChoiceId -> Handler Html
-getGenerateBookingUrlR therapistChoiceId = do
-  therapistChoice <- runDB $ get404 therapistChoiceId
+getGenerateBookingUrlR :: UserId -> Handler Html
+getGenerateBookingUrlR userId = do
+  user <- runDB $ get404 userId
   defaultLayout $ do
-    $(widgetFile "zaps/therapist/dashboard/gen/generate-my-url")
+    $(widgetFile "/therapist/dashboard/gen/generate-my-url")

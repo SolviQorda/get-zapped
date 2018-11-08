@@ -16,23 +16,23 @@ import Import
 import Yesod.Form.Bootstrap3
 import qualified Database.Esqueleto as E
 
-getViewApptsR :: TherapistChoiceId -> Handler Html
+getViewApptsR :: UserId -> Handler Html
 --TODO:default to chosen therapist with filter
-getViewApptsR therapistChoiceId = do
+getViewApptsR userId = do
   (widget, enctype) <- generateFormPost $ renderBootstrap3 BootstrapBasicForm filterByForm
   appts <- runDB $ selectList [] [Desc TherapistAppointmentDate]
   defaultLayout $ do
-    $(widgetFile "zaps/therapist/dashboard/view/view-appointments")
+    $(widgetFile "/therapist/dashboard/view/view-appointments")
 
-postViewApptsR ::  TherapistChoiceId -> Handler Html
+postViewApptsR ::  UserId -> Handler Html
 --TODO:default to chosen therapist with filter
-postViewApptsR therapistChoiceId = do
+postViewApptsR userId = do
   appts <- runDB $ selectList [] [Desc TherapistAppointmentDate]
   ((res, widget), enctype) <- runFormPost $ renderBootstrap3 BootstrapBasicForm filterByForm
   case res of
     FormSuccess filterChoice -> do
-      redirect $ FilterApptsR therapistChoiceId (filterChoice xs)
-    _ ->   defaultLayout $(widgetFile "zaps/therapist/dashboard/view/view-appointments")
+      redirect $ FilterApptsR userId (filterChoice xs)
+    _ ->   defaultLayout $(widgetFile "/therapist/dashboard/view/view-appointments")
 
 xs :: [Text]
 xs = []

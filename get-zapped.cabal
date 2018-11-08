@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: efa4af63289a25c17c56c23d02c428e291042bdf59c5a3c8a28d05aff1b5af1c
+-- hash: d3aab87cd54428393c42ab8736ee8b0c1e88efc4c92c9e6a9dbfdec61e4b4e63
 
 name:           get-zapped
 version:        0.0.0
@@ -26,24 +26,22 @@ library
       Handler.About
       Handler.AddZapAppointment
       Handler.AdminAddTherapist
+      Handler.AdminDash
       Handler.AppointmentAdded
+      Handler.AuthenticateTherapist
       Handler.BookingReceived
       Handler.BookZap
       Handler.ChooseTherapist
       Handler.Comment
       Handler.Common
-      Handler.DummyTherapistLogin
       Handler.FilterAppts
       Handler.GenerateBookingUrl
       Handler.Home
       Handler.MainDashboard
-      Handler.Profile
-      Handler.SetPaymentOptions
-      Handler.ViewAppts
-      Handler.UserDash
-      Handler.AdminDash
       Handler.SeeAllUsers
-      Handler.AuthenticateTherapist
+      Handler.SetPaymentOptions
+      Handler.UserDash
+      Handler.ViewAppts
       Import
       Import.NoFoundation
       Model
@@ -170,19 +168,25 @@ test-suite get-zapped-test
       Handler.AboutSpec
       Handler.AddZapTimeSpec
       Handler.AdminAddTherapistSpec
+      Handler.AdminDashSpec
+      Handler.AreTheyATherapistRSpec
+      Handler.AuthenticateTherapistSpec
       Handler.BookingReceivedSpec
       Handler.ChooseTherapistSpec
       Handler.CommentSpec
       Handler.CommonSpec
       Handler.DummyTherapistLoginSpec
+      Handler.GenerateBookingUrlSpec
       Handler.HomeSpec
       Handler.MainDashboardSpec
       Handler.ProfileSpec
       Handler.QueryTherapistDashboardSpec
       Handler.RequestZapSpec
+      Handler.SeeAllUsersSpec
       Handler.SetPaymentOptionsSpec
       Handler.SlotAddedSpec
       Handler.TherapistDashboardSpec
+      Handler.UserDashSpec
       TestImport
       Paths_get_zapped
   hs-source-dirs:

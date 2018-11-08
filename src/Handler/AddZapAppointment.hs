@@ -7,8 +7,8 @@ import Import
 import Yesod.Form
 import Yesod.Form.Bootstrap3
 
-addAppointmentForm :: TherapistChoice -> AForm Handler TherapistAppointment
-addAppointmentForm therapist = TherapistAppointment
+addAppointmentForm :: User -> AForm Handler TherapistAppointment
+addAppointmentForm user = TherapistAppointment
                   <$> areq dayField  "Date" Nothing
                   <*> areq timeField "Start time" Nothing
                   <*> areq timeField "End time" Nothing
@@ -16,21 +16,21 @@ addAppointmentForm therapist = TherapistAppointment
                   <*> pure Nothing
                   <*> pure Nothing
                   <*> pure Nothing
-                    where name = therapistChoiceTherapist therapist
+                    where name = fromMaybe "no username set"$  userName user
 
-getAddAppointmentR :: TherapistChoiceId -> Handler Html
-getAddAppointmentR therapistChoiceId = do
-  therapist <- runDB $ get404 $ therapistChoiceId
+getAddAppointmentR :: UserId -> Handler Html
+getAddAppointmentR userId = do
+  therapist <- runDB $ get404 $ userId
   (widget, enctype) <- generateFormPost $ renderBootstrap3 BootstrapBasicForm $ addAppointmentForm therapist
   defaultLayout $ do
-    $(widgetFile "zaps/therapist/dashboard/new/add-appointment")
+    $(widgetFile "/therapist/dashboard/new/add-appointment")
 
-postAddAppointmentR :: TherapistChoiceId -> Handler Html
-postAddAppointmentR therapistChoiceId = do
-  therapist <- runDB $ get404 $ therapistChoiceId
+postAddAppointmentR :: UserId -> Handler Html
+postAddAppointmentR userId = do
+  therapist <- runDB $ get404 $ userId
   ((res, widget), enctype) <- runFormPost $ renderBootstrap3 BootstrapBasicForm $ addAppointmentForm therapist
   case res of
     FormSuccess therapistAppointment -> do
       therapistAppointmentId <- runDB $ insert therapistAppointment
-      redirect $ AppointmentAddedR therapistChoiceId therapistAppointmentId
-    _                                -> defaultLayout $(widgetFile "zaps/therapist/dashboard/new/add-appointment")
+      redirect $ AppointmentAddedR userId therapistAppointmentId
+    _                                -> defaultLayout $(widgetFile "/therapist/dashboard/new/add-appointment")

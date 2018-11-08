@@ -10,4 +10,4 @@ getBookingReceivedR :: ZapBookingId -> Handler Html
 getBookingReceivedR zapBookingId = do
   zapBooking <- runDB $ get404 zapBookingId
   defaultLayout $ do
-    $(widgetFile "zaps/new/book/result/booking-received")
+    $(widgetFile "/new/book/result/booking-received")

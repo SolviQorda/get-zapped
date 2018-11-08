@@ -10,10 +10,15 @@ import Import
 
 getUserDashR :: Handler Html
 getUserDashR = do
-  (_, user) <- requireAuthPair
+  (authId, user) <- requireAuthPair
   appts <- runDB $ selectList [TherapistAppointmentBookedByEmail ==. (Just $ userEmail user)] [Desc TherapistAppointmentDate]
-  defaultLayout $ do
-    $(widgetFile "my-dashboard")
+  case (userIsTherapist user) of
+    True -> do
+      -- error (show $ userId user)
+      redirect $ MainDashboardR $ authId
+    False -> do
+      defaultLayout $ do
+        $(widgetFile "my-dashboard")
 
 postUserDashR :: Handler Html
 postUserDashR = error "Not yet implemented: postUserDashR"

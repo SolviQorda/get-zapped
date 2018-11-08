@@ -187,7 +187,6 @@ instance Yesod App where
     isAuthorized (BookingReceivedR _) _ = return Authorized
     isAuthorized ChooseTherapistR _ = return Authorized
     isAuthorized CommentR _ = return Authorized
-    isAuthorized DummyTherapistLoginR _ = return Authorized
     isAuthorized FaviconR _ = return Authorized
     isAuthorized (MainDashboardR _) _ = return Authorized
     isAuthorized HomeR _ = return Authorized
@@ -200,7 +199,6 @@ instance Yesod App where
 
     -- the profile route requires that the user is authenticated, so we
     -- delegate to that function
-    isAuthorized ProfileR _ = isAuthenticated
     isAuthorized UserDashR _ = isAuthenticated
     isAuthorized AdminDashR _ = isAuthenticated
     isAuthorized SeeAllUsersR _ = isAuthenticated
@@ -252,7 +250,6 @@ instance YesodBreadcrumbs App where
         -> Handler (Text, Maybe (Route App))
     breadcrumb HomeR = return ("Home", Nothing)
     breadcrumb (AuthR _) = return ("Login", Just HomeR)
-    breadcrumb ProfileR = return ("Profile", Just HomeR)
     breadcrumb UserDashR = return ("My Dashboard", Just HomeR)
     breadcrumb  _ = return ("home", Nothing)
 

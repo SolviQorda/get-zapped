@@ -49,11 +49,9 @@ import Handler.BookZap
 import Handler.ChooseTherapist
 import Handler.Comment
 import Handler.Common
-import Handler.DummyTherapistLogin
 import Handler.FilterAppts
 import Handler.Home
 import Handler.MainDashboard
-import Handler.Profile
 import Handler.SetPaymentOptions
 import Handler.ViewAppts
 import Handler.UserDash
