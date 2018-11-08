@@ -17,12 +17,12 @@
                     <p>
                         Get Zapped! is a platform for trans people to get appointments with electrolysis therapists.
         <div .row>
-                    <a href="/zaps/new/choose-therapist" .btn.btn-info.btn-lg>
+                    <a href=@{ChooseTherapistR} .btn.btn-info.btn-lg>
                       Book a Zap!
         <div .row>
                     <br>
-                    <a href="/auth/login" .btn.btn-info.btn-lg>
-                        Login
+                    <a href=@{AboutR} .btn.btn-info.btn-lg>
+                        About
                   <div .col-lg-12>
                     <h2> Testimonials
                     <ul .list-group>
@@ -32,6 +32,13 @@
 
                         <li .list-group-item>
                             "It hurts. So much. Why do I have to pay for this again?
+                    <h2> Our therapists
+                    <ul .list-group>
 
+                        <li .list-group-item>
+                            Electrolysis by Siobhan
+
+                        <li .list-group-item>
+                            Tortoise Beats Hair
 
     <hr>

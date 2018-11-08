@@ -11,8 +11,6 @@ module Model where
 
 import ClassyPrelude.Yesod
 import Database.Persist.Quasi
-import Yesod.Form
-import Data.Time.Calendar
 import Data.Time.LocalTime
 
 -- You can define all of your database entities in the entities file.

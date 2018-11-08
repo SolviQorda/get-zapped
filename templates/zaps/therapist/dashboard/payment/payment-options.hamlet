@@ -1,5 +1,0 @@
-<h1>Set payment options
-
-<form method=post action=@{SetPaymentOptionsR therapistChoiceId} enctype=#{enctype}>
-    ^{widget}
-    <button class="btn btn-default"> Save!

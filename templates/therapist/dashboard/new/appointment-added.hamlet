@@ -6,4 +6,8 @@
         <p>to
         <p>#{show $ therapistAppointmentTimeEnd therapistAppointment}.
         <p>You'll receive an email notification when a user books your appointment!
-        <p>
+        <p>AppointmentAdded should include a button to return to AddAppointment, or act as a confirmation text on the same page. #44
+    <div .row>
+        <a href=@{AddAppointmentR userId} .btn.btn-info.btn-lg>Add another!
+    <div .row>
+        <a href=@{MainDashboardR userId} .btn.btn-info.btn-lg>Back to dashboard

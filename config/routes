@@ -11,20 +11,24 @@
 
 /comments CommentR POST
 
-/profile ProfileR GET
 /about AboutR GET
 
-/zaps/new/choose-therapist ChooseTherapistR GET POST
-/zaps/new/choose-therapist/book/therapist/#Text BookZapR GET POST
-/zaps/new/choose-therapist/book/result/!#ZapBookingId BookingReceivedR GET
+/my-dashboard UserDashR GET POST
+/!#UserId/change-my-username ChangeUserNameR GET POST
 
-/zaps/therapist/login DummyTherapistLoginR GET POST
-/zaps/therapist/!#TherapistChoiceId MainDashboardR GET POST
-/zaps/therapist/!#TherapistChoiceId/dashboard/new/add-appointment AddAppointmentR GET POST
-/zaps/therapist/!#TherapistChoiceId/dashboard/new/!#TherapistAppointmentId AppointmentAddedR GET
-/zaps/therapist/!#TherapistChoiceId/dashboard/view/view-appointments ViewApptsR GET POST
-/zaps/therapist/!#TherapistChoiceId/dashboard/view/filter/+FilterChoice FilterApptsR GET POST
-/zaps/therapist/!#TherapistChoiceId/dashboard/payment/payment-options SetPaymentOptionsR GET POST
-/zaps/therapist/!#TherapistChoiceId/dashboard/gen/generate-my-url GenerateBookingUrlR GET
+/new/choose-therapist ChooseTherapistR GET POST
+/new/choose-therapist/book/therapist/#Text BookZapR GET POST
+/new/choose-therapist/book/result/!#ZapBookingId BookingReceivedR GET
+
+/therapist/!#UserId MainDashboardR GET POST
+/therapist/!#UserId/dashboard/new/add-appointment AddAppointmentR GET POST
+/therapist/!#UserId/dashboard/new/!#TherapistAppointmentId AppointmentAddedR GET
+/therapist/!#UserId/dashboard/view/view-appointments ViewApptsR GET POST
+/therapist/!#UserId/dashboard/view/filter/+FilterChoice FilterApptsR GET POST
+/therapist/!#UserId/dashboard/payment/payment-options SetPaymentOptionsR GET POST
+/therapist/!#UserId/dashboard/gen/generate-my-url GenerateBookingUrlR GET
 
 /admin/add-therapist AdminAddTherapistR GET POST
+/admin/admin-dashboard AdminDashR GET POST
+/admin/all-users SeeAllUsersR GET POST
+/admin/authenticate-therapist AuthenticateTherapistR GET POST

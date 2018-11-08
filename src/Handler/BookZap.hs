@@ -3,10 +3,8 @@
 module Handler.BookZap where
 
 import Import
-import Yesod.Form
 import Yesod.Form.Bootstrap3
 import qualified Data.Text as T
-
 
 zapRequestForm :: Text -> AForm Handler ZapBooking
 zapRequestForm therapist = ZapBooking
@@ -19,7 +17,7 @@ getBookZapR :: Text -> Handler Html
 getBookZapR therapist = do
     (widget, enctype) <- generateFormPost $ renderBootstrap3 BootstrapBasicForm $ zapRequestForm therapist
     defaultLayout $ do
-      $(widgetFile "zaps/new/book/new-zap")
+      $(widgetFile "/new/book/new-zap")
 
 appointments :: Text -> HandlerFor App (OptionList (Key TherapistAppointment))
 appointments therapist = do
@@ -47,6 +45,8 @@ postBookZapR therapist = do
       case maybeAppointment of
         Nothing -> error "no appointment with that id"
         Just _ -> runDB $ update (zapBookingAppointment zapBooking)
-            [TherapistAppointmentBookedBy =. (Just $ zapBookingUserName zapBooking)]
+            [ TherapistAppointmentBookedBy =. (Just $ zapBookingUserName zapBooking)
+            , TherapistAppointmentBookedByEmail =. (Just $ zapBookingUserEmail zapBooking)
+            , TherapistAppointmentBookedByPronouns =. (zapBookingUserPronouns zapBooking)]
       redirect $ BookingReceivedR zapBookingId
-    _ -> defaultLayout $(widgetFile "zaps/new/book/new-zap")
+    _ -> defaultLayout $(widgetFile "/new/book/new-zap")

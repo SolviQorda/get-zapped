@@ -1,5 +1,5 @@
 <h1> Add a Zap Appointment
 
-<form method=post action=@{AddAppointmentR therapistChoiceId} enctype=#{enctype}>
+<form method=post action=@{AddAppointmentR userId} enctype=#{enctype}>
     ^{widget}
     <button class="btn btn-default"> Add!

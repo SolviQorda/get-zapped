@@ -8,6 +8,7 @@ module Handler.Home where
 import Import
 import Yesod.Form.Bootstrap3 (BootstrapFormLayout (..), renderBootstrap3)
 import Text.Julius (RawJS (..))
+import Settings.StaticFiles
 
 -- Define our data that will be used for creating the form.
 data FileForm = FileForm
@@ -33,6 +34,8 @@ getHomeR = do
         let (commentFormId, commentTextareaId, commentListId) = commentIds
         aDomId <- newIdent
         setTitle "Get Zapped!"
+        -- addStaticContent (StaticR img_siobhan_jpg)
+        -- addStaticContent (StaticR img_tortoise_png)
         $(widgetFile "homepage")
 
 postHomeR :: Handler Html
