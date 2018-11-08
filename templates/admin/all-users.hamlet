@@ -1,0 +1,17 @@
+<h1>All Users
+
+<div .container>
+  <div .row>
+    <table .table>
+      <tr>
+        <th>
+          Username
+        <th>
+          Password
+        $forall Entity _ user <- users
+          <tr>
+            <td>
+              #{userEmail user}
+            <td>
+              #{fromMaybe "no password" $ userPassword user}
+        

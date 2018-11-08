@@ -2,9 +2,13 @@
 -- Syntax for this file here: https://github.com/yesodweb/persistent/blob/master/docs/Persistent-entity-syntax.md
 
 User
-    ident Text
+    email Text
+    name Text Maybe
     password Text Maybe
-    UniqueUser ident
+    verkey Text Maybe
+    verified Bool
+    isTherapist Bool
+    UniqueUser email
     deriving Typeable
 Email
     email Text
@@ -24,15 +28,21 @@ ZapBooking
     deriving Eq
     deriving Show
 TherapistAppointment
-    therapistName Text
     date Day
     timeStart TimeOfDay
     timeEnd TimeOfDay
+    therapistName Text
     bookedBy Text Maybe
+    bookedByEmail Text Maybe
+    bookedByPronouns Text Maybe
     deriving Eq
     deriving Show
 TherapistChoice
     therapist Text
+    deriving Eq
+    deriving Show
+UserChoice
+    email Text
     deriving Eq
     deriving Show
 TherapistPrefs
@@ -44,5 +54,9 @@ TherapistPrefs
 Tier
     pricePerHour Int
     description Text
+    deriving Eq
+    deriving Show
+UsernameChange
+    new Text
     deriving Eq
     deriving Show

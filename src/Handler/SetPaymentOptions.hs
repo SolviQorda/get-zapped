@@ -8,41 +8,44 @@ import Import
 import qualified Database.Esqueleto as E
 import Yesod.Form.Bootstrap3
 
-getSetPaymentOptionsR :: TherapistChoiceId -> Handler Html
-getSetPaymentOptionsR therapistChoiceId = do
-  (widget, enctype) <- generateFormPost $ renderBootstrap3 BootstrapBasicForm paymentForm
+getSetPaymentOptionsR :: UserId -> Handler Html
+getSetPaymentOptionsR userId = do
+  user <- runDB $ get404 userId
+  (widget, enctype) <- generateFormPost $ renderBootstrap3 BootstrapBasicForm $ paymentForm user
   defaultLayout $ do
-    $(widgetFile"zaps/therapist/dashboard/payment/payment-options")
+    $(widgetFile"/therapist/dashboard/payment/payment-options")
 
-paymentForm :: AForm Handler TherapistPrefs
-paymentForm = TherapistPrefs
+paymentForm :: User -> AForm Handler TherapistPrefs
+paymentForm user = TherapistPrefs
   --TODO: find a way for this to autofill
-  <$> areq (selectField therapists) "Your name " Nothing
+  <$> pure email
   <*> areq (multiSelectFieldList paymentOptions) "Your payment options " Nothing
   <*> areq (multiSelectFieldList basicTiers) "Your tiers " Nothing
+    where email = userEmail user
 
-postSetPaymentOptionsR :: TherapistChoiceId -> Handler Html
-postSetPaymentOptionsR therapistChoiceId = do
-  ((res, widget), enctype) <- runFormPost $ renderBootstrap3 BootstrapBasicForm paymentForm
+postSetPaymentOptionsR :: UserId -> Handler Html
+postSetPaymentOptionsR userId = do
+  user <- runDB $ get404 userId
+  ((res, widget), enctype) <- runFormPost $ renderBootstrap3 BootstrapBasicForm $ paymentForm user
   case res of
     FormSuccess therapistPrefs ->do
       _ <- runDB $ insert therapistPrefs
-      redirect $ MainDashboardR therapistChoiceId
+      redirect $ MainDashboardR userId
     _           -> defaultLayout $ do
-      $(widgetFile "zaps/therapist/dashboard/payment/payment-options")
+      $(widgetFile "/therapist/dashboard/payment/payment-options")
 
 --TODO: remove in favour of autofilling based on id.
-therapists = do
- rows <- runDB getTherapists
- optionsPairs $ Prelude.map (\r->((therapistChoiceTherapist $ entityVal r), therapistChoiceTherapist $ entityVal r)) rows
-
-getTherapists :: (MonadIO m, MonadLogger m)
-              => E.SqlReadT m [Entity TherapistChoice]
-getTherapists =
- E.select $
- E.from $ \t ->
- E.distinctOn [E.don (t E.^. TherapistChoiceTherapist)] $ do
- return t
+-- therapists = do
+--  rows <- runDB getTherapists
+--  optionsPairs $ Prelude.map (\r->((therapistChoiceTherapist $ entityVal r), therapistChoiceTherapist $ entityVal r)) rows
+--
+-- getTherapists :: (MonadIO m, MonadLogger m)
+--               => E.SqlReadT m [Entity TherapistChoice]
+-- getTherapists =
+--  E.select $
+--  E.from $ \t ->
+--  E.distinctOn [E.don (t E.^. TherapistChoiceTherapist)] $ do
+--  return t
 
 --deprecate this once you've got a tier entry system.
 basicTiers :: [(Text, Tier)]

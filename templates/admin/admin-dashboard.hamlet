@@ -1,6 +1,10 @@
-<h1>Filter by therapist
-<form method=post action=@{FilterApptsR therapistChoiceId filterChoice} enctype=#{enctype}>
-    ^{widget}
+<h1> Admin Dashboard
+<div .container>
+  <div .row>
+    <a href=@{AuthenticateTherapistR} .btn.btn-info.btn-lg>Authenticate Therapist
+    <a href=@{SeeAllUsersR} .btn.btn-info.btn-lg>See all users
+
+<h1>All Appointments
     <button class="btn btn-default"> Filter
 
 <div .container>
@@ -12,17 +16,21 @@
         <th>
           Pronouns
         <th>
+          Email
+        <th>
           Appt time
         <th>
           Date
         <th>
           Therapist
-      $forall Entity id appt <- appts
+      $forall Entity _ appt <- appts
         <tr>
           <td>
             #{fromMaybe "unbooked" $ therapistAppointmentBookedBy appt}
           <td>
-            todo/todos
+            #{fromMaybe "not given" $ therapistAppointmentBookedByPronouns appt}
+          <td>
+            #{fromMaybe "unbooked" $ therapistAppointmentBookedByEmail appt}
           <td>
             #{show $ therapistAppointmentTimeStart appt} to #{show $ therapistAppointmentTimeEnd appt}
           <td>

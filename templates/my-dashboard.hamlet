@@ -1,0 +1,28 @@
+<h1>My Dashboard
+<p>Hiya, #{userEmail user}
+<div .container>
+  <div .row>
+    <a href=@{ChangeUserNameR authId} .btn.btn-info.btn-lg>Change my Username
+
+<h1>Upcoming Appointments
+
+<div .container>
+  <div .row>
+    <table .table>
+      <tr>
+        <th>
+          Appt time
+        <th>
+          Date
+        <th>
+          Therapist
+      $forall Entity _ appt <- appts
+        <tr>
+          <td>
+            #{show $ therapistAppointmentTimeStart appt} to #{show $ therapistAppointmentTimeEnd appt}
+          <td>
+            #{show $ therapistAppointmentDate appt}
+          <td>
+            #{ therapistAppointmentTherapistName appt}
+          <td>
+            <button class="btn btn-default"> Contact

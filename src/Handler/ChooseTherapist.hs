@@ -13,7 +13,7 @@ getChooseTherapistR :: Handler Html
 getChooseTherapistR = do
   (widget, enctype) <- generateFormPost $ renderBootstrap3 BootstrapBasicForm therapistForm
   defaultLayout $ do
-    $(widgetFile "zaps/new/choose-therapist")
+    $(widgetFile "/new/choose-therapist")
 
 therapistForm :: AForm Handler TherapistChoice
 therapistForm = TherapistChoice
@@ -29,13 +29,13 @@ postChooseTherapistR = do
     _ -> redirect HomeR
 
 therapists = do
- rows <- runDB getTherapists
- optionsPairs $ Prelude.map (\r->((therapistChoiceTherapist $ entityVal r), therapistChoiceTherapist $ entityVal r)) rows
+ rows <- runDB $ selectList [UserIsTherapist ==. True] [Desc UserId]
+ optionsPairs $ Prelude.map (\r->((fromMaybe "no username set" $ userName $ entityVal r), fromMaybe "no username set" $ userName $ entityVal r)) rows
 
-getTherapists :: (MonadIO m, MonadLogger m)
-              => E.SqlReadT m [Entity TherapistChoice]
-getTherapists =
- E.select $
- E.from $ \t ->
- E.distinctOn [E.don (t E.^. TherapistChoiceTherapist)] $ do
- return t
+-- getTherapists :: (MonadIO m, MonadLogger m)
+--               => E.SqlReadT m [Entity TherapistChoice]
+-- getTherapists =
+--  E.select $
+--  E.from $ \t ->
+--  E.distinctOn [E.don (t E.^. TherapistChoiceTherapist)] $ do
+--  return t

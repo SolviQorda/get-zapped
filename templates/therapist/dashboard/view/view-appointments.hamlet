@@ -1,0 +1,37 @@
+<h1>All Appointments
+<form method=post action=@{ViewApptsR userId} enctype=#{enctype}>
+    ^{widget}
+    <button class="btn btn-default"> Filter
+
+<div .container>
+  <div .row>
+    <table .table>
+      <tr>
+        <th>
+          Name
+        <th>
+          Pronouns
+        <th>
+          Email
+        <th>
+          Appt time
+        <th>
+          Date
+        <th>
+          Therapist
+      $forall Entity _ appt <- appts
+        <tr>
+          <td>
+            #{fromMaybe "unbooked" $ therapistAppointmentBookedBy appt}
+          <td>
+            #{fromMaybe "not given" $ therapistAppointmentBookedByPronouns appt}
+          <td>
+            #{fromMaybe "unbooked" $ therapistAppointmentBookedByEmail appt}
+          <td>
+            #{show $ therapistAppointmentTimeStart appt} to #{show $ therapistAppointmentTimeEnd appt}
+          <td>
+            #{show $ therapistAppointmentDate appt}
+          <td>
+            #{ therapistAppointmentTherapistName appt}
+          <td>
+            <button class="btn btn-default"> Contact
