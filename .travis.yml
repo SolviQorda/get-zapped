@@ -1,7 +1,7 @@
 language: haskell
 ghc:
   # - '7.10.2'
-  # - '8.4.3'
+  - '8.4.3'
   # - '8.2.2'
   - '8.0'
 env:
@@ -9,6 +9,9 @@ env:
 
 before_install:
   - cabal sandbox init
+
+install:
+  - cabal update
 
 script:
   - stack setup
