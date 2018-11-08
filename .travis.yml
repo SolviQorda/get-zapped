@@ -17,4 +17,5 @@ script:
   - curl -sSL https://get.haskellstack.org/ | sh
   - stack setup
   - stack update
-  - stack buil
+  - stack init
+  - stack build
