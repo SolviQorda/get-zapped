@@ -46,7 +46,7 @@ dependencies:
 - wai
 - foreign-store
 - markdown
-- esqueleto
+- esqueleto >= 2.5 && < 2.7
 - markdown
 - mime-mail-ses
 - mime-mail
