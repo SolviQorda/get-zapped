@@ -42,6 +42,7 @@ library
       Handler.SetPaymentOptions
       Handler.UserDash
       Handler.ViewAppts
+      Handler.ChangeUserName
       Import
       Import.NoFoundation
       Model
