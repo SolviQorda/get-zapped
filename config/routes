@@ -31,6 +31,6 @@
 
 /admin/add-therapist AdminAddTherapistR GET POST
 /admin/admin-dashboard AdminDashR GET POST
-/admin/admin-dashboard/filter/+FilterChoice AdminFilterApptsR GET POST
+/admin/filter/+FilterChoice AdminFilterApptsR GET POST
 /admin/all-users SeeAllUsersR GET POST
 /admin/authenticate-therapist AuthenticateTherapistR GET POST

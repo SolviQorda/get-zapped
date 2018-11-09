@@ -198,13 +198,14 @@ instance Yesod App where
     -- delegate to that function
     isAuthorized (AddAppointmentR _) _ = isAuthenticated
     isAuthorized AdminAddTherapistR _ = isAuthenticated
-    isAuthorized (AppointmentAddedR _ ) _ = isAuthenticated
-    isAuthorized UserDashR _ = isAuthenticated
     isAuthorized AdminDashR _ = isAuthenticated
-    isAuthorized SeeAllUsersR _ = isAuthenticated
+    isAuthorized (AdminFilterApptsR _ ) _ = isAuthenticated
+    isAuthorized (AppointmentAddedR _ ) _ = isAuthenticated
     isAuthorized AuthenticateTherapistR _ = isAuthenticated
     isAuthorized (ChangeUserNameR _) _ = isAuthenticated
     isAuthorized (EditApptR _ _) _ = isAuthenticated
+    isAuthorized SeeAllUsersR _ = isAuthenticated
+    isAuthorized UserDashR _ = isAuthenticated
 
     -- This function creates static content files in the static folder
     -- and names them based on a hash of their content. This allows

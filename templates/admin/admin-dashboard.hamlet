@@ -5,6 +5,8 @@
     <a href=@{SeeAllUsersR} .btn.btn-info.btn-lg>See all users
 
 <h1>All Appointments
+<form method=post action=@{AdminDashR} enctype=#{enctype}>
+    ^{widget}
     <button class="btn btn-default"> Filter
 
 <div .container>

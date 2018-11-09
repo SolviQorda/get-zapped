@@ -15,6 +15,7 @@ module Handler.AdminFilterAppts where
 import Import
 import Yesod.Form.Bootstrap3
 import qualified Database.Esqueleto as E
+import Data.Time.Calendar
 
 getAdminFilterApptsR :: FilterChoice -> Handler Html
 getAdminFilterApptsR filterChoice = do
