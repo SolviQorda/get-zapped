@@ -1,13 +1,6 @@
-<h1>Thank you #{therapistAppointmentTherapistName therapistAppointment} for adding your appointment!
-<div .container>
-    <div .row>
-        <p>You made a appointment for #{show $ therapistAppointmentDate therapistAppointment} from
-        <p>#{show $ therapistAppointmentTimeStart therapistAppointment}
-        <p>to
-        <p>#{show $ therapistAppointmentTimeEnd therapistAppointment}.
-        <p>You'll receive an email notification when a user books your appointment!
-        <p>AppointmentAdded should include a button to return to AddAppointment, or act as a confirmation text on the same page. #44
-    <div .row>
-        <a href=@{AddAppointmentR userId} .btn.btn-info.btn-lg>Add another!
-    <div .row>
-        <a href=@{MainDashboardR userId} .btn.btn-info.btn-lg>Back to dashboard
+<h1>Thank you #{fromMaybe "" $ userName user} for adding your appointment!
+<div .row>
+    <a href=@{AddAppointmentR userId} .btn.btn-info.btn-lg>Add another!
+<br>
+<div .row>
+    <a href=@{MainDashboardR userId} .btn.btn-info.btn-lg>Back to dashboard

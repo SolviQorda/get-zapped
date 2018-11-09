@@ -179,9 +179,6 @@ instance Yesod App where
         -> Handler AuthResult
     -- Routes not requiring authentication.
     isAuthorized AboutR _ = return Authorized
-    isAuthorized (AddAppointmentR _) _ = return Authorized
-    isAuthorized AdminAddTherapistR _ = return Authorized
-    isAuthorized (AppointmentAddedR _ _) _ = return Authorized
     isAuthorized (AuthR _) _ = return Authorized
     isAuthorized (BookZapR _)  _ = return Authorized
     isAuthorized (BookingReceivedR _) _ = return Authorized
@@ -199,6 +196,9 @@ instance Yesod App where
 
     -- the profile route requires that the user is authenticated, so we
     -- delegate to that function
+    isAuthorized (AddAppointmentR _) _ = isAuthenticated
+    isAuthorized AdminAddTherapistR _ = isAuthenticated
+    isAuthorized (AppointmentAddedR _ ) _ = isAuthenticated
     isAuthorized UserDashR _ = isAuthenticated
     isAuthorized AdminDashR _ = isAuthenticated
     isAuthorized SeeAllUsersR _ = isAuthenticated
