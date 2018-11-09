@@ -60,3 +60,9 @@ UsernameChange
     new Text
     deriving Eq
     deriving Show
+EditAppt
+    start TimeOfDay
+    end TimeOfDay
+    date Day
+    deriving Eq
+    deriving Show

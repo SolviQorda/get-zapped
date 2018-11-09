@@ -1,0 +1,22 @@
+<h1>Edit Appointment
+<h4> Editing appointment:
+<div .container>
+  <div .row>
+    <table .table>
+      <tr>
+        <th>
+          Appt time
+        <th>
+          Date
+        <th>
+          Booked By
+      <tr>
+        <th>
+          #{show $ therapistAppointmentTimeStart therapistAppointment} to #{show $ therapistAppointmentTimeEnd therapistAppointment}
+        <th>
+          #{show $ therapistAppointmentDate therapistAppointment}
+        <th>
+          #{fromMaybe "unbooked" $ therapistAppointmentBookedBy therapistAppointment}
+<form method=post action=@{EditApptR userId therapistAppointmentId} enctype=#{enctype}>
+  ^{widget}
+  <button class="btn btn-default">Save

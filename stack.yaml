@@ -18,7 +18,7 @@
 #
 # resolver: ./custom-snapshot.yaml
 # resolver: https://example.com/snapshots/2018-01-01.yaml
-resolver: lts-12.11
+resolver: lts-12.2
 
 # User packages to be built.
 # Various formats can be used as shown in the example below.
@@ -33,15 +33,15 @@ resolver: lts-12.11
 #  subdirs:
 #  - auto-update
 #  - wai
-packages:
+allow-newer: true
 
 # Dependency packages to be pulled from upstream that are not in the resolver
 # using the same syntax as the packages field.
 # (e.g., acme-missiles-0.3)
 extra-deps:
-- git: https://github.com/bitemyapp/esqueleto.git
-  commit: b81e0d951e510ebffca03c5a58658ad884cc6fbd
-
+  - git: https://github.com/bitemyapp/esqueleto.git
+    commit: 08c9b4cdf977d5bcd1baba046a007940c1940758
+  # - esqueleto
 # Override default flag values for local packages and extra-deps
 # flags: {}
 

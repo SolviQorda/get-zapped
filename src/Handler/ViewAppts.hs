@@ -15,6 +15,7 @@ module Handler.ViewAppts where
 import Import
 import Yesod.Form.Bootstrap3
 import qualified Database.Esqueleto as E
+import Data.Either
 
 getViewApptsR :: UserId -> Handler Html
 --TODO:default to chosen therapist with filter

@@ -19,7 +19,7 @@
           Date
         <th>
           Therapist
-      $forall Entity id appt <- appts
+      $forall Entity key appt <- appts
         <tr>
           <td>
             #{fromMaybe "unbooked" $ therapistAppointmentBookedBy appt}
@@ -34,4 +34,4 @@
           <td>
             #{ therapistAppointmentTherapistName appt}
           <td>
-            <button class="btn btn-default"> Contact
+            <a href=@{EditApptR userId key} button class="btn btn-default">Edit

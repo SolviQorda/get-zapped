@@ -204,6 +204,7 @@ instance Yesod App where
     isAuthorized SeeAllUsersR _ = isAuthenticated
     isAuthorized AuthenticateTherapistR _ = isAuthenticated
     isAuthorized (ChangeUserNameR _) _ = isAuthenticated
+    isAuthorized (EditApptR _ _) _ = isAuthenticated
 
     -- This function creates static content files in the static folder
     -- and names them based on a hash of their content. This allows
