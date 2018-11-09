@@ -35,6 +35,9 @@ TherapistAppointment
     bookedBy Text Maybe
     bookedByEmail Text Maybe
     bookedByPronouns Text Maybe
+    apptType Text
+    repeatWeekly Bool
+    forXWeeks Int
     deriving Eq
     deriving Show
 TherapistChoice
@@ -58,5 +61,11 @@ Tier
     deriving Show
 UsernameChange
     new Text
+    deriving Eq
+    deriving Show
+EditAppt
+    start TimeOfDay
+    end TimeOfDay
+    date Day
     deriving Eq
     deriving Show

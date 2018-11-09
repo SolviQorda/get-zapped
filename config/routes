@@ -22,8 +22,9 @@
 
 /therapist/!#UserId MainDashboardR GET POST
 /therapist/!#UserId/dashboard/new/add-appointment AddAppointmentR GET POST
-/therapist/!#UserId/dashboard/new/!#TherapistAppointmentId AppointmentAddedR GET
+/therapist/!#UserId/dashboard/new/appointment-added AppointmentAddedR GET
 /therapist/!#UserId/dashboard/view/view-appointments ViewApptsR GET POST
+/therapist/!#UserId/dashboard/view/edit/!#TherapistAppointmentId EditApptR GET POST
 /therapist/!#UserId/dashboard/view/filter/+FilterChoice FilterApptsR GET POST
 /therapist/!#UserId/dashboard/payment/payment-options SetPaymentOptionsR GET POST
 /therapist/!#UserId/dashboard/gen/generate-my-url GenerateBookingUrlR GET

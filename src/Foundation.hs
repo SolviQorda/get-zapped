@@ -179,9 +179,6 @@ instance Yesod App where
         -> Handler AuthResult
     -- Routes not requiring authentication.
     isAuthorized AboutR _ = return Authorized
-    isAuthorized (AddAppointmentR _) _ = return Authorized
-    isAuthorized AdminAddTherapistR _ = return Authorized
-    isAuthorized (AppointmentAddedR _ _) _ = return Authorized
     isAuthorized (AuthR _) _ = return Authorized
     isAuthorized (BookZapR _)  _ = return Authorized
     isAuthorized (BookingReceivedR _) _ = return Authorized
@@ -199,11 +196,15 @@ instance Yesod App where
 
     -- the profile route requires that the user is authenticated, so we
     -- delegate to that function
+    isAuthorized (AddAppointmentR _) _ = isAuthenticated
+    isAuthorized AdminAddTherapistR _ = isAuthenticated
+    isAuthorized (AppointmentAddedR _ ) _ = isAuthenticated
     isAuthorized UserDashR _ = isAuthenticated
     isAuthorized AdminDashR _ = isAuthenticated
     isAuthorized SeeAllUsersR _ = isAuthenticated
     isAuthorized AuthenticateTherapistR _ = isAuthenticated
     isAuthorized (ChangeUserNameR _) _ = isAuthenticated
+    isAuthorized (EditApptR _ _) _ = isAuthenticated
 
     -- This function creates static content files in the static folder
     -- and names them based on a hash of their content. This allows
@@ -305,108 +306,7 @@ instance YesodAuth App where
         -- Enable authDummy login if enabled.
         -- where extraAuthPlugins = [authDummy | appAuthDummyLogin $ appSettings app]
 
---adapted from this template - https://github.com/yesodweb/yesod/blob/master/demo/auth/email_auth_ses_mailer.hs
-data SesKeys = SesKeys { awsAccessKey :: !Text, awsSecretKey :: !Text }
-
-
-instance FromJSON SesKeys where
-  parseJSON (Object v) =
-    SesKeys <$> v .: "awsAccessKey"
-            <*> v .: "awsSecretKey"
-  parseJSON _ = mzero
---
--- instance YesodAuthEmail App where
---   type AuthEmailId App = UserId
---
---   afterPasswordRoute _ = HomeR
---
---   -- addUnverified :: Yesod.Auth.Email.Email -> VerKey -> AuthHandler App (AuthEmailId App)
---   addUnverified email verkey = do
---     userId <- runDB $ insert $ User email Nothing (Just verkey) False
---     return userId
---   --send verification email with SES credentials located in config/secrets.yaml
---   sendVerifyEmail email _ verurl = do
---     h <- getYesod
---     sesCreds <- liftIO $ getSESCredentials
---
---     liftIO $ renderSendMailSES (getHttpManager h) sesCreds (emptyMail $ Address Nothing "solvi.goard@gmail.com")
---       { mailTo = [Address Nothing email]
---       , mailHeaders =
---         [ ("Subject", "Verify your email address with Get Zapped")
---         ]
---       , mailParts = [[textPart, htmlPart]]
---       }
---     where
---       getSESCredentials :: IO SES
---       getSESCredentials = do
---         key <- getSesAccessKey
---         return SES {
---           sesTo = [(TE.encodeUtf8 email)] ,
---           sesFrom = "solvi.goard@gmail.com" ,
---           sesAccessKey = TE.encodeUtf8 $ awsAccessKey key ,
---           sesSecretKey = TE.encodeUtf8 $ awsSecretKey key ,
---           sesSessionToken = Nothing ,
---           sesRegion = usWest2 }
---       getSesAccessKey :: IO SesKeys
---       getSesAccessKey = do
---         ymlConfig <- C8.readFile "config/secrets.yaml"
---
---         case decode ymlConfig of
---           Nothing -> do C8.putStrLn "Error while parsing secrets.yaml"; SE.exitWith (SE.ExitFailure 1)
---           Just c -> return c
---
---       textPart = Part
---         { partType = "text/plain; charset=utf-8"
---         , partEncoding = None
---         , partFilename = Nothing
---         , partContent = LTE.encodeUtf8 $
---               [stext|
---                   Please confirm your email address with get zapped by clicking the link below.
---
---                   #{verurl}
---
---                   Ta
---               |]
---         , partHeaders = []
---         }
---       htmlPart = Part
---         { partType = "text/html; charset=utf-8"
---         , partEncoding = None
---         , partFilename = Nothing
---         , partContent = renderHtml
---           [shamlet|
---             <p>Please confirm your email address with get zapped by clicking the link below.
---             <p>
---               <a href=#{verurl}>#{verurl}
---             <p>Ta!
---           |]
---         , partHeaders = []
---         }
---   getVerifyKey = runDB . fmap (join . fmap userVerkey) . get
---   setVerifyKey uid key = runDB $ update uid [UserVerkey =. Just key]
---   verifyAccount uid = runDB $ do
---     mu <- get uid
---     case mu of
---       Nothing -> return Nothing
---       Just u -> do
---         update uid [UserVerified =. True]
---         return $ Just uid
---   getPassword = runDB . fmap (join . fmap userPassword) . get
---   setPassword uid pass = runDB $ update uid [UserPassword =. Just pass]
---   getEmailCreds email = runDB $ do
---     mu <- getBy $ UniqueUser email
---     case mu of
---       Nothing -> return Nothing
---       Just (Entity uid u) -> return $ Just EmailCreds
---         { emailCredsId = uid
---         , emailCredsAuthId = Just uid
---         , emailCredsStatus = isJust $ userPassword u
---         , emailCredsVerkey = userVerkey u
---         , emailCredsEmail = email
---         }
---   getEmail = runDB . fmap (fmap userEmail) . get
-
---google
+--oauth
 clientId :: Text
 clientId = "748824943429-rupn56e516o2ipbl0tsh1ik782kd4aaj.apps.googleusercontent.com"
 

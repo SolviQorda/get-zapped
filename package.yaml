@@ -45,7 +45,8 @@ dependencies:
 - case-insensitive
 - wai
 - foreign-store
-- esqueleto
+- markdown
+- esqueleto >= 2.5 && < 2.7
 - markdown
 - mime-mail-ses
 - mime-mail

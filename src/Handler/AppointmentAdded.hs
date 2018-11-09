@@ -5,8 +5,8 @@ module Handler.AppointmentAdded where
 
 import Import
 
-getAppointmentAddedR :: UserId -> TherapistAppointmentId -> Handler Html
-getAppointmentAddedR userId therapistAppointmentId = do
-  therapistAppointment <- runDB $ get404 therapistAppointmentId
+getAppointmentAddedR :: UserId -> Handler Html
+getAppointmentAddedR userId = do
+  user <- runDB $ get404 userId
   defaultLayout $ do
     $(widgetFile "/therapist/dashboard/new/appointment-added")

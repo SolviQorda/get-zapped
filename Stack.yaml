@@ -39,9 +39,9 @@ allow-newer: true
 # using the same syntax as the packages field.
 # (e.g., acme-missiles-0.3)
 extra-deps:
-  - git: https://github.com/bitemyapp/esqueleto.git
-    commit: 08c9b4cdf977d5bcd1baba046a007940c1940758
-  # - esqueleto
+  - esqueleto
+   # git: https://github.com/bitemyapp/esqueleto.git
+  #   commit: 08c9b4cdf977d5bcd1baba046a007940c1940758
 # Override default flag values for local packages and extra-deps
 # flags: {}
 
