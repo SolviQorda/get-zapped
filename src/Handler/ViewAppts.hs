@@ -34,6 +34,7 @@ postViewApptsR userId = do
       redirect $ FilterApptsR userId (filterChoice xs)
     _ ->   defaultLayout $(widgetFile "/therapist/dashboard/view/view-appointments")
 
+--empty list placeholder necessary for multiPath route
 xs :: [Text]
 xs = []
 
