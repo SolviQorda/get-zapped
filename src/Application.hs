@@ -42,7 +42,6 @@ import System.Log.FastLogger                (defaultBufSize, newStdoutLoggerSet,
 -- Don't forget to add new modules to your cabal file!
 import Handler.About
 import Handler.AddZapAppointment
-import Handler.AdminAddTherapist
 import Handler.AppointmentAdded
 import Handler.BookingReceived
 import Handler.BookZap

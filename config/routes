@@ -17,7 +17,7 @@
 /!#UserId/change-my-username ChangeUserNameR GET POST
 
 /new/choose-therapist ChooseTherapistR GET POST
-/new/choose-therapist/book/therapist/#Text BookZapR GET POST
+/new/choose-therapist/book/therapist/!#UserId BookZapR GET POST
 /new/choose-therapist/book/result/!#ZapBookingId BookingReceivedR GET
 
 /therapist/!#UserId MainDashboardR GET POST
@@ -30,7 +30,6 @@
 /therapist/!#UserId/dashboard/payment/payment-options SetPaymentOptionsR GET POST
 /therapist/!#UserId/dashboard/gen/generate-my-url GenerateBookingUrlR GET
 
-/admin/add-therapist AdminAddTherapistR GET POST
 /admin/admin-dashboard AdminDashR GET POST
 /admin/filter/+FilterChoice AdminFilterApptsR GET POST
 /admin/all-users SeeAllUsersR GET POST

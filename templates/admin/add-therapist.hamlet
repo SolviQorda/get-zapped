@@ -1,6 +1,0 @@
-<h1>Add a therapist
-<form method=post action=@{AdminAddTherapistR} enctype=#{enctype}>
-    ^{widget}
-    <button class="btn btn-default"> Add
-<h1>Existing therapists
-  <p>TODO

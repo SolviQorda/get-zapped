@@ -28,14 +28,7 @@ postChooseTherapistR = do
       redirect $ BookZapR $ therapistChoiceTherapist therapistChoice
     _ -> redirect HomeR
 
+therapists :: HandlerFor App (OptionList (Key User))
 therapists = do
  rows <- runDB $ selectList [UserIsTherapist ==. True] [Desc UserId]
- optionsPairs $ Prelude.map (\r->((fromMaybe "no username set" $ userName $ entityVal r), fromMaybe "no username set" $ userName $ entityVal r)) rows
-
--- getTherapists :: (MonadIO m, MonadLogger m)
---               => E.SqlReadT m [Entity TherapistChoice]
--- getTherapists =
---  E.select $
---  E.from $ \t ->
---  E.distinctOn [E.don (t E.^. TherapistChoiceTherapist)] $ do
---  return t
+ optionsPairs $ Prelude.map (\r->((fromMaybe "no username set" $ userName $ entityVal r), entityKey r)) rows

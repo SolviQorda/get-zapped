@@ -199,7 +199,6 @@ instance Yesod App where
     -- the profile route requires that the user is authenticated, so we
     -- delegate to that function
     isAuthorized (AddAppointmentR _) _ = isAuthenticated
-    isAuthorized AdminAddTherapistR _ = isAuthenticated
     isAuthorized AdminDashR _ = isAuthenticated
     isAuthorized (AdminFilterApptsR _ ) _ = isAuthenticated
     isAuthorized (AppointmentAddedR _ ) _ = isAuthenticated
