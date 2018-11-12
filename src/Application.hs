@@ -46,7 +46,6 @@ import Handler.AppointmentAdded
 import Handler.BookingReceived
 import Handler.BookZap
 import Handler.ChooseTherapist
-import Handler.Comment
 import Handler.Common
 import Handler.FilterAppts
 import Handler.Home

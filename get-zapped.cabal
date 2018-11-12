@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 2dd83a782972e2190824614c3a89289263719b8ccac8d69de45a43c264c37170
+-- hash: 3cee416a50c2efee521fa69aedaaa70c2fb3d9d2bcbb76cc6a2910434a4b59f0
 
 name:           get-zapped
 version:        0.0.0
@@ -33,7 +33,6 @@ library
       Handler.BookZap
       Handler.ChangeUserName
       Handler.ChooseTherapist
-      Handler.Comment
       Handler.Common
       Handler.EditAppt
       Handler.FilterAppts
