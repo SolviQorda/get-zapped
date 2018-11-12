@@ -25,6 +25,7 @@ ZapBooking
     userEmail Text
     appointment TherapistAppointmentId
     userPronouns Text Maybe
+    price Tier
     deriving Eq
     deriving Show
 TherapistAppointment
@@ -48,7 +49,7 @@ SubmitConfirmation
     deriving Eq
     deriving Show
 TherapistChoice
-    therapist Text
+    therapist UserId
     deriving Eq
     deriving Show
 UserChoice
@@ -56,7 +57,7 @@ UserChoice
     deriving Eq
     deriving Show
 TherapistPrefs
-    therapist Text
+    therapist UserId
     paymentOps [Text]
     tiers [Tier]
     deriving Eq

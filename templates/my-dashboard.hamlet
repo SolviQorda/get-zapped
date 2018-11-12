@@ -1,5 +1,5 @@
 <h1>My Dashboard
-<p>Hiya, #{userEmail user}
+<p>Hiya, #{fromMaybe (userEmail user) $ userName user}
 <div .container>
   <div .row>
     <a href=@{ChangeUserNameR authId} .btn.btn-info.btn-lg>Change my Username

@@ -11,22 +11,21 @@ import Yesod.Form.Bootstrap3
 getSetPaymentOptionsR :: UserId -> Handler Html
 getSetPaymentOptionsR userId = do
   user <- runDB $ get404 userId
-  (widget, enctype) <- generateFormPost $ renderBootstrap3 BootstrapBasicForm $ paymentForm user
+  (widget, enctype) <- generateFormPost $ renderBootstrap3 BootstrapBasicForm $ paymentForm userId
   defaultLayout $ do
     $(widgetFile"/therapist/dashboard/payment/payment-options")
 
-paymentForm :: User -> AForm Handler TherapistPrefs
-paymentForm user = TherapistPrefs
+paymentForm :: UserId -> AForm Handler TherapistPrefs
+paymentForm userId = TherapistPrefs
   --TODO: find a way for this to autofill
-  <$> pure email
+  <$> pure userId
   <*> areq (multiSelectFieldList paymentOptions) "Your payment options " Nothing
   <*> areq (multiSelectFieldList basicTiers) "Your tiers " Nothing
-    where email = userEmail user
 
 postSetPaymentOptionsR :: UserId -> Handler Html
 postSetPaymentOptionsR userId = do
   user <- runDB $ get404 userId
-  ((res, widget), enctype) <- runFormPost $ renderBootstrap3 BootstrapBasicForm $ paymentForm user
+  ((res, widget), enctype) <- runFormPost $ renderBootstrap3 BootstrapBasicForm $ paymentForm userId
   case res of
     FormSuccess therapistPrefs ->do
       _ <- runDB $ insert therapistPrefs
