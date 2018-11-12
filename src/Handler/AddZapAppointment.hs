@@ -19,6 +19,7 @@ addAppointmentForm user = TherapistAppointment
                   <*> areq (selectFieldList apptOpts) "Appointment type" Nothing
                   <*> areq checkBoxField "Repeat Weekly?" Nothing
                   <*> areq intField "For How Many Weeks?" (Just 0)
+                  <*> pure Nothing
                     where name = fromMaybe "no username set"$  userName user
 
 getAddAppointmentR :: UserId -> Handler Html

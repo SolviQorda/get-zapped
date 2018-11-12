@@ -1,0 +1,22 @@
+<h1>Confirm appointment
+<div .container>
+  <div .row>
+    <table .table>
+      <tr>
+        <th>
+          Appt time
+        <th>
+          Date
+        <th>
+          Booked By
+      <tr>
+        <th>
+          #{show $ therapistAppointmentTimeStart appt} to #{show $ therapistAppointmentTimeEnd appt}
+        <th>
+          #{show $ therapistAppointmentDate appt}
+        <th>
+          #{fromMaybe "unbooked" $ therapistAppointmentBookedBy appt}
+
+<form method=post action=@{TherapistConfirmApptR userId apptId} enctype=#{enctype}>
+    ^{widget}
+    <button class="btn btn-default">Save Appointment Status

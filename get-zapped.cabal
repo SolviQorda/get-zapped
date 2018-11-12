@@ -45,6 +45,7 @@ library
       Handler.ViewAppts
       Handler.AdminFilterAppts
       Handler.EditAppt
+      Handler.TherapistConfirmAppt
       Import
       Import.NoFoundation
       Model

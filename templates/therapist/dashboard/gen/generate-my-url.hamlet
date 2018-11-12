@@ -1,2 +1,2 @@
 <h1> Your booking url is:
-  <h4>localhost:3000/zaps/new/choose-therapist/book/therapist/#{fromMaybe "no username set" $ userName user}
+  <h4>localhost:3000/new/choose-therapist/book/therapist/#{fromMaybe "no username set" $ userName user}
