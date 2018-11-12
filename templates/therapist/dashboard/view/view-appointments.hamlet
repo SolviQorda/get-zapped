@@ -35,3 +35,5 @@
             #{ therapistAppointmentTherapistName appt}
           <td>
             <a href=@{EditApptR userId (key)} button class="btn btn-default">Edit
+            <br>
+            <a href=@{TherapistConfirmApptR userId (key)} button class=#{confirmBtnAppearance $ therapistAppointmentBookedBy appt}>#{confirmBtnText (therapistAppointmentConfirmed appt) (therapistAppointmentBookedBy appt)}

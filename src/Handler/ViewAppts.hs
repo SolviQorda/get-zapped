@@ -73,3 +73,16 @@ getDates =
   E.from $ \t ->
   E.distinctOn [E.don (t E.^. TherapistAppointmentDate)] $ do
   return t
+
+confirmBtnText :: Maybe Bool -> Maybe Text -> Text
+confirmBtnText confirm booked
+  | confirm == Nothing && (booked /= Nothing) = "Confirm"
+  | confirm == Nothing = "      "
+  | confirm == Just True = "Cancel"
+  | otherwise = "      "
+
+-- want to change CSS dependent on whether the user has booked the appt
+confirmBtnAppearance :: Maybe Text -> Text
+confirmBtnAppearance booked
+  | booked == Nothing = "btn btn-unbooked"
+  | otherwise         = "btn btn-default"

@@ -193,6 +193,8 @@ instance Yesod App where
     isAuthorized (StaticR _) _ = return Authorized
     isAuthorized (ViewApptsR _) _ = return Authorized
     isAuthorized (GenerateBookingUrlR _) _ = return Authorized
+    isAuthorized (TherapistConfirmApptR _ _) _ = return Authorized
+
 
     -- the profile route requires that the user is authenticated, so we
     -- delegate to that function
@@ -206,6 +208,7 @@ instance Yesod App where
     isAuthorized (EditApptR _ _) _ = isAuthenticated
     isAuthorized SeeAllUsersR _ = isAuthenticated
     isAuthorized UserDashR _ = isAuthenticated
+    isAuthorized (TherapistConfirmApptR _ _) _ = isAuthenticated
 
     -- This function creates static content files in the static folder
     -- and names them based on a hash of their content. This allows

@@ -38,6 +38,13 @@ TherapistAppointment
     apptType Text
     repeatWeekly Bool
     forXWeeks Int
+    confirmed Bool Maybe
+    deriving Eq
+    deriving Show
+SubmitConfirmation
+    confirmOrReject Bool
+    msg Text Maybe
+    appt TherapistAppointmentId
     deriving Eq
     deriving Show
 TherapistChoice

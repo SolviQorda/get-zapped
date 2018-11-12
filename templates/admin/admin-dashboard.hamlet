@@ -2,6 +2,7 @@
 <div .container>
   <div .row>
     <a href=@{AuthenticateTherapistR} .btn.btn-info.btn-lg>Authenticate Therapist
+    <br>
     <a href=@{SeeAllUsersR} .btn.btn-info.btn-lg>See all users
 
 <h1>All Appointments
