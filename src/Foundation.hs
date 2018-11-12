@@ -183,7 +183,6 @@ instance Yesod App where
     isAuthorized (BookZapR _)  _ = return Authorized
     isAuthorized (BookingReceivedR _) _ = return Authorized
     isAuthorized ChooseTherapistR _ = return Authorized
-    isAuthorized CommentR _ = return Authorized
     isAuthorized FaviconR _ = return Authorized
     isAuthorized (MainDashboardR _) _ = return Authorized
     isAuthorized HomeR _ = return Authorized
@@ -255,7 +254,27 @@ instance YesodBreadcrumbs App where
         -> Handler (Text, Maybe (Route App))
     breadcrumb HomeR = return ("Home", Nothing)
     breadcrumb (AuthR _) = return ("Login", Just HomeR)
+    --user
     breadcrumb UserDashR = return ("My Dashboard", Just HomeR)
+    breadcrumb (ChangeUserNameR _) = return ("Change Username", Just UserDashR)
+    --booking
+    breadcrumb ChooseTherapistR = return ("Choose Therapist", Just HomeR)
+    breadcrumb (BookZapR _) = return ("Book a Zap", Just ChooseTherapistR)
+    breadcrumb (BookingReceivedR _) = return ("Booking Received", Just HomeR)
+    --therapist
+    breadcrumb (MainDashboardR _) = return ("Therapist Dashboard", Just HomeR)
+    breadcrumb (AppointmentAddedR userId) = return ("Appointment Added", Just (MainDashboardR userId))
+    breadcrumb (ViewApptsR userId) = return ("View Appointments", Just (MainDashboardR userId))
+    breadcrumb (EditApptR userId _) = return ("Edit Appointment", Just (ViewApptsR userId))
+    breadcrumb (FilterApptsR userId _) = return ("Filter Appointments", Just (MainDashboardR userId))
+    breadcrumb (TherapistConfirmApptR userId _) = return ("Confirm Appointment", Just (MainDashboardR userId))
+    breadcrumb (SetPaymentOptionsR userId) = return ("Set Payment Options", Just (MainDashboardR userId))
+    breadcrumb (GenerateBookingUrlR userId) = return ("Generate Booking URL", Just (MainDashboardR userId))
+    --admin
+    breadcrumb AdminDashR = return ("Admin Dashboard", Just HomeR)
+    breadcrumb (AdminFilterApptsR _) = return ("Filter Appointments", Just AdminDashR)
+    breadcrumb SeeAllUsersR = return ("See All Users", Just AdminDashR)
+    breadcrumb AuthenticateTherapistR = return ("Authenticate Therapist", Just AdminDashR)
     breadcrumb  _ = return ("home", Nothing)
 
 -- How to run database actions.
