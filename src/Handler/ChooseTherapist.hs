@@ -28,7 +28,7 @@ postChooseTherapistR = do
       redirect $ BookZapR $ therapistChoiceTherapist therapistChoice
     _ -> redirect HomeR
 
-therapists :: HandlerFor App (OptionList (Key User))
+therapists :: HandlerFor App (OptionList Text)
 therapists = do
  rows <- runDB $ selectList [UserIsTherapist ==. True] [Desc UserId]
- optionsPairs $ Prelude.map (\r->((fromMaybe "no username set" $ userName $ entityVal r), entityKey r)) rows
+ optionsPairs $ Prelude.map (\r->((fromMaybe "no username set" $ userName $ entityVal r), fromMaybe "no username set" $ userName $ entityVal r)) rows
