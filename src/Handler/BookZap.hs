@@ -26,6 +26,7 @@ appointments userId = do
   rows <- runDB $ selectList [TherapistAppointmentBookedBy ==. Nothing, TherapistAppointmentTherapistName ==. (fromMaybe "no username set" $ userName therapist)] [Asc TherapistAppointmentDate]
   optionsPairs $ Prelude.map (\r -> ((parseAppt $ entityVal $ r), entityKey r )) rows
 
+--parse the appointment so that it's easier to read.
 parseAppt :: TherapistAppointment -> Text
 parseAppt app = T.concat
       [ T.pack $ show $ therapistAppointmentDate app
@@ -53,6 +54,7 @@ postBookZapR userId = do
       redirect $ BookingReceivedR zapBookingId
     _ -> defaultLayout $(widgetFile "/new/book/new-zap")
 
+--get payment options
 payOps :: UserId -> HandlerFor App (OptionList Tier)
 payOps userId = do
   prefs <- runDB $ selectList [TherapistPrefsTherapist ==. userId] [Desc TherapistPrefsTherapist]
@@ -60,6 +62,7 @@ payOps userId = do
       $ Prelude.map
         (\r -> ((parseTier $ r), r)) (parsePrefs prefs)
 
+--parse the tier as legible text
 parseTier :: Tier -> Text
 parseTier tier = T.concat
         [ tierDescription tier
@@ -68,6 +71,8 @@ parseTier tier = T.concat
         , pack $ "/h"
         ]
 
+--no duplicates should exist as the update is always on UUID
+--TODO: Handle the possibility of no prefs set.
 parsePrefs :: [Entity TherapistPrefs] -> [Tier]
 parsePrefs prefs = therapistPrefsTiers (entityVal $ pref)
   where pref = Prelude.head prefs

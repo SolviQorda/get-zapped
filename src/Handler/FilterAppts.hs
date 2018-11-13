@@ -87,7 +87,6 @@ dates = do
   optionsPairs $ Prelude.map (\r->(fDate $ entityVal r, fDate $ entityVal r)) rows
 
 --parse the date for rendering
---TODO - put this back into dates
 fDate :: TherapistAppointment -> Text
 fDate app = pack $ show $ therapistAppointmentDate app
 
@@ -100,6 +99,7 @@ getDates =
   E.distinctOn [E.don (t E.^. TherapistAppointmentDate)] $ do
   return t
 
+--change button text dependent on status
 confirmBtnText :: Maybe Bool -> Maybe Text -> Text
 confirmBtnText confirm booked
   | confirm == Nothing && (booked /= Nothing) = "Confirm"
