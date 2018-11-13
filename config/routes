@@ -15,7 +15,7 @@
 /!#UserId/change-my-username ChangeUserNameR GET POST
 
 /new/choose-therapist ChooseTherapistR GET POST
-/new/choose-therapist/book/therapist/!#UserId BookZapR GET POST
+/new/choose-therapist/book/therapist/#Text BookZapR GET POST
 /new/choose-therapist/book/result/!#ZapBookingId BookingReceivedR GET
 
 /therapist/!#UserId MainDashboardR GET POST

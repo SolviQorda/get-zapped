@@ -9,8 +9,8 @@ import Data.Time.Calendar
 
 --add an appointment to the database
 --fields that don't need to be set are prefilled with pure.
-addAppointmentForm :: User -> AForm Handler TherapistAppointment
-addAppointmentForm user = TherapistAppointment
+addAppointmentForm :: User -> UserId -> AForm Handler TherapistAppointment
+addAppointmentForm user userId = TherapistAppointment
                   <$> areq dayField  "Date" Nothing
                   <*> areq timeField "Start Time" Nothing
                   <*> areq timeField "End Time" Nothing
@@ -22,19 +22,20 @@ addAppointmentForm user = TherapistAppointment
                   <*> areq checkBoxField "Repeat Weekly?" Nothing
                   <*> areq intField "For How Many Weeks?" (Just 0)
                   <*> pure Nothing
+                  <*> pure userId
                     where name = fromMaybe "no username set"$  userName user
 
 getAddAppointmentR :: UserId -> Handler Html
 getAddAppointmentR userId = do
   therapist <- runDB $ get404 $ userId
-  (widget, enctype) <- generateFormPost $ renderBootstrap3 BootstrapBasicForm $ addAppointmentForm therapist
+  (widget, enctype) <- generateFormPost $ renderBootstrap3 BootstrapBasicForm $ addAppointmentForm therapist userId
   defaultLayout $ do
     $(widgetFile "/therapist/dashboard/new/add-appointment")
 
 postAddAppointmentR :: UserId -> Handler Html
 postAddAppointmentR userId = do
   therapist <- runDB $ get404 $ userId
-  ((res, widget), enctype) <- runFormPost $ renderBootstrap3 BootstrapBasicForm $ addAppointmentForm therapist
+  ((res, widget), enctype) <- runFormPost $ renderBootstrap3 BootstrapBasicForm $ addAppointmentForm therapist userId
   case res of
     FormSuccess therapistAppointment -> do
       appts <- runDB $ insertMany $ handleRepeats therapistAppointment
