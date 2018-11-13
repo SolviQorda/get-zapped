@@ -7,6 +7,8 @@ import Import
 import Yesod.Form.Bootstrap3
 import Data.Time.Calendar
 
+--add an appointment to the database
+--fields that don't need to be set are prefilled with pure.
 addAppointmentForm :: User -> AForm Handler TherapistAppointment
 addAppointmentForm user = TherapistAppointment
                   <$> areq dayField  "Date" Nothing
@@ -59,6 +61,7 @@ handleRepeats appt
 getIntervals :: Int -> [Integer]
 getIntervals i = Prelude.map Prelude.fromIntegral [1..i]
 
+--repeat the appointment every week for x weeks
 getRepeatAppointments :: TherapistAppointment -> Integer -> TherapistAppointment
 getRepeatAppointments appt interval = appt
     { therapistAppointmentDate = addDays (interval * 7) (therapistAppointmentDate appt)

@@ -74,6 +74,7 @@ getDates =
   E.distinctOn [E.don (t E.^. TherapistAppointmentDate)] $ do
   return t
 
+--button text dependent on whether booking has been confirmed
 confirmBtnText :: Maybe Bool -> Maybe Text -> Text
 confirmBtnText confirm booked
   | confirm == Nothing && (booked /= Nothing) = "Confirm"

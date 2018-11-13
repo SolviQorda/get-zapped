@@ -60,10 +60,11 @@ dates = do
  rows <- runDB getDates
  optionsPairs $ Prelude.map (\r->((fDate $ entityVal r), fDate $ entityVal r)) rows
 
---TODO - put this back into dates
+--get the date as Text
 fDate :: TherapistAppointment -> Text
 fDate app = pack $ show $ therapistAppointmentDate app
 
+--all distinct dates
 getDates :: (MonadIO m, MonadLogger m)
        => E.SqlReadT m [Entity TherapistAppointment]
 getDates =

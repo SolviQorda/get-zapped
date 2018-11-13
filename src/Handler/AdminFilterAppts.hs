@@ -34,6 +34,7 @@ postAdminFilterApptsR filterChoice = do
     _ -> defaultLayout $ do
       $(widgetFile "/admin/filter/admin-filter-appts")
 
+--pattern matching for the FilterChoice Path
 handleQueries :: (PersistQueryRead (YesodPersistBackend site)
                  , YesodPersist site
                  , BaseBackend (YesodPersistBackend site) ~ SqlBackend)
@@ -85,8 +86,7 @@ dates = do
   rows <- runDB getDates
   optionsPairs $ Prelude.map (\r->(fDate $ entityVal r, fDate $ entityVal r)) rows
 
---parse the date for rendering
---TODO - put this back into dates
+--get the date as Text
 fDate :: TherapistAppointment -> Text
 fDate app = pack $ show $ therapistAppointmentDate app
 
