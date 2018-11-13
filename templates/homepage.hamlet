@@ -33,12 +33,22 @@
                         <li .list-group-item>
                             "It hurts. So much. Why do I have to pay for this again?
                     <h2> Our therapists
-                    <ul .list-group>
-
-                        <li .list-group-item>
-                            Electrolysis by Siobhan
-
-                        <li .list-group-item>
-                            Tortoise Beats Hair
+                    <div .container>
+                      <div .row>
+                        <table .table>
+                          <tr>
+                            <th>
+                              <a href="https://www.electrolysisbysiobhan.co.uk/">
+                                <img src=@{StaticR img_siobhan_jpg} alt="Electrolysis by Siobhan" height="150" width="150">
+                            <th>
+                              <a href="https://www.tortoisebeatshair.com/">
+                                <img src=@{StaticR img_tortoise_png} alt="Tortoise Beats Hair" height="150" width="150">
+                          <tr>
+                            <th>
+                              <a href="https://www.electrolysisbysiobhan.co.uk/">
+                                Electrolysis By Siobhan
+                            <th>
+                              <a href="https://www.tortoisebeatshair.com/">
+                                Tortoise Beats Hair
 
     <hr>
