@@ -19,3 +19,4 @@ script:
   - stack update
   - stack init
   - stack build
+  - stack test

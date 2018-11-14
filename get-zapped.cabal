@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 3cee416a50c2efee521fa69aedaaa70c2fb3d9d2bcbb76cc6a2910434a4b59f0
+-- hash: 2c62fc896df3c9d6c5dbff7a3207def6c450d3035b074c76dba9f6d928a9e499
 
 name:           get-zapped
 version:        0.0.0
@@ -42,6 +42,7 @@ library
       Handler.SeeAllUsers
       Handler.SetPaymentOptions
       Handler.TherapistConfirmAppt
+      Handler.TriggerEmail
       Handler.UserDash
       Handler.ViewAppts
       Import
@@ -192,6 +193,7 @@ test-suite get-zapped-test
       Handler.SlotAddedSpec
       Handler.TherapistConfirmApptSpec
       Handler.TherapistDashboardSpec
+      Handler.TriggerEmailSpec
       Handler.UserDashSpec
       TestImport
       Paths_get_zapped
