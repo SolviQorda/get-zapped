@@ -7,6 +7,8 @@ module Handler.AuthenticateTherapist where
 import Import
 import Yesod.Form.Bootstrap3
 
+--upgrade a user to a therapist.
+
 getAuthenticateTherapistR :: Handler Html
 getAuthenticateTherapistR = do
   (widget, enctype) <- generateFormPost $ renderBootstrap3 BootstrapBasicForm $ selectUserForm
@@ -18,7 +20,7 @@ selectUserForm :: AForm Handler UserChoice
 selectUserForm = UserChoice
         <$> areq (selectField $ userEmails) "" Nothing
 
--- userEmails :: HandlerFor App (OptionList (Key User))
+userEmails :: HandlerFor App (OptionList Text)
 userEmails = do
   users <- runDB $ selectList [UserIsTherapist ==. False] [Desc UserEmail]
   optionsPairs $ Prelude.map (\r -> ((userEmail $ entityVal r), userEmail $ entityVal r)) users

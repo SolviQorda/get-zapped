@@ -40,6 +40,7 @@ TherapistAppointment
     repeatWeekly Bool
     forXWeeks Int
     confirmed Bool Maybe
+    therapistId UserId
     deriving Eq
     deriving Show
 SubmitConfirmation
@@ -49,7 +50,7 @@ SubmitConfirmation
     deriving Eq
     deriving Show
 TherapistChoice
-    therapist UserId
+    therapist Text
     deriving Eq
     deriving Show
 UserChoice

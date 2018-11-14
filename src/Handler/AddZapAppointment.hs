@@ -7,8 +7,10 @@ import Import
 import Yesod.Form.Bootstrap3
 import Data.Time.Calendar
 
-addAppointmentForm :: User -> AForm Handler TherapistAppointment
-addAppointmentForm user = TherapistAppointment
+--add an appointment to the database
+--fields that don't need to be set are prefilled with pure.
+addAppointmentForm :: User -> UserId -> AForm Handler TherapistAppointment
+addAppointmentForm user userId = TherapistAppointment
                   <$> areq dayField  "Date" Nothing
                   <*> areq timeField "Start Time" Nothing
                   <*> areq timeField "End Time" Nothing
@@ -20,19 +22,20 @@ addAppointmentForm user = TherapistAppointment
                   <*> areq checkBoxField "Repeat Weekly?" Nothing
                   <*> areq intField "For How Many Weeks?" (Just 0)
                   <*> pure Nothing
+                  <*> pure userId
                     where name = fromMaybe "no username set"$  userName user
 
 getAddAppointmentR :: UserId -> Handler Html
 getAddAppointmentR userId = do
   therapist <- runDB $ get404 $ userId
-  (widget, enctype) <- generateFormPost $ renderBootstrap3 BootstrapBasicForm $ addAppointmentForm therapist
+  (widget, enctype) <- generateFormPost $ renderBootstrap3 BootstrapBasicForm $ addAppointmentForm therapist userId
   defaultLayout $ do
     $(widgetFile "/therapist/dashboard/new/add-appointment")
 
 postAddAppointmentR :: UserId -> Handler Html
 postAddAppointmentR userId = do
   therapist <- runDB $ get404 $ userId
-  ((res, widget), enctype) <- runFormPost $ renderBootstrap3 BootstrapBasicForm $ addAppointmentForm therapist
+  ((res, widget), enctype) <- runFormPost $ renderBootstrap3 BootstrapBasicForm $ addAppointmentForm therapist userId
   case res of
     FormSuccess therapistAppointment -> do
       appts <- runDB $ insertMany $ handleRepeats therapistAppointment
@@ -59,6 +62,7 @@ handleRepeats appt
 getIntervals :: Int -> [Integer]
 getIntervals i = Prelude.map Prelude.fromIntegral [1..i]
 
+--repeat the appointment every week for x weeks
 getRepeatAppointments :: TherapistAppointment -> Integer -> TherapistAppointment
 getRepeatAppointments appt interval = appt
     { therapistAppointmentDate = addDays (interval * 7) (therapistAppointmentDate appt)
