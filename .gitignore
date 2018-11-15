@@ -2,6 +2,7 @@ dist*
 static/tmp/
 static/combined/
 config/client_session_key.aes
+config/secrets.yaml
 *.hi
 *.o
 *.sqlite3
@@ -19,4 +20,3 @@ cabal.sandbox.config
 *.keter
 *~
 \#*
-get-zapped.cabal
