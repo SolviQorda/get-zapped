@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 2c62fc896df3c9d6c5dbff7a3207def6c450d3035b074c76dba9f6d928a9e499
+-- hash: a8a0b6ed2de0330442b72414f64b6a396dd1d1b891f6c0a2de1c9bfbdf9d4976
 
 name:           get-zapped
 version:        0.0.0
@@ -43,6 +43,7 @@ library
       Handler.SetPaymentOptions
       Handler.TherapistConfirmAppt
       Handler.TriggerEmail
+      Handler.TriggerEmailToTherapist
       Handler.UserDash
       Handler.ViewAppts
       Import

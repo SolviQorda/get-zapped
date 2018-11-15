@@ -4,5 +4,5 @@
 <div .container>
     <div .row>
         <h2>Your booking number is - #{fromSqlKey $ zapBookingId}
-
+        <p>Check your inbox for your confirmation email (note: it may be in spam)
         <p>Your therapist will confirm their receipt of your booking soon!
