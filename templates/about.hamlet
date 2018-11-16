@@ -1,2 +1,35 @@
-<h1>Get zapped!
-  <p> Get zapped is a platform for trans people to get electrolysis from accredited therapists.
+<h3>What is Get Zapped about?
+<p>Hair removal, especially electrolysis, costs a lot. It's also incredibly important for many trans people. In 2017 a group of trans organisers in Manchester responded to the massive community need for affordable electrolysis by crowdfunding clinics and training therapists. They worked to achieve a pay-as-you-can-afford service, delivered by people who understood the needs of trans people.
+<br>
+<p>Existing booking systems are often expensive, and aren't designed for the lived experience of trans people. So we wanted to build our own system from the base up. We knew that we could provide a more meaningful, equitable service by acting co-operatively - so we extended that approach to our web app.
+<br>
+<p>Our vision is to develop a
+  <a href="https://platform.coop/about"> platform co-operative </a>for electrolysis therapists. Workers co-ops and housing co-ops provided a significant portion of the funding for the electrolysis project to happen. That said, the nature of clinical work, especially when it is widely distributed geographically, makes it harder to start as co-operative businesses. Having a platform co-op, that is owned by the therapists, allows for co-operation and mutual benefit between them.
+<br>
+<p>We are currently in the beta stages of the project. We hope that once Get Zapped is established we can start to reach out to therapists outside of Manchester.
+<br>
+<h4>To find out more about the electrolysis therapists:
+<ul .list-group>
+
+    <li .list-group-item>
+      <a href="https://broadly.vice.com/en_us/article/ev7a7m/permanent-hair-removal-for-trans-women">
+        Read this interview with Siobhan in Vice
+    <li .list-group-item>
+      <a href="https://www.tortoisebeatshair.com/">
+        Tortoise Beats Hair
+    <li .list-group-item>
+      <a href="https://www.electrolysisbysiobhan.co.uk">
+        Electrolysis by Siobhan
+
+<h3>Why "Zaps"?
+<p>We all got so tired of saying electrolysis that we adopted 'zap' as a shorthand. Plus it sounds cooler.
+<br>
+<h3>How can I support the project?
+<p>Please share the project, especially with trans people who need to access these kind of services.
+<p>Even if people are too far away to access these services right now, it's really important for people to see that it can be done!
+<br>
+<p>If you're interested in contributing to the technical side of the platform, please do get in touch.
+
+<a href="https://www.github.com/SolviQorda/get-zapped">
+  You can find the GitHub repo here
+<p>We need support with all aspects of the site - if you're interested, or want to learn more, just get in touch.
