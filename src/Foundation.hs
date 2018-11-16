@@ -31,7 +31,6 @@ import qualified Database.Esqueleto as E
 import qualified Data.Text.Encoding as TE
 import qualified Data.Text.Lazy.Encoding as LTE
 
-
 -- Used only when in "auth-dummy-login" setting is enabled.
 import Yesod.Auth.Dummy
 
@@ -196,9 +195,6 @@ instance Yesod App where
     isAuthorized (GenerateBookingUrlR _) _ = return Authorized
     isAuthorized (TherapistConfirmApptR _ _) _ = return Authorized
 
-
-    -- the profile route requires that the user is authenticated, so we
-    -- delegate to that function
     isAuthorized (AddAppointmentR _) _ = isAuthenticated
     isAuthorized AdminDashR _ = isAuthenticated
     isAuthorized (AdminFilterApptsR _ ) _ = isAuthenticated
@@ -256,6 +252,7 @@ instance YesodBreadcrumbs App where
         -> Handler (Text, Maybe (Route App))
     breadcrumb HomeR = return ("Home", Nothing)
     breadcrumb (AuthR _) = return ("Login", Just HomeR)
+    breadcrumb AboutR = return ("About", Just HomeR)
     --user
     breadcrumb UserDashR = return ("My Dashboard", Just HomeR)
     breadcrumb (ChangeUserNameR _) = return ("Change Username", Just UserDashR)
@@ -332,11 +329,18 @@ instance YesodAuth App where
 
 --adapted from this template - https://github.com/yesodweb/yesod/blob/master/demo/auth/email_auth_ses_mailer.hs
 data SesKeys = SesKeys { awsAccessKey :: !Text, awsSecretKey :: !Text }
+data GoogleKeys = GoogleKeys {googleClientId :: !Text, googleSecretKey :: !Text}
 
 instance FromJSON SesKeys where
   parseJSON (Object v) =
     SesKeys <$> v .: "awsAccessKey"
             <*> v .: "awsSecretKey"
+  parseJSON _ = mzero
+
+instance FromJSON GoogleKeys where
+  parseJSON (Object v) =
+    GoogleKeys <$> v .: "googleClientId"
+               <*> v .: "googleSecretKey"
   parseJSON _ = mzero
 
 instance YesodAuthEmail App where
@@ -429,7 +433,6 @@ instance YesodAuthEmail App where
         , emailCredsEmail = email
         }
   getEmail = liftHandler . runDB . fmap (fmap userEmail) . get
-
 
 --oauth
 clientId :: Text

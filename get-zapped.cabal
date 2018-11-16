@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: aa7907c75600209abeac2545d99cf2bc617ec8d85f73bb60de44ec285c3962b5
+-- hash: d8619c93fb1467459c310741bdc5d824a1ec1dadb7c22937a9f8d699f57ac982
 
 name:           get-zapped
 version:        0.0.0
@@ -178,7 +178,6 @@ test-suite get-zapped-test
       Handler.ChooseTherapistSpec
       Handler.CommentSpec
       Handler.CommonSpec
-      Handler.DummyTherapistLoginSpec
       Handler.EditApptSpec
       Handler.GenerateBookingUrlSpec
       Handler.HomeSpec
