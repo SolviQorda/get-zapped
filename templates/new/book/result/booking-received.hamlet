@@ -3,6 +3,6 @@
 
 <div .container>
     <div .row>
-        <h2>Your booking number is - #{fromSqlKey $ zapBookingId}
-        <p>Check your inbox for your confirmation email (note: it may be in spam)
+        <h2>Your booking id is - #{fromSqlKey $ zapBookingId}
         <p>Your therapist will confirm their receipt of your booking soon!
+        <p>Check your inbox for your confirmation email (note: it may be in spam)

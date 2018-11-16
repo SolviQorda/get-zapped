@@ -11,7 +11,7 @@ import Import
 getUserDashR :: Handler Html
 getUserDashR = do
   (authId, user) <- requireAuthPair
-  appts <- runDB $ selectList [TherapistAppointmentBookedByEmail ==. (Just $ userEmail user)] [Desc TherapistAppointmentDate]
+  appts <- runDB $ selectList [TherapistAppointmentBookedByEmail ==. (Just $ userEmail user)] [Asc TherapistAppointmentDate]
   case (userIsTherapist user) of
     True -> do
       -- error (show $ userId user)
