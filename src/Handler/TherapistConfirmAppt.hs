@@ -65,8 +65,8 @@ triggerEmailToUser appt submitConf = do
       return SES
         { sesFrom = "getzapped@protonmail.com"
         , sesTo = [(TE.encodeUtf8 (fromMaybe "error:no email" $ therapistAppointmentBookedByEmail appt))]
-        , sesAccessKey = TE.encodeUtf8 $ awsAccessKey
-        , sesSecretKey = TE.encodeUtf8 $ awsSecretKey
+        , sesAccessKey = TE.encodeUtf8 $ awsAccessKey key
+        , sesSecretKey = TE.encodeUtf8 $ awsSecretKey key
         , sesSessionToken = Nothing
         , sesRegion = usEast1
         }
@@ -75,7 +75,7 @@ triggerEmailToUser appt submitConf = do
       ymlConfig <- C8.readFile "config/secrets.yaml"
 
       case decode ymlConfig of
-        Nothing -> do C8.putStrLn "Error while parsing secrets.yaml"; SE.exitWith (SE ExitFailure 1)
+        Nothing -> do C8.putStrLn "Error while parsing secrets.yaml"; SE.exitWith (SE.ExitFailure 1)
         Just c -> return c
 
     textPart = Part
@@ -86,42 +86,59 @@ triggerEmailToUser appt submitConf = do
           [stext|
             Hey #{name},
 
+            #{confirmedOrNot}
+
             #{body}
 
             Thank you!
 
-            Solvi @ Get Zapped
+            The admin team @ Get Zapped
           |]
       , partHeaders = []
       }
     htmlPart = Part
       { partType = "text/html; charset=utf-8"
-      , }
-      name :: Text
-      name = fromMaybe "!" $ therapistAppointmentBookedBy appt
+      , partEncoding = None
+      , partFilename = Nothing
+      , partContent = renderHtml
+        [shamlet|
+          <p>Hey #{name},
+          <p>
+          <p>#{body}
+          <p>
+          <p>Thank you!
+          <p>
+          <p>The admin team @ Get Zapped
+        |]
+      , partHeaders = []
+      }
+    name :: Text
+    name = fromMaybe "!" $ therapistAppointmentBookedBy appt
 
-      body :: Text
-      body
-        | submitConfirmationConfirmOrReject submitConf =
-          T.concat
-            [ T.pack "Your therapist has confirmed your appointment! "
-            , (if (submitConfirmationMsg == Nothing = T.pack " ")
-               else T.concat ["\nNote from Therapist: \n", fromMaybe (T.pack " ") $ submitConfirmationMsg)
-        | otherwise                                    =
-          T.concat
-            [ T.pack "Your therapist has rejected your booking. "
-            , (if (submitConfirmationMsg == Nothing = T.pack " ")
-               else T.concat ["\nNote from Therapist: \n", fromMaybe (T.pack " ") $ submitConfirmationMsg)
+    confirmedOrNot :: Text
+    confirmedOrNot = statusText $ submitConfirmationConfirmOrReject submitConf
 
-handleConfirmationText :: Bool -> Text
-handleConfirmationText confirm
-  | confirm =
+    body :: Text
+    body
+      | submitConfirmationConfirmOrReject submitConf = confirmBody $ submitConfirmationMsg submitConf
+      | otherwise                                    = rejectBody  $ submitConfirmationMsg submitConf
 
 handleSubject :: SubmitConfirmation -> Text
 handleSubject conf
-  | submitConfirmationConfirmOrReject = "Your appointment has been confirmed!"
-  | otherwise                         = "Sorry, your booking has been rejected."
+  | submitConfirmationConfirmOrReject conf = "Your appointment has been confirmed!"
+  | otherwise                              = "Sorry, your booking has been rejected."
 
-confirmParts :: SubmitConfirmation -> []
+statusText :: Bool -> Text
+statusText confirmed
+  | confirmed = T.pack "Your therapist has confirmed your appointment! "
+  | otherwise = T.pack "Your therapist has rejected your booking. "
 
-rejectParts :: SubmitConfirmation ->
+confirmBody :: Maybe Text -> Text
+confirmBody msg
+  | isNothing msg  =            T.pack " "
+  | otherwise      = T.concat [ T.pack "Note from Therapist: ", fromMaybe (T.pack " ") msg]
+
+rejectBody :: Maybe Text -> Text
+rejectBody msg
+  | isNothing msg  =            T.pack " "
+  | otherwise      = T.concat [ T.pack "Note from Therapist: ", fromMaybe (T.pack " ") msg]
