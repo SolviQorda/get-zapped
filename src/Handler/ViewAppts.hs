@@ -20,14 +20,14 @@ getViewApptsR :: UserId -> Handler Html
 --TODO:default to chosen therapist with filter
 getViewApptsR userId = do
   (widget, enctype) <- generateFormPost $ renderBootstrap3 BootstrapBasicForm filterByForm
-  appts <- runDB $ selectList [] [Desc TherapistAppointmentDate]
+  appts <- runDB $ selectList [] [Asc TherapistAppointmentDate]
   defaultLayout $ do
     $(widgetFile "/therapist/dashboard/view/view-appointments")
 
 postViewApptsR ::  UserId -> Handler Html
 --TODO:default to chosen therapist with filter
 postViewApptsR userId = do
-  appts <- runDB $ selectList [] [Desc TherapistAppointmentDate]
+  appts <- runDB $ selectList [] [Asc TherapistAppointmentDate]
   ((res, widget), enctype) <- runFormPost $ renderBootstrap3 BootstrapBasicForm filterByForm
   case res of
     FormSuccess filterChoice -> do
