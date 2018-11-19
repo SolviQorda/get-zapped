@@ -14,8 +14,7 @@ import Network.Mail.Mime
 import Network.Mail.Mime.SES
 import qualified System.Exit as SE
 import Text.Blaze.Html.Renderer.Utf8 (renderHtml)
-import           Text.Shakespeare.Text (stext)
-
+import Text.Shakespeare.Text (stext)
 
 getBookingReceivedR :: ZapBookingId -> Handler Html
 getBookingReceivedR zapBookingId = do
@@ -31,10 +30,7 @@ triggerTherapistEmail :: User -> Handler ()
 triggerTherapistEmail therapist = do
     h <- getYesod
     sesCreds <- liftIO $ getSESCredentials
-    -- sendMailSes :: MonadIO m	 => Manager	-> SES -> ByteString -> m ()
-    -- sendMailSes (getHttpManager h) sesCreds _ = do
     liftIO $
-      -- renderSendMailSES :: MonadIO m => Manager -> SES -> Mail -> m ()
       renderSendMailSES (getHttpManager h) sesCreds
         (emptyMail $ Address Nothing "getzapped@protonmail.com")
       { mailTo = [Address Nothing (userEmail therapist)]
