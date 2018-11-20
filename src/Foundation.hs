@@ -447,7 +447,7 @@ isAuthenticated :: Handler AuthResult
 isAuthenticated = do
     muid <- maybeAuthId
     return $ case muid of
-        Nothing -> Unauthorized "You must login to access this page"
+        Nothing -> Unauthorized "You need to login in or create an account to use Get Zapped. Select 'Login' above to get started"
         Just _ -> Authorized
 
 instance YesodAuthPersist App
