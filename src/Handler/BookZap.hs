@@ -54,7 +54,7 @@ postBookZapR therapist = do
 --get payment options
 payOps :: Text -> HandlerFor App (OptionList Tier)
 payOps therapist = do
-  rows <- runDB $ selectList [TherapistAppointmentBookedBy ==. Nothing, TherapistAppointmentTherapistName ==. therapist] [Asc TherapistAppointmentDate]
+  rows <-  runDB $ selectList [TherapistAppointmentBookedBy ==. Nothing, TherapistAppointmentTherapistName ==. therapist] [Asc TherapistAppointmentDate]
   prefs <- runDB $ selectList [TherapistPrefsTherapist ==. (getId rows)] [Desc TherapistPrefsTherapist]
   optionsPairs
       $ Prelude.map
@@ -76,5 +76,8 @@ parseTier tier = T.concat
 --no duplicates should exist as the update is always on UUID
 --TODO: Handle the possibility of no prefs set.
 parsePrefs :: [Entity TherapistPrefs] -> [Tier]
-parsePrefs prefs = therapistPrefsTiers (entityVal $ pref)
+parsePrefs prefs
+  | Prelude.null prefs = dummyTier
+  | otherwise          = therapistPrefsTiers (entityVal $ pref)
   where pref = Prelude.head prefs
+        dummyTier = [Tier 60 (pack "Solidarity and high wage")]
