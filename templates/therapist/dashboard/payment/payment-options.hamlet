@@ -1,5 +1,27 @@
-<h1>Set payment options
+<h1>Set payment preferences
 
-<form method=post action=@{SetPaymentOptionsR userId} enctype=#{enctype}>
-    ^{widget}
-    <button class="btn btn-default"> Save!
+<div .container>
+  <div .row>
+    <form method=post action=@{SetPaymentOptionsR userId} enctype=#{enctype}>
+        ^{widget}
+        <button class="btn btn-default"> Save!
+  <div .row>
+    <h4>Current Payment Options
+    <table .table>
+      <th>
+        Payment Options
+        <tr>
+          <td>
+            $forall op <- therapistPrefsPaymentOps $ paymentSettingsParse (paymentSettings, userId)
+              <tr>
+                <td>
+                  #{op}
+        <br>
+        <th>
+          Payment Options
+          <tr>
+            <td>
+              $forall tier <- therapistPrefsTiers $ paymentSettingsParse (paymentSettings, userId)
+                <tr>
+                  <td>
+                    #{renderTiers tier}
