@@ -10,6 +10,7 @@
 <div .container>
   <div .row>
     <a href=@{SetPaymentOptionsR userId} .btn.btn-info.btn-lg>Payment Options
+    #{paymentSettingsWarning paymentSettings}
 <br>
 <div .container>
   <div .row>
