@@ -6,17 +6,22 @@ import Import
 import Yesod.Form.Bootstrap3
 import qualified Data.Text as T
 
-zapRequestForm :: Text -> AForm Handler ZapBooking
-zapRequestForm therapist = ZapBooking
-              <$> areq textField "Your Name " Nothing
-              <*> areq textField "Your Email " Nothing
+
+
+zapRequestForm :: User -> Text -> AForm Handler ZapBooking
+zapRequestForm user therapist = ZapBooking
+              <$> pure name
+              <*> pure email
               <*> areq (selectField $ appointments therapist) "Choose appointment " Nothing
               <*> aopt textField "Your Pronouns (optional) " Nothing
               <*> areq (selectField $ payOps therapist) "Select your price tier " Nothing
+                where name = fromMaybe (userEmail user) $ userName user
+                      email = userEmail user
 
 getBookZapR :: Text -> Handler Html
 getBookZapR therapist = do
-    (widget, enctype) <- generateFormPost $ renderBootstrap3 BootstrapBasicForm $ zapRequestForm therapist
+    (authId, user) <- requireAuthPair
+    (widget, enctype) <- generateFormPost $ renderBootstrap3 BootstrapBasicForm $ zapRequestForm user therapist
     defaultLayout $ do
       $(widgetFile "/new/book/new-zap")
 
@@ -37,7 +42,8 @@ parseAppt app = T.concat
 
 postBookZapR :: Text -> Handler Html
 postBookZapR therapist = do
-  ((res, widget), enctype) <- runFormPost $ renderBootstrap3 BootstrapBasicForm $ zapRequestForm therapist
+  (authId, user) <- requireAuthPair
+  ((res, widget), enctype) <- runFormPost $ renderBootstrap3 BootstrapBasicForm $ zapRequestForm user therapist
   case res of
     FormSuccess zapBooking -> do
       zapBookingId <- runDB $ insert zapBooking

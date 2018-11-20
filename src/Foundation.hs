@@ -181,30 +181,31 @@ instance Yesod App where
     -- Routes not requiring authentication.
     isAuthorized AboutR _ = return Authorized
     isAuthorized (AuthR _) _ = return Authorized
-    isAuthorized (BookZapR _)  _ = return Authorized
-    isAuthorized (BookingReceivedR _) _ = return Authorized
-    isAuthorized ChooseTherapistR _ = return Authorized
     isAuthorized FaviconR _ = return Authorized
-    isAuthorized (MainDashboardR _) _ = return Authorized
     isAuthorized HomeR _ = return Authorized
-    isAuthorized (FilterApptsR _ _) _ = return Authorized
-    isAuthorized RobotsR _ = return Authorized
-    isAuthorized (SetPaymentOptionsR _) _ = return Authorized
     isAuthorized (StaticR _) _ = return Authorized
-    isAuthorized (ViewApptsR _) _ = return Authorized
-    isAuthorized (GenerateBookingUrlR _) _ = return Authorized
-    isAuthorized (TherapistConfirmApptR _ _) _ = return Authorized
-
+    isAuthorized RobotsR _ = return Authorized
+    --user
+    isAuthorized (BookZapR _)  _ = isAuthenticated
+    isAuthorized (BookingReceivedR _) _ = isAuthenticated
+    isAuthorized ChooseTherapistR _ = isAuthenticated
+    isAuthorized UserDashR _ = isAuthenticated
+    --therapist
     isAuthorized (AddAppointmentR _) _ = isAuthenticated
-    isAuthorized AdminDashR _ = isAuthenticated
-    isAuthorized (AdminFilterApptsR _ ) _ = isAuthenticated
     isAuthorized (AppointmentAddedR _ ) _ = isAuthenticated
-    isAuthorized AuthenticateTherapistR _ = isAuthenticated
     isAuthorized (ChangeUserNameR _) _ = isAuthenticated
     isAuthorized (EditApptR _ _) _ = isAuthenticated
-    isAuthorized SeeAllUsersR _ = isAuthenticated
-    isAuthorized UserDashR _ = isAuthenticated
+    isAuthorized (FilterApptsR _ _) _ = isAuthenticated
+    isAuthorized (GenerateBookingUrlR _) _ = isAuthenticated
+    isAuthorized (MainDashboardR _) _ = isAuthenticated
+    isAuthorized (SetPaymentOptionsR _) _ = isAuthenticated
     isAuthorized (TherapistConfirmApptR _ _) _ = isAuthenticated
+    isAuthorized (ViewApptsR _) _ = isAuthenticated
+    --admin
+    isAuthorized AdminDashR _ = isAuthenticated
+    isAuthorized (AdminFilterApptsR _ ) _ = isAuthenticated
+    isAuthorized AuthenticateTherapistR _ = isAuthenticated
+    isAuthorized SeeAllUsersR _ = isAuthenticated
 
     -- This function creates static content files in the static folder
     -- and names them based on a hash of their content. This allows
@@ -446,7 +447,7 @@ isAuthenticated :: Handler AuthResult
 isAuthenticated = do
     muid <- maybeAuthId
     return $ case muid of
-        Nothing -> Unauthorized "You must login to access this page"
+        Nothing -> Unauthorized "You need to login in or create an account to use Get Zapped. Select 'Login' above to get started"
         Just _ -> Authorized
 
 instance YesodAuthPersist App
