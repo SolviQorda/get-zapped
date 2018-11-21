@@ -45,6 +45,7 @@ library
       Handler.UserDash
       Handler.ViewAppts
       Handler.UserCancel
+      Handler.TherapistDeleteAppt
       Import
       Import.NoFoundation
       Model

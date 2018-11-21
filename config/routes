@@ -33,3 +33,4 @@
 /admin/filter/+FilterChoice AdminFilterApptsR GET POST
 /admin/all-users SeeAllUsersR GET POST
 /admin/authenticate-therapist AuthenticateTherapistR GET POST
+/therapist/!#UserId/dashboard/view/edit/delete/!#TherapistAppointmentId TherapistDeleteApptR GET POST

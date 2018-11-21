@@ -20,3 +20,6 @@
 <form method=post action=@{EditApptR userId therapistAppointmentId} enctype=#{enctype}>
   ^{widget}
   <button class="btn btn-default">Save
+<div .container>
+  <div .row>
+    <a href=@{TherapistDeleteApptR userId therapistAppointmentId} button class="btn btn-default">Delete

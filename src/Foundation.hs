@@ -201,6 +201,7 @@ instance Yesod App where
     isAuthorized (MainDashboardR _) _ = isAuthenticated
     isAuthorized (SetPaymentOptionsR _) _ = isAuthenticated
     isAuthorized (TherapistConfirmApptR _ _) _ = isAuthenticated
+    isAuthorized (TherapistDeleteApptR _ _) _ = isAuthenticated
     isAuthorized (ViewApptsR _) _ = isAuthenticated
     --admin
     isAuthorized AdminDashR _ = isAuthenticated
