@@ -49,6 +49,11 @@ SubmitConfirmation
     appt TherapistAppointmentId
     deriving Eq
     deriving Show
+UserCancel
+    cancelCheck Bool
+    msg Text
+    deriving Eq
+    deriving Show
 TherapistChoice
     therapist Text
     deriving Eq

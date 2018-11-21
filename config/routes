@@ -13,6 +13,7 @@
 
 /my-dashboard UserDashR GET POST
 /!#UserId/change-my-username ChangeUserNameR GET POST
+/!#UserId/!#TherapistAppointmentId UserCancelR GET POST
 
 /new/choose-therapist ChooseTherapistR GET POST
 /new/choose-therapist/book/therapist/#Text BookZapR GET POST

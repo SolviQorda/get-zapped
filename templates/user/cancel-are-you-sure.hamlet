@@ -1,0 +1,29 @@
+<h1>Cancel Booking
+<h3>Booking details:
+<div .container>
+  <div .row>
+    <table .table>
+      <tr>
+        <th>
+          Appt time
+        <th>
+          Date
+        <th>
+          Appointment Type
+        <th>
+          Therapist
+        <tr>
+          <td>
+            #{show $ therapistAppointmentTimeStart appt} to #{show $ therapistAppointmentTimeEnd appt}
+          <td>
+            #{show $ therapistAppointmentDate appt}
+          <td>
+            #{ therapistAppointmentApptType appt}
+          <td>
+            #{ therapistAppointmentTherapistName appt}
+
+<h3>Are you sure you want to cancel?
+<p>To cancel, please select 'yes' below, and enter a message with your reason for cancellation. We will then notify your therapist.
+  <form method=post action=@{UserCancelR userId therapistAppointmentId} enctype=#{enctype}>
+    ^{widget}
+    <button class="btn btn-default">Cancel Booking

@@ -190,6 +190,7 @@ instance Yesod App where
     isAuthorized (BookingReceivedR _) _ = isAuthenticated
     isAuthorized ChooseTherapistR _ = isAuthenticated
     isAuthorized UserDashR _ = isAuthenticated
+    isAuthorized (UserCancelR _ _) _ = isAuthenticated
     --therapist
     isAuthorized (AddAppointmentR _) _ = isAuthenticated
     isAuthorized (AppointmentAddedR _ ) _ = isAuthenticated
