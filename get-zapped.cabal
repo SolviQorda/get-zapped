@@ -44,6 +44,7 @@ library
       Handler.TherapistConfirmAppt
       Handler.UserDash
       Handler.ViewAppts
+      Handler.UserCancel
       Import
       Import.NoFoundation
       Model

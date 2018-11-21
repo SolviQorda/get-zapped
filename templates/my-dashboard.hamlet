@@ -16,7 +16,7 @@
           Date
         <th>
           Therapist
-      $forall Entity _ appt <- appts
+      $forall Entity key appt <- appts
         <tr>
           <td>
             #{show $ therapistAppointmentTimeStart appt} to #{show $ therapistAppointmentTimeEnd appt}
@@ -25,4 +25,4 @@
           <td>
             #{ therapistAppointmentTherapistName appt}
           <td>
-            <button class="btn btn-default"> Contact
+            <a href=@{UserCancelR authId key} button class="btn btn-default"> Cancel
