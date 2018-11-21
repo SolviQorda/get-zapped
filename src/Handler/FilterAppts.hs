@@ -16,12 +16,16 @@ import Import
 import Yesod.Form
 import Yesod.Form.Bootstrap3
 import qualified Database.Esqueleto as E
-import Data.Time.Calendar
+import Data.Time.LocalTime
 
 getFilterApptsR :: UserId -> FilterChoice -> Handler Html
 getFilterApptsR userId filterChoice = do
   (widget, enctype) <- generateFormPost $ renderBootstrap3 BootstrapBasicForm filterByForm
-  appts <- handleQueries filterChoice userId
+  now <- liftIO getCurrentTime
+  timezone <- liftIO getCurrentTimeZone
+  let zoneNow = utcToLocalTime timezone now
+  let today = localDay zoneNow
+  appts <- runDB $ selectList [TherapistAppointmentDate >=. today] [Asc TherapistAppointmentDate]
   defaultLayout $ do
     $(widgetFile "/therapist/dashboard/view/filter/filter-therapist")
 
@@ -47,7 +51,11 @@ getDate t = fromMaybe (toEnum 47993) $ parseTimeM True defaultTimeLocale "%Y-%-m
 
 postFilterApptsR :: UserId -> FilterChoice -> Handler Html
 postFilterApptsR userId filterChoice = do
-  appts <- handleQueries filterChoice userId
+  now <- liftIO getCurrentTime
+  timezone <- liftIO getCurrentTimeZone
+  let zoneNow = utcToLocalTime timezone now
+  let today = localDay zoneNow
+  appts <- runDB $ selectList [TherapistAppointmentDate >=. today] [Asc TherapistAppointmentDate]
   ((res, widget), enctype) <- runFormPost $ renderBootstrap3 BootstrapBasicForm filterByForm
   case res of
     FormSuccess filterChoice -> do

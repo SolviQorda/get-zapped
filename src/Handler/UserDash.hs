@@ -7,11 +7,19 @@
 module Handler.UserDash where
 
 import Import
+import Data.Time.LocalTime
 
 getUserDashR :: Handler Html
 getUserDashR = do
   (authId, user) <- requireAuthPair
-  appts <- runDB $ selectList [TherapistAppointmentBookedByEmail ==. (Just $ userEmail user)] [Asc TherapistAppointmentDate]
+  now <- liftIO getCurrentTime
+  timezone <- liftIO getCurrentTimeZone
+  let zoneNow = utcToLocalTime timezone now
+  let today = localDay zoneNow
+  appts <- runDB $
+    selectList [ TherapistAppointmentBookedByEmail ==. (Just $ userEmail user)
+               , TherapistAppointmentDate >=. today ]
+               [Asc TherapistAppointmentDate]
   case (userIsTherapist user) of
     True -> do
       -- error (show $ userId user)

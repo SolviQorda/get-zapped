@@ -15,17 +15,26 @@ module Handler.AdminDash where
 import Import
 import Yesod.Form.Bootstrap3
 import qualified Database.Esqueleto as E
+import Data.Time.LocalTime
 
 getAdminDashR :: Handler Html
 getAdminDashR = do
   (widget, enctype) <- generateFormPost $ renderBootstrap3 BootstrapBasicForm filterByForm
-  appts <- runDB $ selectList [] [Desc TherapistAppointmentDate]
+  now <- liftIO getCurrentTime
+  timezone <- liftIO getCurrentTimeZone
+  let zoneNow = utcToLocalTime timezone now
+  let today = localDay zoneNow
+  appts <- runDB $ selectList [TherapistAppointmentDate >=. today] [Asc TherapistAppointmentDate]
   defaultLayout $ do
     $(widgetFile "admin/admin-dashboard")
 
 postAdminDashR :: Handler Html
 postAdminDashR = do
-  appts <- runDB $ selectList [] [Desc TherapistAppointmentDate]
+  now <- liftIO getCurrentTime
+  timezone <- liftIO getCurrentTimeZone
+  let zoneNow = utcToLocalTime timezone now
+  let today = localDay zoneNow
+  appts <- runDB $ selectList [TherapistAppointmentDate >=. today] [Asc TherapistAppointmentDate]
   ((res, widget), enctype) <- runFormPost $ renderBootstrap3 BootstrapBasicForm filterByForm
   case res of
     FormSuccess filterChoice -> do

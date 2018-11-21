@@ -15,20 +15,37 @@ module Handler.ViewAppts where
 import Import
 import Yesod.Form.Bootstrap3
 import qualified Database.Esqueleto as E
+import Data.Time.LocalTime
 
 getViewApptsR :: UserId -> Handler Html
 --TODO:default to chosen therapist with filter
 getViewApptsR userId = do
   (widget, enctype) <- generateFormPost $ renderBootstrap3 BootstrapBasicForm filterByForm
-  appts <- runDB $ selectList [] [Asc TherapistAppointmentDate]
+  therapist <- runDB $ get404 userId
+  now <- liftIO getCurrentTime
+  timezone <- liftIO getCurrentTimeZone
+  let zoneNow = utcToLocalTime timezone now
+  let today = localDay zoneNow
+  appts <- runDB $
+            selectList [ TherapistAppointmentDate >=. today
+                       , TherapistAppointmentTherapistName ==. (fromMaybe (userEmail therapist) $ userName therapist)]
+            [Asc TherapistAppointmentDate]
   defaultLayout $ do
     $(widgetFile "/therapist/dashboard/view/view-appointments")
 
 postViewApptsR ::  UserId -> Handler Html
 --TODO:default to chosen therapist with filter
 postViewApptsR userId = do
-  appts <- runDB $ selectList [] [Asc TherapistAppointmentDate]
   ((res, widget), enctype) <- runFormPost $ renderBootstrap3 BootstrapBasicForm filterByForm
+  therapist <- runDB $ get404 userId
+  now <- liftIO getCurrentTime
+  timezone <- liftIO getCurrentTimeZone
+  let zoneNow = utcToLocalTime timezone now
+  let today = localDay zoneNow
+  appts <- runDB $
+            selectList [ TherapistAppointmentDate >=. today
+                       , TherapistAppointmentTherapistName ==. (fromMaybe (userEmail therapist) $ userName therapist)]
+            [Asc TherapistAppointmentDate]
   case res of
     FormSuccess filterChoice -> do
       redirect $ FilterApptsR userId (filterChoice xs)
