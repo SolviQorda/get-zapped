@@ -25,7 +25,7 @@ getFilterApptsR userId filterChoice = do
   timezone <- liftIO getCurrentTimeZone
   let zoneNow = utcToLocalTime timezone now
   let today = localDay zoneNow
-  appts <- runDB $ selectList [TherapistAppointmentDate >=. today] [Asc TherapistAppointmentDate]
+  appts <- handleQueries filterChoice userId today
   defaultLayout $ do
     $(widgetFile "/therapist/dashboard/view/filter/filter-therapist")
 
@@ -34,9 +34,10 @@ handleQueries :: (PersistQueryRead (YesodPersistBackend site)
                  , BaseBackend (YesodPersistBackend site) ~ SqlBackend)
                  => FilterChoice
                  -> UserId
+                 -> Day
                  -> HandlerFor site [Entity TherapistAppointment]
-handleQueries filterChoice userId
-  | queryTherapist == pht && queryDate == phd = runDB $ selectList [] [Desc TherapistAppointmentTimeStart]
+handleQueries filterChoice userId today
+  | queryTherapist == pht && queryDate == phd = runDB $ selectList [TherapistAppointmentDate >=. today] [Desc TherapistAppointmentTimeStart]
   | queryTherapist == pht && queryDate /= phd = runDB $ selectList [TherapistAppointmentDate ==. (getDate $ Just queryDate)] [Desc TherapistAppointmentTimeStart]
   | queryTherapist /= pht && queryDate == phd = runDB $ selectList [TherapistAppointmentTherapistName ==. queryTherapist] [Desc TherapistAppointmentTimeStart]
   | otherwise                                 = runDB $ selectList [TherapistAppointmentTherapistName ==. queryTherapist, TherapistAppointmentDate ==. (getDate $ Just queryDate)] [Desc TherapistAppointmentTimeStart]
@@ -55,7 +56,7 @@ postFilterApptsR userId filterChoice = do
   timezone <- liftIO getCurrentTimeZone
   let zoneNow = utcToLocalTime timezone now
   let today = localDay zoneNow
-  appts <- runDB $ selectList [TherapistAppointmentDate >=. today] [Asc TherapistAppointmentDate]
+  appts <- handleQueries filterChoice userId today
   ((res, widget), enctype) <- runFormPost $ renderBootstrap3 BootstrapBasicForm filterByForm
   case res of
     FormSuccess filterChoice -> do

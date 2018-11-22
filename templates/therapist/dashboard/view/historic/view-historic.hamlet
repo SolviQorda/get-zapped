@@ -1,13 +1,6 @@
-<h1>Filter Appointments
-<div .container>
-  <div .row>
-    <form method=post action=@{FilterApptsR userId filterChoice} enctype=#{enctype}>
-        ^{widget}
-        <button class="btn btn-default"> Filter
-  <br>
-  <div .row>
-    <a href=@{ViewHistoricR userId} button class="btn btn-default">View Historic
+<h1>Historic Appointments
 
+<h3>Note: Appointments older than 12 months will be deleted automatically.
 <div .container>
   <div .row>
     <table .table>
@@ -39,6 +32,4 @@
           <td>
             #{ therapistAppointmentTherapistName appt}
           <td>
-            <a href=@{EditApptR userId key} button class="btn btn-default">Edit
-            <br>
-            <a href=@{TherapistConfirmApptR userId (key)} button class=#{confirmBtnAppearance $ therapistAppointmentBookedBy appt}>#{confirmBtnText (therapistAppointmentConfirmed appt) (therapistAppointmentBookedBy appt)}
+            <a href=@{EditApptR userId (key)} button class="btn btn-default">Edit

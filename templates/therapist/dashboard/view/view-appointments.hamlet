@@ -1,7 +1,12 @@
 <h1>All Appointments
-<form method=post action=@{ViewApptsR userId} enctype=#{enctype}>
-    ^{widget}
-    <button class="btn btn-default"> Filter
+<div .container>
+  <div .row>
+    <form method=post action=@{ViewApptsR userId} enctype=#{enctype}>
+        ^{widget}
+        <button class="btn btn-default"> Filter
+  <br>
+  <div .row>
+    <a href=@{ViewHistoricR userId} button class="btn btn-default">View Historic
 
 <div .container>
   <div .row>

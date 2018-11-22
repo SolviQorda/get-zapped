@@ -10,45 +10,44 @@
 {-# LANGUAGE TemplateHaskell            #-}
 {-# LANGUAGE TypeFamilies               #-}
 
-module Handler.ViewAppts where
+module Handler.ViewHistoric where
 
 import Import
 import Yesod.Form.Bootstrap3
 import qualified Database.Esqueleto as E
 import Data.Time.LocalTime
 
-getViewApptsR :: UserId -> Handler Html
---TODO:default to chosen therapist with filter
-getViewApptsR userId = do
-  (widget, enctype) <- generateFormPost $ renderBootstrap3 BootstrapBasicForm filterByForm
+getViewHistoricR :: UserId -> Handler Html
+getViewHistoricR userId = do
   therapist <- runDB $ get404 userId
   now <- liftIO getCurrentTime
   timezone <- liftIO getCurrentTimeZone
   let zoneNow = utcToLocalTime timezone now
   let today = localDay zoneNow
+  (widget, enctype) <- generateFormPost $ renderBootstrap3 BootstrapBasicForm filterByForm
   appts <- runDB $
-            selectList [ TherapistAppointmentDate >=. today
+            selectList [ TherapistAppointmentDate <. today
                        , TherapistAppointmentTherapistName ==. (fromMaybe (userEmail therapist) $ userName therapist)]
             [Asc TherapistAppointmentDate]
   defaultLayout $ do
-    $(widgetFile "/therapist/dashboard/view/view-appointments")
+    $(widgetFile "/therapist/dashboard/view/historic/view-historic")
 
-postViewApptsR ::  UserId -> Handler Html
-postViewApptsR userId = do
-  ((res, widget), enctype) <- runFormPost $ renderBootstrap3 BootstrapBasicForm filterByForm
+postViewHistoricR :: UserId -> Handler Html
+postViewHistoricR userId = do
   therapist <- runDB $ get404 userId
   now <- liftIO getCurrentTime
   timezone <- liftIO getCurrentTimeZone
   let zoneNow = utcToLocalTime timezone now
   let today = localDay zoneNow
+  ((res, widget), enctype) <- runFormPost $ renderBootstrap3 BootstrapBasicForm filterByForm
   appts <- runDB $
-            selectList [ TherapistAppointmentDate >=. today
+            selectList [ TherapistAppointmentDate <. today
                        , TherapistAppointmentTherapistName ==. (fromMaybe (userEmail therapist) $ userName therapist)]
             [Asc TherapistAppointmentDate]
   case res of
     FormSuccess filterChoice -> do
       redirect $ FilterApptsR userId (filterChoice xs)
-    _ ->   defaultLayout $(widgetFile "/therapist/dashboard/view/view-appointments")
+    _ ->   defaultLayout $(widgetFile "/therapist/dashboard/view/historic/view-historic")
 
 --empty list placeholder necessary for multiPath route
 xs :: [Text]
@@ -75,7 +74,7 @@ getTherapists =
 
 dates :: HandlerFor App (OptionList Text)
 dates = do
-  rows <- runDB getDates
+  rows <- runDB $ getDates
   optionsPairs $ Prelude.map (\r->((fDate $ entityVal r), fDate $ entityVal r)) rows
 
 --TODO - put this back into dates
@@ -90,16 +89,12 @@ getDates =
   E.distinctOn [E.don (t E.^. TherapistAppointmentDate)] $ do
   return t
 
---button text dependent on whether booking has been confirmed
-confirmBtnText :: Maybe Bool -> Maybe Text -> Text
-confirmBtnText confirm booked
-  | confirm == Nothing && (booked /= Nothing) = "Confirm"
-  | confirm == Nothing = "      "
-  | confirm == Just True = "Cancel"
-  | otherwise = "      "
-
--- want to change CSS dependent on whether the user has booked the appt
-confirmBtnAppearance :: Maybe Text -> Text
-confirmBtnAppearance booked
-  | booked == Nothing = "btn btn-unbooked"
-  | otherwise         = "btn btn-default"
+-- getDates' :: (MonadIO m, MonadLogger m)
+--     => Day
+--     -> E.SqlReadT m [Entity TherapistAppointment]
+-- getDates' today =
+--   E.select $
+--   E.from $ \t ->
+--   E.distinctOn [E.don (t E.^. TherapistAppointmentDate)] $ do
+--   E.where_ (t E.^. TherapistAppointmentDate E.<. E.val today)
+--   return t

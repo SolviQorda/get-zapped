@@ -179,7 +179,7 @@ instance Yesod App where
         -> Bool       -- ^ Whether or not this is a "write" request.
         -> Handler AuthResult
     -- Routes not requiring authentication.
-    isAuthorized AboutR _ = return Authorized
+    isAuthorized AboutR _= return Authorized
     isAuthorized (AuthR _) _ = return Authorized
     isAuthorized FaviconR _ = return Authorized
     isAuthorized HomeR _ = return Authorized
@@ -203,6 +203,7 @@ instance Yesod App where
     isAuthorized (TherapistConfirmApptR _ _) _ = isAuthenticated
     isAuthorized (TherapistDeleteApptR _ _) _ = isAuthenticated
     isAuthorized (ViewApptsR _) _ = isAuthenticated
+    isAuthorized (ViewHistoricR _) _ = isAuthenticated
     --admin
     isAuthorized AdminDashR _ = isAuthenticated
     isAuthorized (AdminFilterApptsR _ ) _ = isAuthenticated
@@ -272,6 +273,7 @@ instance YesodBreadcrumbs App where
     breadcrumb (TherapistConfirmApptR userId _) = return ("Confirm Appointment", Just (MainDashboardR userId))
     breadcrumb (SetPaymentOptionsR userId) = return ("Set Payment Options", Just (MainDashboardR userId))
     breadcrumb (GenerateBookingUrlR userId) = return ("Generate Booking URL", Just (MainDashboardR userId))
+    breadcrumb (ViewHistoricR userId) = return ("View Historic", Just (MainDashboardR userId))
     --admin
     breadcrumb AdminDashR = return ("Admin Dashboard", Just HomeR)
     breadcrumb (AdminFilterApptsR _) = return ("Filter Appointments", Just AdminDashR)
